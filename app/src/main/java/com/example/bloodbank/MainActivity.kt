@@ -13,7 +13,7 @@ import com.example.bloodbank.databinding.ActivityMainBinding
 
 //MAIN CLASS: NEW BRANCH TEST
 //Making a change in main branch to check git pull in local branch - Kishore
-// Test 3 - Change made in MAIN
+// Test 3 - Change made in MAIN and I added this from KISHORE
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
