@@ -12,7 +12,7 @@ import android.view.MenuItem
 import com.example.bloodbank.databinding.ActivityMainBinding
 
 //MAIN CLASS: NEW BRANCH TEST
-//MAIN CLASS: Kishore branch test - 2
+//Making a change in main branch to check git pull in local branch - Kishore
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
