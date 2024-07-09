@@ -11,6 +11,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.example.bloodbank.databinding.ActivityMainBinding
 
+//MAIN CLASS
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
