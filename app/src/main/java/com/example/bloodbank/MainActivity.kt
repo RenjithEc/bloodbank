@@ -12,7 +12,7 @@ import android.view.MenuItem
 import com.example.bloodbank.databinding.ActivityMainBinding
 
 //MAIN CLASS: NEW BRANCH TEST
-//Test commit - Kishore LALALLALALA
+//Test commit - Kishore LALALLALALA - Ren changed this
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
