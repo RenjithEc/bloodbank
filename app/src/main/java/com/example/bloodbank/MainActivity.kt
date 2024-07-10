@@ -11,7 +11,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.example.bloodbank.databinding.ActivityMainBinding
 
-//MAIN CLASS: NEW BRANCH TEST
+//MAIN CLASS: NEW BRANCH TEST - Kishore changed this
 //Test commit - Kishore LALALLALALA
 class MainActivity : AppCompatActivity() {
 
