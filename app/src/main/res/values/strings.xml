@@ -43,4 +43,10 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+
+    <string name="default_web_client_id">
+        532597646331-s9r566da1uprp2cqdjvsdm2k4f6inbb9.apps.googleusercontent.com
+    </string>
+
+
 </resources>
