@@ -15,5 +15,5 @@
         android:background="@color/actionBarColor"
         android:layout_marginEnd="16dp"
         android:src="@drawable/logo_small"
-        android:contentDescription="ToolBar Logo" />
+        android:contentDescription="@string/small_logo_description" />
 </androidx.appcompat.widget.Toolbar>
