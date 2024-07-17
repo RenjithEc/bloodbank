@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="@string/firstTimeUser_Heading"
+        android:textColor="@color/redLight"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/first_name"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="@color/halfWhite"
+        android:hint="@string/firstTimeUserHint_FName"
+        android:textColor="@color/redLight"
+        android:textColorHint="@color/redLight50"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/sign_up_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.001" />
+
+    <EditText
+        android:id="@+id/last_name"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
+        android:layout_below="@string/firstTimeUserHint_FName"
+        android:layout_marginTop="25dp"
+        android:backgroundTint="@color/halfWhite"
+        android:textColor="@color/redLight"
+        android:hint="@string/firstTimeUserHint_LName"
+        android:textColorHint="@color/redLight50"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/sign_up_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/first_name"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/dob"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="12dp"
+        android:backgroundTint="@color/halfWhite"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:text="@string/firstTimeUserHint_DOB"
+        android:textColor="@color/redLight50"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/sign_up_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/last_name"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/phone_number"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
+        android:layout_below="@id/dob"
+        android:layout_marginTop="25dp"
+        android:backgroundTint="@color/halfWhite"
+        android:textColor="@color/redLight"
+        android:hint="@string/firstTimeUserHint_Phone"
+        android:textColorHint="@color/redLight50"
+        android:textSize="15sp"
+        android:inputType="phone"
+        app:layout_constraintBottom_toTopOf="@+id/sign_up_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dob"
+        app:layout_constraintVertical_bias="0.011" />
+
+    <Spinner
+        android:id="@+id/blood_group"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="14dp"
+        android:backgroundTint="@color/redLight"
+        android:popupBackground="@color/actionBarColor"
+        app:layout_constraintBottom_toTopOf="@+id/sign_up_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phone_number"
+        app:layout_constraintVertical_bias="0.014" />
+
+    <EditText
+        android:id="@+id/city"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
+        android:layout_below="@id/blood_group"
+        android:layout_marginTop="25dp"
+        android:backgroundTint="@color/halfWhite"
+        android:textColor="@color/redLight"
+        android:hint="@string/firstTimeUserHint_City"
+        android:textColorHint="@color/redLight50"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/sign_up_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/blood_group"
+        app:layout_constraintVertical_bias="0.01" />
+
+    <EditText
+        android:id="@+id/province"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
+        android:layout_below="@id/city"
+        android:layout_marginTop="25dp"
+        android:backgroundTint="@color/halfWhite"
+        android:textColor="@color/redLight"
+        android:hint="@string/firstTimeUserHint_Province"
+        android:textColorHint="@color/redLight50"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/sign_up_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/city"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/country"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
+        android:layout_below="@id/province"
+        android:layout_marginTop="25dp"
+        android:backgroundTint="@color/halfWhite"
+        android:textColor="@color/redLight"
+        android:hint="@string/firstTimeUserHint_Country"
+        android:textColorHint="@color/redLight50"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/sign_up_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/province"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <Button
+        android:id="@+id/sign_up_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/country"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="37dp"
+        android:layout_marginBottom="60dp"
+        android:text="@string/firstTimeBtnSignUp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/country" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
