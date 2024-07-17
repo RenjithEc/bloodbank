@@ -11,8 +11,10 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.*
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.Toolbar
 import com.example.bloodbank.databinding.ActivityMainBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -37,9 +39,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
         setContentView(R.layout.activity_main)
+
+        // Toolbar
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.title = "Vitaly"
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         // Initialize Firebase Auth
@@ -56,8 +61,27 @@ class MainActivity : AppCompatActivity() {
 
         // Set a click listener for the sign-in button
         val signInButton: SignInButton = findViewById(R.id.sign_in_button)
+        customizeGoogleSignInButton(signInButton)
         signInButton.setOnClickListener {
             signIn()
+        }
+    }
+
+    private fun customizeGoogleSignInButton(signInButton: SignInButton) {
+        // Set the text of the button
+        signInButton.setSize(SignInButton.SIZE_WIDE)
+        signInButton.setColorScheme(SignInButton.COLOR_LIGHT)
+
+        // Change the background color
+        signInButton.setBackgroundColor(resources.getColor(R.color.actionBarColor))
+
+        // Change the text color
+        for (i in 0 until signInButton.childCount) {
+            val v = signInButton.getChildAt(i)
+            if (v is TextView) {
+                v.setTextColor(resources.getColor(R.color.redLight))
+                return
+            }
         }
     }
 

@@ -1,9 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.BloodBank" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:windowBackground">@color/bgBlack</item>
+        <item name="colorPrimary">@color/actionBarColor</item>
+        <item name="colorOnPrimary">@color/redLight</item>
+        <item name="fontFamily">@font/poppins_med</item>
     </style>
 
-    <style name="Theme.BloodBank" parent="Base.Theme.BloodBank" />
+    <!-- Custom toolbar style -->
+    <style name="CustomToolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="titleTextAppearance">@style/CustomToolbarTitleText</item>
+    </style>
+    <style name="CustomToolbarTitleText" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:textColor">@color/redLight</item>
+        <item name="fontFamily">@font/poppins_bold</item>
+    </style>
+
 </resources>
