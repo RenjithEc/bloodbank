@@ -168,6 +168,8 @@
         android:id="@+id/sign_up_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/redLight"
+        android:textColor="@color/bgBlack"
         android:layout_below="@id/country"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="37dp"
