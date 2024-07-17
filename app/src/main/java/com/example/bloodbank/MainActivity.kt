@@ -2,20 +2,12 @@ package com.example.bloodbank
 
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.Button
+import androidx.navigation.ui.*
+import android.view.*
 import android.widget.*
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
-import com.example.bloodbank.databinding.ActivityMainBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -26,9 +18,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 
-
-//Test commit - Kishore LALALLALALA - Ren changed this
-//MAIN CLASS: NEW BRANCH TEST - Kishore changed this
 
 class MainActivity : AppCompatActivity() {
 

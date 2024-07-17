@@ -1,10 +1,24 @@
 <resources>
     <string name="app_name">Blood Bank</string>
 
-    <!-- LoginPage   -->
+    <!-- LoginPage -->
     <string name="login">Login</string>
     <string name="mainlogo_description">MainLogo</string>
     <string name="small_logo_description">Small Logo</string>
+
+    <!-- First time user details page -->
+    <string name="firstTimeUser_Heading">Enter your details</string>
+    <string name="firstTimeUserHint_FName">First Name</string>
+    <string name="firstTimeUserHint_LName">Last Name</string>
+    <string name="firstTimeUserHint_DOB">Date of Birth</string>
+    <string name="firstTimeUserHint_Phone">Contact Number</string>
+    <string name="firstTimeUserHint_BloodGroup">Blood Group</string>
+    <string name="firstTimeUserHint_City">City</string>
+    <string name="firstTimeUserHint_Province">Province</string>
+    <string name="firstTimeUserHint_Country">Country</string>
+    <string name="firstTimeBtnSignUp">Sign Up</string>
+
+
 
     <string name="default_web_client_id">
         532597646331-s9r566da1uprp2cqdjvsdm2k4f6inbb9.apps.googleusercontent.com
