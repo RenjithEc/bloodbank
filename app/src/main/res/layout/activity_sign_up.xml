@@ -55,23 +55,26 @@
         app:layout_constraintTop_toBottomOf="@+id/first_name"
         app:layout_constraintVertical_bias="0.0" />
 
-    <EditText
+    <TextView
         android:id="@+id/dob"
         android:layout_width="320dp"
         android:layout_height="48dp"
-        android:layout_below="@id/last_name"
         android:layout_marginTop="25dp"
+        android:layout_marginEnd="12dp"
         android:backgroundTint="@color/halfWhite"
-        android:textColor="@color/redLight"
-        android:hint="@string/firstTimeUserHint_DOB"
-        android:textColorHint="@color/redLight50"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:text="@string/firstTimeUserHint_DOB"
+        android:textColor="@color/redLight50"
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/sign_up_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/last_name"
-        app:layout_constraintVertical_bias="0.002" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/phone_number"
@@ -84,6 +87,7 @@
         android:hint="@string/firstTimeUserHint_Phone"
         android:textColorHint="@color/redLight50"
         android:textSize="15sp"
+        android:inputType="phone"
         app:layout_constraintBottom_toTopOf="@+id/sign_up_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
@@ -91,21 +95,16 @@
         app:layout_constraintTop_toBottomOf="@+id/dob"
         app:layout_constraintVertical_bias="0.011" />
 
-
-    <EditText
+    <Spinner
         android:id="@+id/blood_group"
         android:layout_width="320dp"
         android:layout_height="48dp"
-        android:layout_below="@id/phone_number"
         android:layout_marginTop="25dp"
-        android:backgroundTint="@color/halfWhite"
-        android:textColor="@color/redLight"
-        android:hint="@string/firstTimeUserHint_BloodGroup"
-        android:textColorHint="@color/redLight50"
-        android:textSize="15sp"
+        android:layout_marginEnd="14dp"
+        android:backgroundTint="@color/redLight"
+        android:popupBackground="@color/actionBarColor"
         app:layout_constraintBottom_toTopOf="@+id/sign_up_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/phone_number"
         app:layout_constraintVertical_bias="0.014" />
@@ -127,8 +126,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/blood_group"
         app:layout_constraintVertical_bias="0.01" />
-
-
 
     <EditText
         android:id="@+id/province"

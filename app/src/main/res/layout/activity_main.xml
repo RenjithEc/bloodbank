@@ -31,7 +31,7 @@
         android:layout_marginTop="50dp"
         android:backgroundTint="@color/actionBarColor"
         android:textColor="@color/redLight"
-        android:text="@string/firstTimeBtnSignIn"
+        android:text="@string/login"
         android:drawableLeft="@drawable/ic_google_logo_3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

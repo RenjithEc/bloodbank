@@ -4,6 +4,7 @@
         <item name="android:windowBackground">@color/bgBlack</item>
         <item name="colorPrimary">@color/actionBarColor</item>
         <item name="colorOnPrimary">@color/redLight</item>
+        <item name="android:textColorPrimary">@color/redLight</item>
         <item name="fontFamily">@font/poppins_med</item>
     </style>
 

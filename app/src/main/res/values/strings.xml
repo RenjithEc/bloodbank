@@ -16,7 +16,7 @@
     <string name="firstTimeUserHint_City">City</string>
     <string name="firstTimeUserHint_Province">Province</string>
     <string name="firstTimeUserHint_Country">Country</string>
-    <string name="firstTimeBtnSignIn">Sign In</string>
+    <string name="firstTimeBtnSignUp">Sign Up</string>
 
 
 
