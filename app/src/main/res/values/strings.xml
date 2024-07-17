@@ -2,7 +2,7 @@
     <string name="app_name">Blood Bank</string>
 
     <!-- LoginPage -->
-    <string name="login">Login</string>
+    <string name="login">Sign In</string>
     <string name="mainlogo_description">MainLogo</string>
     <string name="small_logo_description">Small Logo</string>
 
@@ -16,7 +16,7 @@
     <string name="firstTimeUserHint_City">City</string>
     <string name="firstTimeUserHint_Province">Province</string>
     <string name="firstTimeUserHint_Country">Country</string>
-    <string name="firstTimeBtnSignUp">Sign Up</string>
+    <string name="firstTimeBtnSignIn">Sign In</string>
 
 
 
