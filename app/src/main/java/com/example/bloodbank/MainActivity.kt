@@ -31,11 +31,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Toolbar
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "Vitaly"
-
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
