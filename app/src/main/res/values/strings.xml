@@ -18,7 +18,14 @@
     <string name="firstTimeUserHint_Country">Country</string>
     <string name="firstTimeBtnSignUp">Sign Up</string>
 
+    <!-- User card -->
+    <string name="userCardName">Name</string>
+    <string name="userCardBloodGroup">Blood Group</string>
+    <string name="userCardProvince">Province</string>
 
+    <!-- Home page -->
+    <string name="donateBtn">Donate</string>
+    <string name="receiveBtn">Receive</string>
 
     <string name="default_web_client_id">
         532597646331-s9r566da1uprp2cqdjvsdm2k4f6inbb9.apps.googleusercontent.com
