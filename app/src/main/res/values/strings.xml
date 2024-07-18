@@ -18,6 +18,9 @@
     <string name="firstTimeUserHint_Country">Country</string>
     <string name="firstTimeBtnSignUp">Sign Up</string>
 
+    <!-- Toolbar -->
+    <string name="toolBarTitle">Vitaly</string>
+
     <!-- User card -->
     <string name="userCardName">Name</string>
     <string name="userCardBloodGroup">Blood Group</string>

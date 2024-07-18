@@ -7,13 +7,49 @@
     android:background="@color/actionBarColor"
     app:titleTextAppearance="@style/CustomToolbarTitleText">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/logoImageView"
+            android:layout_width="40dp"
+            android:layout_height="35dp"
+            android:src="@drawable/logo_small"
+            android:contentDescription="@string/small_logo_description"
+            android:layout_marginEnd="0sp"/>
+
+        <TextView
+            android:id="@+id/toolbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/toolBarTitle"
+            android:textColor="@color/redLight"
+            android:textSize="20sp"
+            android:layout_marginTop="3sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
     <ImageView
-        android:id="@+id/logoImageView"
-        android:layout_width="40dp"
+        android:id="@+id/logoHome"
+        android:layout_width="30dp"
         android:layout_height="35dp"
         android:layout_gravity="end"
         android:background="@color/actionBarColor"
         android:layout_marginEnd="16dp"
-        android:src="@drawable/logo_small"
+        android:src="@drawable/baseline_account_circle_24"
         android:contentDescription="@string/small_logo_description" />
+
+    <ImageView
+        android:id="@+id/logoAccount"
+        android:layout_width="30dp"
+        android:layout_height="35dp"
+        android:layout_gravity="end"
+        android:background="@color/actionBarColor"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/baseline_home_filled_24"
+        android:contentDescription="@string/small_logo_description" />
+
 </androidx.appcompat.widget.Toolbar>

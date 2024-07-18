@@ -38,7 +38,7 @@ class SignUpActivity : AppCompatActivity() {
         }
 
         // Set up the Spinner for selecting the blood group
-        val bloodGroups = arrayOf("Select Blood Group", "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-")
+        val bloodGroups = arrayOf("Select Blood Group", "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-", "A2", "A2B", "CisAB")
 
         // simple_spinner_item and simple_spinner_dropdown_item are custom made resource files which manages the color and style of the spinner values
         // BloodGroupAdapter kotlin files manages the selected and non-selected state of the spinner (different colors for the text for both states)

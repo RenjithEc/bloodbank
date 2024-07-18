@@ -2,6 +2,7 @@ package com.example.bloodbank
 
 import UserAdapter
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +18,13 @@ class HomeActivity : AppCompatActivity() {
         // Toolbar
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "Vitaly"
+
+        // Setting the custom title
+        val titleTextView = findViewById<TextView>(R.id.toolbarTitle)
+        titleTextView.text = "Vitaly"
+
+        // Alternatively, if you want to set the title dynamically from support action bar
+        supportActionBar?.title = null
 
         // Getting the RecyclerView and populating it with the users
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
