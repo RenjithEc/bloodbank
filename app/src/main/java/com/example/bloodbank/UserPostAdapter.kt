@@ -2,12 +2,13 @@ import android.view.*
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bloodbank.R
-import com.example.blooddonationapp.User
+import com.example.blooddonationapp.UserPost
 
-class UserAdapter(private val userList: List<User>) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+class UserPostAdapter(private val userList: List<UserPost>) : RecyclerView.Adapter<UserPostAdapter.UserViewHolder>() {
 
+    // This uses user_card_post layout
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.user_card, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.user_card_post, parent, false)
         return UserViewHolder(view)
     }
 
@@ -24,10 +25,14 @@ class UserAdapter(private val userList: List<User>) : RecyclerView.Adapter<UserA
         private val nameTextView: TextView = itemView.findViewById(R.id.nameTextView)
         private val bloodGroupTextView: TextView = itemView.findViewById(R.id.bloodGroupTextView)
         private val provinceTextView: TextView = itemView.findViewById(R.id.provinceTextView)
+        private val descriptionTextView: TextView = itemView.findViewById(R.id.descriptionTextView)
+        private val priorityTextView: TextView = itemView.findViewById(R.id.priorityTextView)
 
-        fun bind(user: User) {
+        fun bind(user: UserPost) {
             nameTextView.text = "${user.firstName} ${user.lastName}"
             bloodGroupTextView.text = user.bloodGroup
+            descriptionTextView.text = user.description
+            priorityTextView.text = "Priority: ${user.priority}"
             provinceTextView.text = user.province
 
 // Uncomment the below line when we actually get a URL for the profile pic from firebase

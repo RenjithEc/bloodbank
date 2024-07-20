@@ -22,6 +22,13 @@
     <string name="toolBarTitle">Vitaly</string>
 
     <!-- User card -->
+    <string name="userCardNamePost">Name</string>
+    <string name="userCardBloodGroupPost">Blood Group</string>
+    <string name="userCardProvincePost">Province</string>
+    <string name="userCardDescPost">Description</string>
+    <string name="userCardPriorityPost">Priority</string>
+
+    <!-- User card - Post -->
     <string name="userCardName">Name</string>
     <string name="userCardBloodGroup">Blood Group</string>
     <string name="userCardProvince">Province</string>
