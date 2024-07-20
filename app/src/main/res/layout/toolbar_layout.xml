@@ -18,8 +18,7 @@
             android:layout_width="40dp"
             android:layout_height="35dp"
             android:src="@drawable/logo_small"
-            android:contentDescription="@string/small_logo_description"
-            android:layout_marginEnd="0sp"/>
+            android:contentDescription="@string/small_logo_description" />
 
         <TextView
             android:id="@+id/toolbarTitle"

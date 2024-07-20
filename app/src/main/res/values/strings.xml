@@ -29,6 +29,7 @@
     <!-- Home page -->
     <string name="donateBtn">Donate</string>
     <string name="receiveBtn">Receive</string>
+    <string name="createPostBtn">Post</string>
 
     <string name="default_web_client_id">
         532597646331-s9r566da1uprp2cqdjvsdm2k4f6inbb9.apps.googleusercontent.com

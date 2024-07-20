@@ -54,6 +54,8 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("com.squareup.picasso:picasso:2.71828")
+    implementation ("com.google.android.material:material:1.4.0")
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
