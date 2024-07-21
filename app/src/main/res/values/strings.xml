@@ -53,7 +53,9 @@
     <string name="createPostUserHint_City">City</string>
     <string name="createPostUserHint_Province">Province</string>
     <string name="createPostUserHint_Country">Country</string>
+    <string name="createPostUserHint_Age">"Patient's Age"</string>
     <string name="createPostBtnCreatePost">Create Post</string>
+    <string name="createPostBtnCancel">Cancel</string>
 
 
 
