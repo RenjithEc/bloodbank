@@ -2,7 +2,7 @@ import android.view.*
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bloodbank.R
-import com.example.blooddonationapp.UserPost
+import com.example.bloodbank.UserPost
 
 class UserPostAdapter(private val userList: List<UserPost>) : RecyclerView.Adapter<UserPostAdapter.UserViewHolder>() {
 

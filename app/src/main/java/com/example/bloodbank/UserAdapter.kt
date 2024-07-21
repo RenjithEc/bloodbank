@@ -2,7 +2,7 @@ import android.view.*
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bloodbank.R
-import com.example.blooddonationapp.User
+import com.example.bloodbank.User
 
 class UserAdapter(private val userList: List<User>) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
