@@ -1,6 +1,7 @@
 package com.example.bloodbank
 
 import UserPostAdapter
+import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bloodbank.UserPost
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class HomeActivity : AppCompatActivity() {
 
@@ -30,28 +32,36 @@ class HomeActivity : AppCompatActivity() {
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewPost)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val userPostsData = listOf(
-            UserPost("John", "Doe", "1990-01-01", "O+", "New York",
-                "New York", "USA", "https://example.com/johndoe.jpg", "Hi I need blood type A+ve immediately, please contact me for more information Hi I need blood type A+ve immediately, please contact me for more information","Today"),
-            UserPost("John2", "Doe2", "1990-01-01", "O+", "New York",
-                "New York", "USA", "https://example.com/johndoe.jpg", "Hi I need blood type A+ve immediately","Today"),
-            UserPost("John3", "Doe3", "1990-01-01", "O+", "New York",
-                "New York", "USA", "https://example.com/johndoe.jpg", "Hi I need blood type A+ve immediately","Today"),
-            UserPost("John4", "Doe4", "1990-01-01", "O+", "New York",
-                "New York", "USA", "https://example.com/johndoe.jpg", "Hi I need blood type A+ve immediately, please contact me for more information","Today"),
-            UserPost("John5", "Doe5", "1990-01-01", "O+", "New York",
-                "New York", "USA", "https://example.com/johndoe.jpg", "Hi I need blood type A+ve immediately","Today"),
-            UserPost("John6", "Doe6", "1990-01-01", "O+", "New York",
-                "New York", "USA", "https://example.com/johndoe.jpg", "Hi I need blood type A+ve immediately","Today"),
-            UserPost("John7", "Doe7", "1990-01-01", "O+", "New York",
-                "New York", "USA", "https://example.com/johndoe.jpg", "Hi I need blood type A+ve immediately, please contact me for more information","Today"),
-            UserPost("John8", "Doe8", "1990-01-01", "O+", "New York",
-                "New York", "USA", "https://example.com/johndoe.jpg", "Hi I need blood type A+ve immediately","Today"),
+//        val userPostsData = listOf(
+//            UserPost("John", "Doe", "1990-01-01", "O+", "New York",
+//                "New York", "USA", "https://example.com/johndoe.jpg", "Hi I need blood type A+ve immediately, please contact me for more information Hi I need blood type A+ve immediately, please contact me for more information","Today"),
+//            UserPost("John2", "Doe2", "1990-01-01", "O+", "New York",
+//                "New York", "USA", "https://example.com/johndoe.jpg", "Hi I need blood type A+ve immediately","Today"),
+//            UserPost("John3", "Doe3", "1990-01-01", "O+", "New York",
+//                "New York", "USA", "https://example.com/johndoe.jpg", "Hi I need blood type A+ve immediately","Today"),
+//            UserPost("John4", "Doe4", "1990-01-01", "O+", "New York",
+//                "New York", "USA", "https://example.com/johndoe.jpg", "Hi I need blood type A+ve immediately, please contact me for more information","Today"),
+//            UserPost("John5", "Doe5", "1990-01-01", "O+", "New York",
+//                "New York", "USA", "https://example.com/johndoe.jpg", "Hi I need blood type A+ve immediately","Today"),
+//            UserPost("John6", "Doe6", "1990-01-01", "O+", "New York",
+//                "New York", "USA", "https://example.com/johndoe.jpg", "Hi I need blood type A+ve immediately","Today"),
+//            UserPost("John7", "Doe7", "1990-01-01", "O+", "New York",
+//                "New York", "USA", "https://example.com/johndoe.jpg", "Hi I need blood type A+ve immediately, please contact me for more information","Today"),
+//            UserPost("John8", "Doe8", "1990-01-01", "O+", "New York",
+//                "New York", "USA", "https://example.com/johndoe.jpg", "Hi I need blood type A+ve immediately","Today"),
+//
+//        )
+//
+//        // Calls the UserAdapter.kt and passes the fetched users to it. UserAdapter will return the views with the populated user values.
+//        val adapter = UserPostAdapter(userPostsData)
+//        recyclerView.adapter = adapter
 
-        )
-
-        // Calls the UserAdapter.kt and passes the fetched users to it. UserAdapter will return the views with the populated user values.
-        val adapter = UserPostAdapter(userPostsData)
-        recyclerView.adapter = adapter
+        //floating Button Action
+        val floatingButton = findViewById<FloatingActionButton>(R.id.fab_with_text)
+        floatingButton.setOnClickListener{
+            val intent = Intent(this, CreatePostActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 }
