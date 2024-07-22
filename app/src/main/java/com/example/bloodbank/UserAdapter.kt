@@ -18,6 +18,8 @@ class UserAdapter(private val userList: MutableList<com.example.bloodbank.User>)
 
     override fun getItemCount() = userList.size
 
+
+
     // The respective views from the user_card are being populated by the users data fetched from the database
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val profileImageView: ImageView = itemView.findViewById(R.id.profileImageView)

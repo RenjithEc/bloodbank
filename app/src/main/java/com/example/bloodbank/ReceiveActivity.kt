@@ -8,14 +8,14 @@ import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import UserAdapter
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.FirebaseApp
+import com.google.firebase.firestore.FirebaseFirestore
 
 class ReceiveActivity : AppCompatActivity() {
+    private lateinit var auth: FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
     private lateinit var bloodGroupSpinner: Spinner
     private lateinit var locationEditText: EditText
     private lateinit var searchButton: Button
@@ -23,11 +23,13 @@ class ReceiveActivity : AppCompatActivity() {
     private lateinit var userAdapter: UserAdapter
     private val usersList = mutableListOf<User>()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.receive_page)
-        FirebaseApp.initializeApp(this)
+
+        // Initialize Firebase Auth and Firestore
+        auth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance()
 
         bloodGroupSpinner = findViewById(R.id.blood_group)
         locationEditText = findViewById(R.id.location)
@@ -38,38 +40,45 @@ class ReceiveActivity : AppCompatActivity() {
         usersRecyclerView.layoutManager = LinearLayoutManager(this)
         usersRecyclerView.adapter = userAdapter
 
+        val bloodGroups = arrayOf("Select Blood Group", "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-", "A2", "A2B", "CisAB")
+
+        // simple_spinner_item and simple_spinner_dropdown_item are custom-made resource files which manage the color and style of the spinner values
+        // BloodGroupAdapter Kotlin file manages the selected and non-selected state of the spinner (different colors for the text for both states)
+        val adapter = BloodGroupAdapter(this, android.R.layout.simple_spinner_item, bloodGroups)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        bloodGroupSpinner.adapter = adapter
+
         searchButton.setOnClickListener {
-//            val bloodGroup = bloodGroupSpinner.selectedItem.toString().trim()
-//            val location = locationEditText.text.toString().trim()
-//            fetchUsers(bloodGroup, location)
-            fetchUsers()
+            fetchUsers { users ->
+                // Initialize adapter with fetched data
+                userAdapter = UserAdapter(usersList)
+                usersRecyclerView.adapter = userAdapter
+            }
         }
     }
 
-    private fun fetchUsers() {
-        val database = FirebaseDatabase.getInstance().getReference("users").orderByChild("bloodGroup")
-        Log.d("FirebaseData", "Value is: $database")
+    private fun fetchUsers(onDataFetched: (List<User>) -> Unit) {
+        val bloodGroup = bloodGroupSpinner.selectedItem.toString().trim()
+        val location = locationEditText.text.toString().trim()
 
-//        val usersRef = database.getReference("users")
-//
-//        usersRef.orderByChild("bloodGroup").equalTo(bloodGroup)
-//            .addListenerForSingleValueEvent(object : ValueEventListener {
-//                override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                    usersList.clear()
-//                    for (userSnapshot in dataSnapshot.children) {
-//                        val userLocation = userSnapshot.child("location").getValue(String::class.java)
-//                        if (userLocation == location) {
-//                            val user = userSnapshot.getValue(User::class.java)
-//                            user?.let { usersList.add(it) }
-//                        }
-//                    }
-//                    userAdapter.notifyDataSetChanged()
-//                }
-//
-//                override fun onCancelled(databaseError: DatabaseError) {
-//                    Log.w("MainActivity", "loadPost:onCancelled", databaseError.toException())
-//                }
-//            })
+        firestore.collection("users")
+            .whereEqualTo("bloodGroup", bloodGroup)
+            .get()
+            .addOnSuccessListener { result ->
+                usersList.clear()
+                for (document in result) {
+                    val userMap = document.data
+                    val user = User.fromMap(userMap)
+                    if (user.city == location) {
+                        usersList.add(user)
+                    }
+                }
+                // Notify the callback that data has been fetched
+                onDataFetched(usersList)
+                Log.d("ReceiveActivity", "Fetched users: $usersList")
+            }
+            .addOnFailureListener { exception ->
+                Log.w("ReceiveActivity", "Error fetching users", exception)
+            }
     }
 }
-

@@ -3,19 +3,37 @@ package com.example.bloodbank
 import UserPostAdapter
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bloodbank.UserPost
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class HomeActivity : AppCompatActivity() {
+    private lateinit var auth: FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
+    private val userPosts = ArrayList<UserPost>()
+    private lateinit var adapter: UserPostAdapter
+    private lateinit var recyclerView: RecyclerView
+
+    private val REQUEST_CODE_CREATE_POST = 1
+    private val REQUEST_CODE_RECEIVE_PAGE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+        // Initialize Firebase Auth and Firestore
+        auth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance()
 
         // Toolbar
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
@@ -25,45 +43,64 @@ class HomeActivity : AppCompatActivity() {
         val titleTextView = findViewById<TextView>(R.id.toolbarTitle)
         titleTextView.text = "Vitaly"
 
-        //Setting listeners to the Donate and Receive Button
-        val donateBtn: Button = findViewById(R.id.donateBtnHome)
-        val receiveBtn: Button = findViewById(R.id.receiveBtnHome)
-
-        receiveBtn.setOnClickListener{
-            val intent = Intent(this, ReceiveActivity::class.java)
-            // Start the new activity
-            startActivity(intent)
-        }
-
         // Alternatively, if you want to set the title dynamically from support action bar
         supportActionBar?.title = null
 
         // Getting the RecyclerView with ID recyclerViewPost and populating it with the users
-        val recyclerView: RecyclerView = findViewById(R.id.recyclerViewPost)
+        recyclerView = findViewById(R.id.recyclerViewPost)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val userPostsData = listOf(
-            UserPost("John", "Doe", "1990-01-01", "O+", "New York",
-                "New York", "USA", "https://example.com/johndoe.jpg", "Hi I need blood type A+ve immediately, please contact me for more information Hi I need blood type A+ve immediately, please contact me for more information","Today"),
-            UserPost("John2", "Doe2", "1990-01-01", "O+", "New York",
-                "New York", "USA", "https://example.com/johndoe.jpg", "Hi I need blood type A+ve immediately","Today"),
-            UserPost("John3", "Doe3", "1990-01-01", "O+", "New York",
-                "New York", "USA", "https://example.com/johndoe.jpg", "Hi I need blood type A+ve immediately","Today"),
-            UserPost("John4", "Doe4", "1990-01-01", "O+", "New York",
-                "New York", "USA", "https://example.com/johndoe.jpg", "Hi I need blood type A+ve immediately, please contact me for more information","Today"),
-            UserPost("John5", "Doe5", "1990-01-01", "O+", "New York",
-                "New York", "USA", "https://example.com/johndoe.jpg", "Hi I need blood type A+ve immediately","Today"),
-            UserPost("John6", "Doe6", "1990-01-01", "O+", "New York",
-                "New York", "USA", "https://example.com/johndoe.jpg", "Hi I need blood type A+ve immediately","Today"),
-            UserPost("John7", "Doe7", "1990-01-01", "O+", "New York",
-                "New York", "USA", "https://example.com/johndoe.jpg", "Hi I need blood type A+ve immediately, please contact me for more information","Today"),
-            UserPost("John8", "Doe8", "1990-01-01", "O+", "New York",
-                "New York", "USA", "https://example.com/johndoe.jpg", "Hi I need blood type A+ve immediately","Today"),
-
-        )
-
         // Calls the UserAdapter.kt and passes the fetched users to it. UserAdapter will return the views with the populated user values.
-        val adapter = UserPostAdapter(userPostsData)
-        recyclerView.adapter = adapter
+        // Fetch user posts and initialize adapter after data is fetched
+        fetchUserPosts { posts ->
+            // Initialize adapter with fetched data
+            adapter = UserPostAdapter(posts)
+            recyclerView.adapter = adapter
+        }
+
+        //floating Button Action
+        val floatingButton : LinearLayout = findViewById(R.id.fab_with_text)
+        floatingButton.setOnClickListener{
+            val intent = Intent(this, CreatePostActivity::class.java)
+            startActivityForResult(intent, REQUEST_CODE_CREATE_POST)
+        }
+
+        val receiveBtn: Button = findViewById(R.id.receiveBtnHome)
+        receiveBtn.setOnClickListener{
+            val intent = Intent(this,ReceiveActivity::class.java)
+            startActivityForResult(intent,REQUEST_CODE_RECEIVE_PAGE)
+        }
+
+
+    }
+
+    private fun fetchUserPosts(onDataFetched: (List<UserPost>) -> Unit) {
+        firestore.collection("posts")
+            .get()
+            .addOnSuccessListener { result ->
+                userPosts.clear()
+                for (document in result) {
+                    val userPost = UserPost.fromMap(document.data)
+                    userPosts.add(userPost)
+                }
+                // Notify the callback that data has been fetched
+                onDataFetched(userPosts)
+                Log.d("HomeActivity", "Fetched user posts: $userPosts")
+            }
+            .addOnFailureListener { exception ->
+                Log.w("HomeActivity", "Error fetching user posts", exception)
+            }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_CREATE_POST && resultCode == RESULT_OK) {
+            // Fetch user posts again if the result indicates success
+            fetchUserPosts { posts ->
+                // Initialize adapter with fetched data
+                adapter = UserPostAdapter(posts)
+                recyclerView.adapter = adapter
+            }
+        }
     }
 }
