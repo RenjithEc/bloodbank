@@ -76,6 +76,7 @@ class HomeActivity : AppCompatActivity() {
 
     private fun fetchUserPosts(onDataFetched: (List<UserPost>) -> Unit) {
         firestore.collection("posts")
+            .orderBy("createdTime", com.google.firebase.firestore.Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { result ->
                 userPosts.clear()
