@@ -66,8 +66,11 @@ class HomeActivity : AppCompatActivity() {
 
     }
 
+
+    // Fetch user posts with the latest added post in the top
     private fun fetchUserPosts(onDataFetched: (List<UserPost>) -> Unit) {
         firestore.collection("posts")
+            .orderBy("createdTime", com.google.firebase.firestore.Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { result ->
                 userPosts.clear()
@@ -83,6 +86,7 @@ class HomeActivity : AppCompatActivity() {
                 Log.w("HomeActivity", "Error fetching user posts", exception)
             }
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

@@ -44,7 +44,7 @@
 
 
     <!-- Create Post page -->
-    <string name="createPostHeading">Create A New Post</string>
+    <string name="createPostHeading">Create a New Post</string>
     <string name="createPostUserHint_Desc">Description</string>
     <string name="createPostUserHint_EmailId">Email Id</string>
     <string name="createPostUserHint_NeedBloodDate">Need Blood By Date</string>

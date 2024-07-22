@@ -3,6 +3,7 @@
     <color name="redLight">#F57578</color>
     <color name="redLight50">#80F57578</color>
     <color name="halfWhite">#AEC5C4C4</color>
+    <color name="halfWhite50">#40C5C4C4</color>
     <color name="redBright">#F54E51</color>
     <color name="bgBlack">#333333</color>
     <color name="actionBarColor">#222222</color>
