@@ -1,13 +1,15 @@
 package com.example.bloodbank
 
 import UserPostAdapter
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.blooddonationapp.UserPost
+import com.example.bloodbank.UserPost
 
 class HomeActivity : AppCompatActivity() {
 
@@ -22,6 +24,16 @@ class HomeActivity : AppCompatActivity() {
         // Setting the custom title
         val titleTextView = findViewById<TextView>(R.id.toolbarTitle)
         titleTextView.text = "Vitaly"
+
+        //Setting listeners to the Donate and Receive Button
+        val donateBtn: Button = findViewById(R.id.donateBtnHome)
+        val receiveBtn: Button = findViewById(R.id.receiveBtnHome)
+
+        receiveBtn.setOnClickListener{
+            val intent = Intent(this, ReceiveActivity::class.java)
+            // Start the new activity
+            startActivity(intent)
+        }
 
         // Alternatively, if you want to set the title dynamically from support action bar
         supportActionBar?.title = null

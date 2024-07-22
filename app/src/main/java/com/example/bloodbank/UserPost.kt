@@ -1,4 +1,4 @@
-package com.example.blooddonationapp
+package com.example.bloodbank
 
 data class UserPost(
     val firstName: String,
