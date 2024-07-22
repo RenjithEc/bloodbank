@@ -41,10 +41,13 @@
     <string name="default_web_client_id">
         532597646331-s9r566da1uprp2cqdjvsdm2k4f6inbb9.apps.googleusercontent.com
     </string>
+    <string name="receive_blood">Receive Blood</string>
+    <string name="enter_your_location">Enter your location</string>
+    <string name="location">Location</string>
 
 
     <!-- Create Post page -->
-    <string name="createPostHeading">Create a New Post</string>
+    <string name="createPostHeading">Create A New Post</string>
     <string name="createPostUserHint_Desc">Description</string>
     <string name="createPostUserHint_EmailId">Email Id</string>
     <string name="createPostUserHint_NeedBloodDate">Need Blood By Date</string>
@@ -56,7 +59,6 @@
     <string name="createPostUserHint_Age">"Patient's Age"</string>
     <string name="createPostBtnCreatePost">Create Post</string>
     <string name="createPostBtnCancel">Cancel</string>
-
 
 
 </resources>

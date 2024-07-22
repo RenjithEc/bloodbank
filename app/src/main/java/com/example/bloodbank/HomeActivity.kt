@@ -4,6 +4,7 @@ import UserPostAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -24,6 +25,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
 
     private val REQUEST_CODE_CREATE_POST = 1
+    private val REQUEST_CODE_RECEIVE_PAGE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,14 +65,17 @@ class HomeActivity : AppCompatActivity() {
             startActivityForResult(intent, REQUEST_CODE_CREATE_POST)
         }
 
+        val receiveBtn: Button = findViewById(R.id.receiveBtnHome)
+        receiveBtn.setOnClickListener{
+            val intent = Intent(this,ReceiveActivity::class.java)
+            startActivityForResult(intent,REQUEST_CODE_RECEIVE_PAGE)
+        }
+
 
     }
 
-
-    // Fetch user posts with the latest added post in the top
     private fun fetchUserPosts(onDataFetched: (List<UserPost>) -> Unit) {
         firestore.collection("posts")
-            .orderBy("createdTime", com.google.firebase.firestore.Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { result ->
                 userPosts.clear()
@@ -86,7 +91,6 @@ class HomeActivity : AppCompatActivity() {
                 Log.w("HomeActivity", "Error fetching user posts", exception)
             }
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
