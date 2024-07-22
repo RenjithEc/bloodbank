@@ -59,7 +59,7 @@
     <string name="createPostUserHint_Age">"Patient's Age"</string>
     <string name="createPostBtnCreatePost">Create Post</string>
     <string name="createPostBtnCancel">Cancel</string>
-
+    <string name="search">Search</string>
 
 
 </resources>
