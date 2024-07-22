@@ -25,8 +25,8 @@
 
         <activity android:name=".HomeActivity" />
         <activity android:name=".SignUpActivity" />
-        <activity android:name=".CreatePostActivity" />
         <activity android:name=".ReceiveActivity" />
+        <activity android:name=".CreatePostActivity" />
         <activity android:name=".LoginActivity" />
 
     </application>
