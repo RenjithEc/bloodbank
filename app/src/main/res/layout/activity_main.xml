@@ -9,11 +9,11 @@
 
     <ImageView
         android:id="@+id/myImageView"
-        android:layout_width="221dp"
-        android:layout_height="70dp"
+        android:layout_width="235dp"
+        android:layout_height="125dp"
         android:adjustViewBounds="true"
         android:contentDescription="@string/mainlogo_description"
-        android:src="@drawable/logo_full"
+        android:src="@drawable/logo_small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

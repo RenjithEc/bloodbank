@@ -64,16 +64,24 @@ class HomeActivity : AppCompatActivity() {
             startActivityForResult(intent, REQUEST_CODE_CREATE_POST)
         }
 
-        val donateBtn: Button = findViewById(R.id.donateBtn)
+        val receiveBtn: Button = findViewById(R.id.receiveBtnHome)
+        receiveBtn.setOnClickListener{
+            val intent = Intent(this,ReceiveActivity::class.java)
+            startActivity(intent)
+        }
+
+        val donateBtn: Button = findViewById(R.id.donateBtnHome)
         donateBtn.setOnClickListener{
             val intent = Intent(this,DonateActivity::class.java)
             startActivity(intent)
         }
 
+
     }
 
     private fun fetchUserPosts(onDataFetched: (List<UserPost>) -> Unit) {
         firestore.collection("posts")
+            .orderBy("createdTime", com.google.firebase.firestore.Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { result ->
                 userPosts.clear()
