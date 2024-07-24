@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DonateActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <TextView
+            android:id="@+id/donatePage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/donatePage"
+            android:textColor="@color/redLight"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+
+    <Spinner
+        android:id="@+id/blood_groupTextField"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="28dp"
+        android:backgroundTint="@color/redLight"
+        android:popupBackground="@color/actionBarColor"
+        app:layout_constraintBottom_toTopOf="@+id/needByDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.91" />
+
+    <TextView
+        android:id="@+id/needByDate"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="12dp"
+        android:backgroundTint="@color/halfWhite"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:hint="@string/needByDate"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:textColor="@color/redLight50"
+        android:textColorHint="@color/redLight50"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/city"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/city"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="@color/halfWhite"
+        android:hint="@string/city"
+        android:textColor="@color/redLight"
+        android:textColorHint="@color/redLight50"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/needByDate" />
+
+    <Button
+        android:id="@+id/Search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="37dp"
+        android:backgroundTint="@color/redLight"
+        android:text="@string/searchBtn"
+        android:textColor="@color/bgBlack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/city" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Search" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

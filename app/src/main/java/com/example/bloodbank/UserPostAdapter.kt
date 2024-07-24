@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.bloodbank.R
 import com.example.bloodbank.UserPost
 
-class UserPostAdapter(private val userList: List<UserPost>) : RecyclerView.Adapter<UserPostAdapter.UserViewHolder>() {
+class UserPostAdapter(private val userList: List<UserPost >) : RecyclerView.Adapter<UserPostAdapter.UserViewHolder>() {
 
     // This uses user_card_post layout
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {

@@ -4,6 +4,7 @@ import UserPostAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -24,6 +25,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
 
     private val REQUEST_CODE_CREATE_POST = 1
+    private val REQUEST_CODE_DONATE_PAGE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +65,11 @@ class HomeActivity : AppCompatActivity() {
             startActivityForResult(intent, REQUEST_CODE_CREATE_POST)
         }
 
+        val donateBtn: Button = findViewById(R.id.donateBtn)
+        donateBtn.setOnClickListener{
+            val intent = Intent(this,DonateActivity::class.java)
+            startActivityForResult(intent,REQUEST_CODE_DONATE_PAGE)
+        }
 
     }
 
