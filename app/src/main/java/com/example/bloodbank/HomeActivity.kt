@@ -68,7 +68,7 @@ class HomeActivity : AppCompatActivity() {
         val receiveBtn: Button = findViewById(R.id.receiveBtnHome)
         receiveBtn.setOnClickListener{
             val intent = Intent(this,ReceiveActivity::class.java)
-            startActivityForResult(intent,REQUEST_CODE_RECEIVE_PAGE)
+            startActivity(intent)
         }
 
 
