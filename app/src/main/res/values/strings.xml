@@ -38,11 +38,13 @@
     <string name="receiveBtn">Receive</string>
     <string name="createPostBtn">Post</string>
 
+    <!-- Receive Page -->
+
     <string name="default_web_client_id">
         532597646331-s9r566da1uprp2cqdjvsdm2k4f6inbb9.apps.googleusercontent.com
     </string>
-    <string name="receive_blood">Receive Blood</string>
-    <string name="enter_your_location">Enter your location</string>
+    <string name="receiveBlood">Receive Blood</string>
+    <string name="enterYourLocation">Enter your location</string>
     <string name="location">Location</string>
 
 
@@ -68,5 +70,7 @@
     <string name="priority"> Priority </string>
     <string name="searchBtn"> Search </string>
     <string name="donate"> Donate </string>
+    <string name="search">Search</string>
+    <string name="button">Back</string>
 
 </resources>
