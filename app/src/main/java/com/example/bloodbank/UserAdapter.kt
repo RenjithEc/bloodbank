@@ -19,18 +19,22 @@ class UserAdapter(private val userList: MutableList<com.example.bloodbank.User>)
     override fun getItemCount() = userList.size
 
 
-
     // The respective views from the user_card are being populated by the users data fetched from the database
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val profileImageView: ImageView = itemView.findViewById(R.id.profileImageView)
         private val nameTextView: TextView = itemView.findViewById(R.id.nameTextView)
         private val bloodGroupTextView: TextView = itemView.findViewById(R.id.bloodGroupTextView)
         private val provinceTextView: TextView = itemView.findViewById(R.id.provinceTextView)
+        private val expandUserBtn: ImageView = itemView.findViewById(R.id.detailsIcon)
 
         fun bind(user: User) {
             nameTextView.text = "${user.firstName} ${user.lastName}"
             bloodGroupTextView.text = user.bloodGroup
             provinceTextView.text = user.province
+
+            expandUserBtn.setOnClickListener{
+                // add intent and using putExtra send the above user
+            }
 
 // Uncomment the below line when we actually get a URL for the profile pic from firebase
 //            Picasso.get().load(user.profileImageUrl).into(profileImageView)

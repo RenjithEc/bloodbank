@@ -64,7 +64,6 @@ class ReceiveActivity : AppCompatActivity() {
         }
     }
 
-
     private fun fetchUsers(onDataFetched: (List<User>) -> Unit) {
         val bloodGroup = bloodGroupSpinner.selectedItem.toString().trim()
         val location = locationEditText.text.toString().trim()
