@@ -33,7 +33,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/logoHome"
+        android:id="@+id/logoAccount"
         android:layout_width="30dp"
         android:layout_height="35dp"
         android:layout_gravity="end"
@@ -43,7 +43,7 @@
         android:contentDescription="@string/small_logo_description" />
 
     <ImageView
-        android:id="@+id/logoAccount"
+        android:id="@+id/logoHome"
         android:layout_width="30dp"
         android:layout_height="35dp"
         android:layout_gravity="end"
