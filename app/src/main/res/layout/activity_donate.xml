@@ -13,45 +13,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/donatePage"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:text="@string/donatePage"
+        android:textColor="@color/redLight"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
-
-        <TextView
-            android:id="@+id/donatePage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/donatePage"
-            android:textColor="@color/redLight"
-            android:textSize="24sp" />
-    </LinearLayout>
-
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <Spinner
         android:id="@+id/blood_groupTextField"
-        android:layout_width="320dp"
+        android:layout_width="340dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/redLight"
         android:popupBackground="@color/actionBarColor"
-        app:layout_constraintBottom_toTopOf="@+id/needByDate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.91" />
+        app:layout_constraintTop_toBottomOf="@+id/donatePage" />
 
     <TextView
         android:id="@+id/needByDate"
-        android:layout_width="320dp"
+        android:layout_width="340dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/halfWhite"
         android:clickable="true"
         android:focusable="true"
@@ -62,58 +53,71 @@
         android:textColor="@color/redLight50"
         android:textColorHint="@color/redLight50"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/city"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/blood_groupTextField" />
 
     <EditText
         android:id="@+id/city"
-        android:layout_width="320dp"
+        android:layout_width="340dp"
         android:layout_height="48dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/halfWhite"
         android:hint="@string/city"
         android:textColor="@color/redLight"
         android:textColorHint="@color/redLight50"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/needByDate" />
 
     <Button
         android:id="@+id/Search"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="26dp"
         android:backgroundTint="@color/redLight"
         android:text="@string/searchBtn"
         android:textColor="@color/bgBlack"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.146"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/city" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="20dp"
-        android:padding="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/Search" />
+        app:layout_constraintTop_toBottomOf="@+id/city" />
 
     <Button
         android:id="@+id/cancel"
-        android:layout_width="wrap_content"
+        android:layout_width="144dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="56dp"
-        android:text="Cancel"
+        android:layout_marginTop="90dp"
+        android:text="@string/createPostBtnCancel"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/city" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="406dp"
+        android:layout_height="0dp"
+        android:scrollbarSize="5dp"
+        android:scrollbarThumbVertical="@drawable/scrollbar_thumb"
+        android:fadeScrollbars="false"
+        android:layout_marginVertical="20dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cancel">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cancel" />
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

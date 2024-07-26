@@ -63,14 +63,13 @@
     <string name="createPostBtnCancel">Cancel</string>
 
     <!--    Donate page-->
-    <string name="donatePage"> Donate Page </string>
-    <string name="bloodGroup"> Blood Group </string>
-    <string name="needByDate"> Need By </string>
-    <string name="city"> City </string>
-    <string name="priority"> Priority </string>
-    <string name="searchBtn"> Search </string>
-    <string name="donate"> Donate </string>
+    <string name="donatePage">Donate Blood</string>
+    <string name="bloodGroup">Blood Group</string>
+    <string name="needByDate">Need By</string>
+    <string name="city">City</string>
+    <string name="priority">Priority</string>
+    <string name="searchBtn">Search</string>
+    <string name="donate">Donate</string>
     <string name="search">Search</string>
-    <string name="button">Back</string>
 
 </resources>
