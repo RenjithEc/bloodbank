@@ -34,7 +34,7 @@ class ReceiveActivity : AppCompatActivity() {
 
         bloodGroupSpinner = findViewById(R.id.blood_group)
         locationEditText = findViewById(R.id.location)
-        searchButton = findViewById(R.id.button)
+        searchButton = findViewById(R.id.searchBtn)
         backButton = findViewById(R.id.backButton)
         usersRecyclerView = findViewById(R.id.usersRecyclerView)
 
@@ -63,33 +63,7 @@ class ReceiveActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-    /*
-    private fun fetchUsers(onDataFetched: (List<User>) -> Unit) {
-        val bloodGroup = bloodGroupSpinner.selectedItem.toString().trim()
-        val location = locationEditText.text.toString().trim()
 
-        firestore.collection("users")
-            .whereEqualTo("bloodGroup", bloodGroup)
-            .get()
-            .addOnSuccessListener { result ->
-                usersList.clear()
-                for (document in result) {
-                    val userMap = document.data
-                    val user = User.fromMap(userMap)
-                    if (user.city == location) {
-                        usersList.add(user)
-                    }
-                }
-                // Notify the callback that data has been fetched
-                onDataFetched(usersList)
-                Log.d("ReceiveActivity", "Fetched users: $usersList")
-            }
-            .addOnFailureListener { exception ->
-                Log.w("ReceiveActivity", "Error fetching users", exception)
-            }
-    }
-
-     */
 
     private fun fetchUsers(onDataFetched: (List<User>) -> Unit) {
         val bloodGroup = bloodGroupSpinner.selectedItem.toString().trim()
