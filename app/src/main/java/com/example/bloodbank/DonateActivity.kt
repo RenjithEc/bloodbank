@@ -61,9 +61,16 @@ class DonateActivity : AppCompatActivity() {
         searchBtn = findViewById(R.id.Search)
         recyclerView = findViewById(R.id.recyclerview)
         needByLocalDate = LocalDateTime.now()
-        uPostAdapter = UserPostAdapter(userPosts)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = uPostAdapter
+
+        // Get the logged-in user's ID
+        val loggedInUserId = auth.currentUser?.uid
+
+        if (loggedInUserId != null) {
+            uPostAdapter = UserPostAdapter(userPosts, loggedInUserId)
+            recyclerView.layoutManager = LinearLayoutManager(this)
+            recyclerView.adapter = uPostAdapter
+        }
+
         val cancelBtn: Button = findViewById(R.id.cancel)
         val bloodGroups = arrayOf("Select Blood Group", "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-", "A2", "A2B", "CisAB")
 
@@ -77,17 +84,17 @@ class DonateActivity : AppCompatActivity() {
 
         searchBtn.setOnClickListener {
             fetchPosts { posts ->
-                // Initialize adapter with fetched data
-                uPostAdapter = UserPostAdapter(posts)
-                recyclerView.adapter = uPostAdapter
+                // Initialize adapter with fetched data and logged-in user ID
+                if (loggedInUserId != null) {
+                    uPostAdapter = UserPostAdapter(posts, loggedInUserId)
+                    recyclerView.adapter = uPostAdapter
+                }
             }
         }
 
         cancelBtn.setOnClickListener{
             finish()
-
         }
-
     }
 
     private fun fetchPosts(onDataFetched: (List<UserPost>) -> Unit) {
@@ -103,7 +110,6 @@ class DonateActivity : AppCompatActivity() {
         needByLocalDate = getLocalDateTimeFromString(actualNeedByText)
         println("Blood Group: $bloodGroup, City: $city, needByDate: ${needByLocalDate.toString()}")
 
-
         firestore.collection("posts")
             .whereEqualTo("bloodGroup", bloodGroup)
             .whereLessThanOrEqualTo("needByDate",needByLocalDate.toString())
@@ -118,8 +124,6 @@ class DonateActivity : AppCompatActivity() {
                     if (regex.containsMatchIn(userPost.city)) {
                         userPosts.add(userPost)
                     }
-
-
                 }
                 onDataFetched(userPosts)
                 Log.d("DonateActivity", "Fetched user posts: $userPosts")

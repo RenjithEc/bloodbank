@@ -32,7 +32,7 @@ class HomeActivity : AppCompatActivity() {
 
         // Find the ImageView within the included toolbar layout
         val toolbar: Toolbar = findViewById(R.id.toolbar)
-        val logoAccount: ImageView =  toolbar.findViewById(R.id.logoAccount)
+        val logoAccount: ImageView = toolbar.findViewById(R.id.logoAccount)
 
         logoAccount.setOnClickListener {
             val intent = Intent(this, ProfileActivity::class.java)
@@ -43,6 +43,9 @@ class HomeActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
 
+        // Get the logged-in user's ID
+        val loggedInUserId = auth.currentUser?.uid
+
         // Alternatively, if you want to set the title dynamically from support action bar
         supportActionBar?.title = null
 
@@ -50,33 +53,33 @@ class HomeActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerViewPost)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Calls the UserAdapter.kt and passes the fetched users to it. UserAdapter will return the views with the populated user values.
         // Fetch user posts and initialize adapter after data is fetched
         fetchUserPosts { posts ->
-            // Initialize adapter with fetched data
-            adapter = UserPostAdapter(posts)
-            recyclerView.adapter = adapter
+            // Initialize adapter with fetched data and logged-in user ID
+            if (loggedInUserId != null) {
+                adapter = UserPostAdapter(posts, loggedInUserId)
+                recyclerView.adapter = adapter
+            }
         }
 
-        //floating Button Action
-        val floatingButton : LinearLayout = findViewById(R.id.fab_with_text)
-        floatingButton.setOnClickListener{
+        // Floating Button Action
+        val floatingButton: LinearLayout = findViewById(R.id.fab_with_text)
+        floatingButton.setOnClickListener {
             val intent = Intent(this, CreatePostActivity::class.java)
             startActivityForResult(intent, REQUEST_CODE_CREATE_POST)
         }
 
         val receiveBtn: Button = findViewById(R.id.receiveBtnHome)
-        receiveBtn.setOnClickListener{
-            val intent = Intent(this,ReceiveActivity::class.java)
+        receiveBtn.setOnClickListener {
+            val intent = Intent(this, ReceiveActivity::class.java)
             startActivity(intent)
         }
 
         val donateBtn: Button = findViewById(R.id.donateBtnHome)
-        donateBtn.setOnClickListener{
-            val intent = Intent(this,DonateActivity::class.java)
+        donateBtn.setOnClickListener {
+            val intent = Intent(this, DonateActivity::class.java)
             startActivity(intent)
         }
-
     }
 
     private fun fetchUserPosts(onDataFetched: (List<UserPost>) -> Unit) {
@@ -103,9 +106,12 @@ class HomeActivity : AppCompatActivity() {
         if (requestCode == REQUEST_CODE_CREATE_POST && resultCode == RESULT_OK) {
             // Fetch user posts again if the result indicates success
             fetchUserPosts { posts ->
-                // Initialize adapter with fetched data
-                adapter = UserPostAdapter(posts)
-                recyclerView.adapter = adapter
+                // Initialize adapter with fetched data and logged-in user ID
+                val loggedInUserId = auth.currentUser?.uid
+                if (loggedInUserId != null) {
+                    adapter = UserPostAdapter(posts, loggedInUserId)
+                    recyclerView.adapter = adapter
+                }
             }
         }
     }

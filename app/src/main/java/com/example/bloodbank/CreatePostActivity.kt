@@ -20,18 +20,18 @@ import java.time.LocalDateTime
 import java.util.Calendar
 import java.util.UUID
 
-class CreatePostActivity : AppCompatActivity(){
+class CreatePostActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
 
-    override fun onCreate(savedInstanceState: Bundle?){
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_post)
 
         // Find the ImageView within the included toolbar layout
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
         val logoHome: ImageView = toolbar.findViewById(R.id.logoHome)
-        val logoAccount: ImageView =  toolbar.findViewById(R.id.logoAccount)
+        val logoAccount: ImageView = toolbar.findViewById(R.id.logoAccount)
 
         logoHome.setOnClickListener {
             val intent = Intent(this, HomeActivity::class.java)
@@ -74,19 +74,18 @@ class CreatePostActivity : AppCompatActivity(){
             showDatePickerDialog(needByDate)
         }
 
-        createPostButton.setOnClickListener{
+        createPostButton.setOnClickListener {
 
 
-                //Format Need By Date
-                val needByText = needByDate.text.toString()
-                Log.d(TAG, "NeedByDate: $needByText")
-                val actualNeedByText = if (needByText.startsWith("Need Blood By Date: ")) {
-                    needByText.substring("Need Blood By Date: ".length).trim()
-                } else {
-                    needByText.trim()
-                }
-                needByLocalDate = getLocalDateTimeFromString(actualNeedByText)
-
+            //Format Need By Date
+            val needByText = needByDate.text.toString()
+            Log.d(TAG, "NeedByDate: $needByText")
+            val actualNeedByText = if (needByText.startsWith("Need Blood By Date: ")) {
+                needByText.substring("Need Blood By Date: ".length).trim()
+            } else {
+                needByText.trim()
+            }
+            needByLocalDate = getLocalDateTimeFromString(actualNeedByText)
 
 
             // If the default option is selected instead of a specific blood group, the database is not updated with any value
@@ -99,7 +98,7 @@ class CreatePostActivity : AppCompatActivity(){
 
             //Check & retreive logged in user
             val user = auth.currentUser
-            if(user!=null){
+            if (user != null) {
                 //Fetch User From Firebase
                 val documentId = user.uid
                 val userRef = firestore.collection("users").document(documentId)
@@ -114,7 +113,7 @@ class CreatePostActivity : AppCompatActivity(){
                                 // Create Post Data Model
                                 val post: UserPost = UserPost(
                                     id = UUID.randomUUID().toString(),
-                                    firstName  = loggedInUser.firstName,
+                                    firstName = loggedInUser.firstName,
                                     lastName = loggedInUser.lastName,
                                     needByDate = needByLocalDate,
                                     bloodGroup = selectedBloodGroup,
@@ -123,7 +122,7 @@ class CreatePostActivity : AppCompatActivity(){
                                     country = country.text.toString().trim(),
                                     profileImageUrl = loggedInUser.profilePic,
                                     description = description.text.toString().trim(),
-                                    priority ="",
+                                    priority = "",
                                     userId = loggedInUser.id,
                                     patientAge = age.text.toString().trim().toInt(),
                                     email = email.text.toString().trim(),
@@ -164,18 +163,20 @@ class CreatePostActivity : AppCompatActivity(){
 
     }
 
-    private fun showDatePickerDialog(dobTextView: TextView)  {
+    private fun showDatePickerDialog(dobTextView: TextView) {
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
         val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
-
             val selectedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
             dobTextView.text = "Need Blood By Date:                                  $selectedDate"
             dobTextView.setTextColor(resources.getColor(R.color.redLight, null))
         }, year, month, day)
+
+        // Set the minimum date to the current date
+        datePickerDialog.datePicker.minDate = calendar.timeInMillis
 
         datePickerDialog.show()
     }
@@ -186,7 +187,7 @@ class CreatePostActivity : AppCompatActivity(){
         val date = parts[0].toInt()
         val month = parts[1].toInt()
         val year = parts[2].toInt()
-        val result: LocalDateTime =LocalDateTime.of(year,month,date,0,0)
+        val result: LocalDateTime = LocalDateTime.of(year, month, date, 0, 0)
         return result
     }
 }
