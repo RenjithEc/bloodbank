@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Blood Bank</string>
 
+    <!--    Firebase ID-->
+    <string name="default_web_client_id">
+        532597646331-s9r566da1uprp2cqdjvsdm2k4f6inbb9.apps.googleusercontent.com
+    </string>
+
     <!-- LoginPage -->
     <string name="login">Sign In</string>
     <string name="mainlogo_description">MainLogo</string>
@@ -39,10 +44,6 @@
     <string name="createPostBtn">Post</string>
 
     <!-- Receive Page -->
-
-    <string name="default_web_client_id">
-        532597646331-s9r566da1uprp2cqdjvsdm2k4f6inbb9.apps.googleusercontent.com
-    </string>
     <string name="receiveBlood">Receive Blood</string>
     <string name="enterYourLocation">Enter your location</string>
     <string name="location">Location</string>

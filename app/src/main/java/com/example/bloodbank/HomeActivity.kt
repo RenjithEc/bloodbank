@@ -30,13 +30,18 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        // Find the ImageView within the included toolbar layout
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        val logoAccount: ImageView =  toolbar.findViewById(R.id.logoAccount)
+
+        logoAccount.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
         // Initialize Firebase Auth and Firestore
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
-
-        // Setting the custom title
-        val titleTextView = findViewById<TextView>(R.id.toolbarTitle)
-        titleTextView.text = "Vitaly"
 
         // Alternatively, if you want to set the title dynamically from support action bar
         supportActionBar?.title = null
@@ -71,24 +76,6 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this,DonateActivity::class.java)
             startActivity(intent)
         }
-
-        // Set up the toolbar
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-
-        val logoAccount: ImageView = findViewById(R.id.logoAccount)
-        val logoHome: ImageView = findViewById(R.id.logoHome)
-
-        logoAccount.setOnClickListener {
-            val intent = Intent(this, ProfileActivity::class.java)
-            startActivity(intent)
-        }
-
-        logoHome.setOnClickListener {
-            val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)
-        }
-
 
     }
 

@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -35,6 +36,21 @@ class DonateActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_donate)
+
+        // Find the ImageView within the included toolbar layout
+        val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
+        val logoHome: ImageView = toolbar.findViewById(R.id.logoHome)
+        val logoAccount: ImageView =  toolbar.findViewById(R.id.logoAccount)
+
+        logoHome.setOnClickListener {
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+        }
+
+        logoAccount.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
 
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()

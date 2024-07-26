@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import UserAdapter
 import android.content.Intent
+import android.widget.ImageView
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ReceiveActivity : AppCompatActivity() {
@@ -27,6 +28,21 @@ class ReceiveActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_receive)
+
+        // Find the ImageView within the included toolbar layout
+        val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
+        val logoHome: ImageView = toolbar.findViewById(R.id.logoHome)
+        val logoAccount: ImageView =  toolbar.findViewById(R.id.logoAccount)
+
+        logoHome.setOnClickListener {
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+        }
+
+        logoAccount.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
 
         // Initialize Firebase Auth and Firestore
         auth = FirebaseAuth.getInstance()
