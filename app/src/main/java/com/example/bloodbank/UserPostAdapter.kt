@@ -53,11 +53,11 @@ class UserPostAdapter(private val userList: List<UserPost >,private val loggedIn
             val currentDateTime = LocalDateTime.now()
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
             val needByDateTime = LocalDateTime.parse(user.needByDate.toString(), formatter)
-            val daysUntilNeed = ChronoUnit.DAYS.between(currentDateTime, needByDateTime).toInt()
+            val daysUntilNeed = ChronoUnit.DAYS.between(currentDateTime, needByDateTime).toInt() + 1
 
             val (priorityText, priorityColor) = when {
-                daysUntilNeed < 2 -> "High ($daysUntilNeed days)" to R.color.redBright
-                daysUntilNeed in 2..5 -> "Medium ($daysUntilNeed days)" to R.color.priority_medium
+                daysUntilNeed <= 2 -> "High ($daysUntilNeed days)" to R.color.redBright
+                daysUntilNeed in 3..5 -> "Medium ($daysUntilNeed days)" to R.color.priority_medium
                 else -> "Low ($daysUntilNeed days)" to R.color.halfWhite
             }
             priorityTextView.text = "Priority: $priorityText"
