@@ -18,15 +18,13 @@
         android:scrollbarDefaultDelayBeforeFade="1300"
         android:scrollbarFadeDuration="700"
         android:scrollbarSize="5dp"
+        android:layout_marginTop="90dp"
         android:scrollbarThumbVertical="@drawable/scrollbar_thumb"
         android:scrollbars="vertical">
-
-
+        
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -34,7 +32,6 @@
                 android:id="@+id/profileImageView"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:layout_marginTop="75dp"
                 android:contentDescription="@string/profilePic"
                 android:src="@drawable/ic_profile_placeholder" />
 
