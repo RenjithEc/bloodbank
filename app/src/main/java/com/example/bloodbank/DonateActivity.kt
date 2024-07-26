@@ -26,7 +26,7 @@ class DonateActivity : AppCompatActivity() {
     private lateinit var city: EditText
     private lateinit var needByDate: TextView
     private lateinit var bloodGroupSpinner: Spinner
-    private val userPosts = ArrayList<UserPost>()
+    private val userPosts =  mutableListOf<UserPost>()
     private lateinit var uPostAdapter: UserPostAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var searchBtn: Button
@@ -90,16 +90,19 @@ class DonateActivity : AppCompatActivity() {
 
         firestore.collection("posts")
             .whereEqualTo("bloodGroup", bloodGroup)
-            .whereEqualTo("city", city)
             .whereLessThanOrEqualTo("needByDate",needByLocalDate.toString())
             .get()
             .addOnSuccessListener { querySnapshot ->
                 userPosts.clear()
+                val regex = Regex(".*${city}.*", RegexOption.IGNORE_CASE)
                 println("Data from dbbb: ${querySnapshot.documents}")
                 for (document in querySnapshot) {
                     val userPostMap = document.data
                     val userPost = UserPost.fromMap(userPostMap)
-                    userPosts.add(userPost)
+                    if (regex.containsMatchIn(userPost.city)) {
+                        userPosts.add(userPost)
+                    }
+
 
                 }
                 onDataFetched(userPosts)
