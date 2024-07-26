@@ -69,4 +69,26 @@
     <string name="searchBtn"> Search </string>
     <string name="donate"> Donate </string>
 
+    <!-- All blood groups -->
+    <string-array name="allBloodGroups">
+        <item>A+</item>
+        <item>A-</item>
+        <item>B+</item>
+        <item>B-</item>
+        <item>O+</item>
+        <item>O-</item>
+        <item>AB+</item>
+        <item>AB-</item>
+        <item>A2</item>
+        <item>A2B</item>
+        <item>CisAB</item>
+    </string-array>
+
+    <!-- Profile Page -->
+    <string name="isActive">Active Donor</string>
+    <string name="profilePic">Profile Photo</string>
+    <string name="changeProfilePic">Change Profile Picture</string>
+    <string name="saveChanges">Save</string>
+    <string name="edit">Edit</string>
+
 </resources>

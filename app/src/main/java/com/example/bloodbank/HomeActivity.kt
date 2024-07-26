@@ -34,10 +34,6 @@ class HomeActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
 
-        // Toolbar
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-
         // Setting the custom title
         val titleTextView = findViewById<TextView>(R.id.toolbarTitle)
         titleTextView.text = "Vitaly"
@@ -73,6 +69,23 @@ class HomeActivity : AppCompatActivity() {
         val donateBtn: Button = findViewById(R.id.donateBtnHome)
         donateBtn.setOnClickListener{
             val intent = Intent(this,DonateActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Set up the toolbar
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
+        val logoAccount: ImageView = findViewById(R.id.logoAccount)
+        val logoHome: ImageView = findViewById(R.id.logoHome)
+
+        logoAccount.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        logoHome.setOnClickListener {
+            val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
         }
 

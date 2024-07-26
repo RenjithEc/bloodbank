@@ -58,6 +58,17 @@ dependencies {
     implementation ("com.google.firebase:firebase-database-ktx:20.0.4")
     implementation ("com.google.firebase:firebase-firestore-ktx:24.1.1")
     implementation(libs.firebase.common.ktx)
+    implementation(libs.firebase.storage.ktx)
+
+    // Glide
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
+
+    // Activity Result API
+    implementation("androidx.activity:activity-ktx:1.4.0")
+
+    // Circular Image Viewer
+    implementation("de.hdodenhof:circleimageview:3.1.0")
 
 
     testImplementation(libs.junit)
