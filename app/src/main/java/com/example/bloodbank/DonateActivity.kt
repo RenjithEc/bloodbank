@@ -3,6 +3,7 @@ package com.example.bloodbank
 import UserPostAdapter
 import android.app.DatePickerDialog
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -44,11 +45,10 @@ class DonateActivity : AppCompatActivity() {
         searchBtn = findViewById(R.id.Search)
         recyclerView = findViewById(R.id.recyclerview)
         needByLocalDate = LocalDateTime.now()
-
         uPostAdapter = UserPostAdapter(userPosts)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = uPostAdapter
-
+        val cancelBtn: Button = findViewById(R.id.cancel)
         val bloodGroups = arrayOf("Select Blood Group", "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-", "A2", "A2B", "CisAB")
 
         val adapter = BloodGroupAdapter(this, android.R.layout.simple_spinner_item, bloodGroups)
@@ -66,6 +66,12 @@ class DonateActivity : AppCompatActivity() {
                 recyclerView.adapter = uPostAdapter
             }
         }
+
+        cancelBtn.setOnClickListener{
+            finish()
+
+        }
+
     }
 
     private fun fetchPosts(onDataFetched: (List<UserPost>) -> Unit) {
@@ -94,7 +100,7 @@ class DonateActivity : AppCompatActivity() {
                     val userPostMap = document.data
                     val userPost = UserPost.fromMap(userPostMap)
                     userPosts.add(userPost)
-//
+
                 }
                 onDataFetched(userPosts)
                 Log.d("DonateActivity", "Fetched user posts: $userPosts")
