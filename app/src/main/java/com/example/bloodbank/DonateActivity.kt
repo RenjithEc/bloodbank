@@ -19,15 +19,16 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.time.LocalDateTime
 import java.util.Calendar
 import com.example.bloodbank.UserPost
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class DonateActivity : AppCompatActivity() {
-
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
     private lateinit var city: EditText
     private lateinit var needByDate: TextView
     private lateinit var bloodGroupSpinner: Spinner
-    private val userPosts =  mutableListOf<UserPost>()
+    private val userPosts = mutableListOf<UserPost>()
     private lateinit var uPostAdapter: UserPostAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var searchBtn: Button
@@ -40,7 +41,7 @@ class DonateActivity : AppCompatActivity() {
         // Find the ImageView within the included toolbar layout
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
         val logoHome: ImageView = toolbar.findViewById(R.id.logoHome)
-        val logoAccount: ImageView =  toolbar.findViewById(R.id.logoAccount)
+        val logoAccount: ImageView = toolbar.findViewById(R.id.logoAccount)
 
         logoHome.setOnClickListener {
             val intent = Intent(this, HomeActivity::class.java)
@@ -92,7 +93,7 @@ class DonateActivity : AppCompatActivity() {
             }
         }
 
-        cancelBtn.setOnClickListener{
+        cancelBtn.setOnClickListener {
             finish()
         }
     }
@@ -102,8 +103,8 @@ class DonateActivity : AppCompatActivity() {
         val city = city.text.toString().trim()
         val needByText = needByDate.text.toString()
         Log.d(TAG, "NeedByDate: $needByText")
-        val actualNeedByText = if (needByText.startsWith("Need Blood By Date: ")) {
-            needByText.substring("Need Blood By Date: ".length).trim()
+        val actualNeedByText = if (needByText.startsWith("Need Blood By: ")) {
+            needByText.substring("Need Blood By: ".length).trim()
         } else {
             needByText.trim()
         }
@@ -112,7 +113,7 @@ class DonateActivity : AppCompatActivity() {
 
         firestore.collection("posts")
             .whereEqualTo("bloodGroup", bloodGroup)
-            .whereLessThanOrEqualTo("needByDate",needByLocalDate.toString())
+            .whereLessThanOrEqualTo("needByDate", needByLocalDate.toString())
             .get()
             .addOnSuccessListener { querySnapshot ->
                 userPosts.clear()
@@ -141,18 +142,22 @@ class DonateActivity : AppCompatActivity() {
 
         val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
             val selectedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
-            dobTextView.text = "Need Blood By Date: $selectedDate"
+            dobTextView.text = "Need Blood By: $selectedDate"
             dobTextView.setTextColor(resources.getColor(R.color.redLight, null))
         }, year, month, day)
 
+        datePickerDialog.datePicker.minDate = calendar.timeInMillis
         datePickerDialog.show()
     }
 
     private fun getLocalDateTimeFromString(dateString: String): LocalDateTime {
-        val parts = dateString.split("/")
-        val day = parts[0].toInt()
-        val month = parts[1].toInt()
-        val year = parts[2].toInt()
-        return LocalDateTime.of(year, month, day, 0, 0)
+        return try {
+            val formatter = DateTimeFormatter.ofPattern("d/M/yyyy")
+            val localDate = LocalDate.parse(dateString, formatter)
+            localDate.atStartOfDay()
+        } catch (e: Exception) {
+            Log.e(TAG, "Error parsing date: $dateString", e)
+            LocalDateTime.now()  // Default to the current date-time if parsing fails
+        }
     }
 }

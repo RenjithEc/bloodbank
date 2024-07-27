@@ -7,13 +7,10 @@ import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.bloodbank.UserPost
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -25,6 +22,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
 
     private val REQUEST_CODE_CREATE_POST = 1
+    private val REQUEST_CODE_EDIT_POST = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,7 +101,7 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_CREATE_POST && resultCode == RESULT_OK) {
+        if ((requestCode == REQUEST_CODE_CREATE_POST || requestCode == REQUEST_CODE_EDIT_POST) && resultCode == RESULT_OK) {
             // Fetch user posts again if the result indicates success
             fetchUserPosts { posts ->
                 // Initialize adapter with fetched data and logged-in user ID
@@ -115,4 +113,5 @@ class HomeActivity : AppCompatActivity() {
             }
         }
     }
+
 }

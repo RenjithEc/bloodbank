@@ -63,6 +63,12 @@
     <string name="createPostBtnCreatePost">Create Post</string>
     <string name="createPostBtnCancel">Cancel</string>
 
+    <!-- Edit Page -->
+    <string name="editPageTitle">Edit Post</string>
+    <string name="editPageBtn">Save Changes</string>
+
+
+
     <!--    Donate page-->
     <string name="donatePage">Donate Blood</string>
     <string name="bloodGroup">Blood Group</string>

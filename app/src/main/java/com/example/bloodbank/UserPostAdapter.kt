@@ -1,4 +1,5 @@
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
@@ -13,9 +14,9 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import com.example.bloodbank.DeletePostActivity
 import com.example.bloodbank.EditPostHelper
+import com.example.bloodbank.HomeActivity
 
 class UserPostAdapter(private val userList: List<UserPost>, private val loggedInUserId: String) : RecyclerView.Adapter<UserPostAdapter.UserViewHolder>() {
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.user_card_post, parent, false)
         return UserViewHolder(view)
@@ -132,9 +133,10 @@ class UserPostAdapter(private val userList: List<UserPost>, private val loggedIn
 
             editTextView.setOnClickListener {
                 val editPostHelper = EditPostHelper(context)
-                editPostHelper.showEditPostDialog(user)
+                editPostHelper.showEditPostDialog(context as Activity, user, 2)
                 popupWindow.dismiss()
             }
+
         }
     }
 }

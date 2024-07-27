@@ -16,7 +16,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.UUID
 
@@ -51,7 +53,7 @@ class CreatePostActivity : AppCompatActivity() {
         val email: EditText = findViewById(R.id.emailTextField)
         val needByDate: TextView = findViewById(R.id.needByDate)
         val phoneNumber: EditText = findViewById(R.id.phone_numberTextField)
-        val bloodGroup: Spinner = findViewById(R.id.blood_groupTextField) // Changed to Spinner
+        val bloodGroup: Spinner = findViewById(R.id.blood_groupTextField)
         val city: EditText = findViewById(R.id.cityTextField)
         val province: EditText = findViewById(R.id.provinceTextField)
         val country: EditText = findViewById(R.id.countryTextField)
@@ -62,9 +64,6 @@ class CreatePostActivity : AppCompatActivity() {
 
         // Set up the Spinner for selecting the blood group
         val bloodGroups = arrayOf("Select Blood Group", "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-", "A2", "A2B", "CisAB")
-
-        // simple_spinner_item and simple_spinner_dropdown_item are custom made resource files which manages the color and style of the spinner values
-        // BloodGroupAdapter kotlin files manages the selected and non-selected state of the spinner (different colors for the text for both states)
         val adapter = BloodGroupAdapter(this, android.R.layout.simple_spinner_item, bloodGroups)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         bloodGroup.adapter = adapter
@@ -75,18 +74,15 @@ class CreatePostActivity : AppCompatActivity() {
         }
 
         createPostButton.setOnClickListener {
-
-
-            //Format Need By Date
+            // Format Need By Date
             val needByText = needByDate.text.toString()
             Log.d(TAG, "NeedByDate: $needByText")
-            val actualNeedByText = if (needByText.startsWith("Need Blood By Date: ")) {
-                needByText.substring("Need Blood By Date: ".length).trim()
+            val actualNeedByText = if (needByText.startsWith("Need Blood By: ")) {
+                needByText.substring("Need Blood By: ".length).trim()
             } else {
                 needByText.trim()
             }
             needByLocalDate = getLocalDateTimeFromString(actualNeedByText)
-
 
             // If the default option is selected instead of a specific blood group, the database is not updated with any value
             val selectedBloodGroup = if (bloodGroup.selectedItem.toString() == "Select Blood Group") {
@@ -95,11 +91,10 @@ class CreatePostActivity : AppCompatActivity() {
                 bloodGroup.selectedItem.toString()
             }
 
-
-            //Check & retreive logged in user
+            // Check & retrieve logged-in user
             val user = auth.currentUser
             if (user != null) {
-                //Fetch User From Firebase
+                // Fetch User From Firebase
                 val documentId = user.uid
                 val userRef = firestore.collection("users").document(documentId)
                 userRef.get()
@@ -111,7 +106,7 @@ class CreatePostActivity : AppCompatActivity() {
                                 val loggedInUser = User.fromMap(data)
                                 Log.d(TAG, "loggedInUser: $loggedInUser")
                                 // Create Post Data Model
-                                val post: UserPost = UserPost(
+                                val post = UserPost(
                                     id = UUID.randomUUID().toString(),
                                     firstName = loggedInUser.firstName,
                                     lastName = loggedInUser.lastName,
@@ -130,7 +125,7 @@ class CreatePostActivity : AppCompatActivity() {
                                     createdTime = LocalDateTime.now()
                                 )
                                 val postMap = post.toMap()
-                                //Add Post to firestore
+                                // Add Post to Firestore
                                 firestore.collection("posts").document(post.id)
                                     .set(postMap)
                                     .addOnSuccessListener {
@@ -152,7 +147,6 @@ class CreatePostActivity : AppCompatActivity() {
                         Log.w(TAG, "Error getting document", exception)
                     }
             }
-
         }
 
         cancelButton.setOnClickListener {
@@ -160,7 +154,6 @@ class CreatePostActivity : AppCompatActivity() {
             setResult(Activity.RESULT_OK, resultIntent)
             finish() // Go back to the previous activity
         }
-
     }
 
     private fun showDatePickerDialog(dobTextView: TextView) {
@@ -171,7 +164,7 @@ class CreatePostActivity : AppCompatActivity() {
 
         val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
             val selectedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
-            dobTextView.text = "Need Blood By Date:                                  $selectedDate"
+            dobTextView.text = "Need Blood By: $selectedDate"
             dobTextView.setTextColor(resources.getColor(R.color.redLight, null))
         }, year, month, day)
 
@@ -182,12 +175,13 @@ class CreatePostActivity : AppCompatActivity() {
     }
 
     private fun getLocalDateTimeFromString(dateString: String): LocalDateTime {
-        val parts = dateString.split("/")
-
-        val date = parts[0].toInt()
-        val month = parts[1].toInt()
-        val year = parts[2].toInt()
-        val result: LocalDateTime = LocalDateTime.of(year, month, date, 0, 0)
-        return result
+        return try {
+            val formatter = DateTimeFormatter.ofPattern("d/M/yyyy")
+            val localDate = LocalDate.parse(dateString, formatter)
+            localDate.atStartOfDay()
+        } catch (e: Exception) {
+            Log.e(TAG, "Error parsing date: $dateString", e)
+            LocalDateTime.now()  // Default to the current date-time if parsing fails
+        }
     }
 }

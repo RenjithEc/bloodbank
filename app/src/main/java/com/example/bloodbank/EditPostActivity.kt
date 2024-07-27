@@ -2,7 +2,6 @@ package com.example.bloodbank
 
 import android.app.Activity
 import android.app.DatePickerDialog
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -15,7 +14,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
 
 class EditPostActivity : AppCompatActivity() {
@@ -46,6 +47,7 @@ class EditPostActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
 
+        val heading: TextView = findViewById(R.id.textView)
         val description: EditText = findViewById(R.id.descriptionTextField)
         val email: EditText = findViewById(R.id.emailTextField)
         val needByDate: TextView = findViewById(R.id.needByDate)
@@ -59,7 +61,8 @@ class EditPostActivity : AppCompatActivity() {
         val cancelButton: Button = findViewById(R.id.cancel_button)
         var needByLocalDate: LocalDateTime = LocalDateTime.now()
 
-        savePostButton.text = "Save Post" // Change button text to "Save Post"
+        savePostButton.text = getString(R.string.editPageBtn)
+        heading.text = getString(R.string.editPageTitle)
 
         // Set up the Spinner for selecting the blood group
         val bloodGroups = arrayOf("Select Blood Group", "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-", "A2", "A2B", "CisAB")
@@ -68,12 +71,12 @@ class EditPostActivity : AppCompatActivity() {
         bloodGroup.adapter = adapter
 
         // Get the post data passed from the adapter
-        post = intent.getParcelableExtra("post")!!
+        post = intent.getParcelableExtra<UserPost>("post")!!
 
-        // Prepopulate fields with post data
+        // Prepopulate fields with post data to help user to update it
         description.setText(post.description)
         email.setText(post.email)
-        needByDate.text = "Need Blood By Date: ${post.needByDate}"
+        needByDate.text = "Need Blood By: ${post.needByDate.format(DateTimeFormatter.ofPattern("d/M/yyyy"))}"
         phoneNumber.setText(post.phone)
         bloodGroup.setSelection(bloodGroups.indexOf(post.bloodGroup))
         city.setText(post.city)
@@ -88,8 +91,8 @@ class EditPostActivity : AppCompatActivity() {
 
         savePostButton.setOnClickListener {
             val needByText = needByDate.text.toString()
-            val actualNeedByText = if (needByText.startsWith("Need Blood By Date: ")) {
-                needByText.substring("Need Blood By Date: ".length).trim()
+            val actualNeedByText = if (needByText.startsWith("Need Blood By: ")) {
+                needByText.substring("Need Blood By: ".length).trim()
             } else {
                 needByText.trim()
             }
@@ -101,29 +104,53 @@ class EditPostActivity : AppCompatActivity() {
                 bloodGroup.selectedItem.toString()
             }
 
-            val updatedPost = post.copy(
-                needByDate = needByLocalDate,
-                bloodGroup = selectedBloodGroup,
-                city = city.text.toString().trim(),
-                province = province.text.toString().trim(),
-                country = country.text.toString().trim(),
-                description = description.text.toString().trim(),
-                patientAge = age.text.toString().trim().toInt(),
-                email = email.text.toString().trim(),
-                phone = phoneNumber.text.toString().trim()
-            )
+            val updatedPostMap = mutableMapOf<String, Any>()
 
-            firestore.collection("posts").document(updatedPost.id)
-                .set(updatedPost.toMap())
-                .addOnSuccessListener {
-                    Toast.makeText(this, "Post updated successfully!", Toast.LENGTH_SHORT).show()
-                    val resultIntent = Intent()
-                    setResult(Activity.RESULT_OK, resultIntent)
-                    finish()
-                }
-                .addOnFailureListener { e ->
-                    Toast.makeText(this, "Error updating post: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
+            // Make the update only if there is a change in the value of the specific field
+            if (post.description != description.text.toString().trim()) {
+                updatedPostMap["description"] = description.text.toString().trim()
+            }
+            if (post.email != email.text.toString().trim()) {
+                updatedPostMap["email"] = email.text.toString().trim()
+            }
+            if (post.needByDate != needByLocalDate) {
+                updatedPostMap["needByDate"] = needByLocalDate.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            }
+            if (post.phone != phoneNumber.text.toString().trim()) {
+                updatedPostMap["phone"] = phoneNumber.text.toString().trim()
+            }
+            if (post.bloodGroup != selectedBloodGroup) {
+                updatedPostMap["bloodGroup"] = selectedBloodGroup
+            }
+            if (post.city != city.text.toString().trim()) {
+                updatedPostMap["city"] = city.text.toString().trim()
+            }
+            if (post.province != province.text.toString().trim()) {
+                updatedPostMap["province"] = province.text.toString().trim()
+            }
+            if (post.country != country.text.toString().trim()) {
+                updatedPostMap["country"] = country.text.toString().trim()
+            }
+            if (post.patientAge != age.text.toString().trim().toInt()) {
+                updatedPostMap["patientAge"] = age.text.toString().trim().toInt()
+            }
+
+            // If there are any updates, update the database
+            if (updatedPostMap.isNotEmpty()) {
+                firestore.collection("posts").document(post.id)
+                    .update(updatedPostMap)
+                    .addOnSuccessListener {
+                        Toast.makeText(this, "Post updated successfully!", Toast.LENGTH_SHORT).show()
+                        val resultIntent = Intent()
+                        setResult(Activity.RESULT_OK, resultIntent)
+                        finish()
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, "Error updating post: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+            } else {
+                Toast.makeText(this, "No changes to update.", Toast.LENGTH_SHORT).show()
+            }
         }
 
         cancelButton.setOnClickListener {
@@ -141,7 +168,7 @@ class EditPostActivity : AppCompatActivity() {
 
         val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
             val selectedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
-            dobTextView.text = "Need Blood By Date: $selectedDate"
+            dobTextView.text = "Need Blood By: $selectedDate"
             dobTextView.setTextColor(resources.getColor(R.color.redLight, null))
         }, year, month, day)
 
@@ -150,11 +177,12 @@ class EditPostActivity : AppCompatActivity() {
     }
 
     private fun getLocalDateTimeFromString(dateString: String): LocalDateTime {
-        val parts = dateString.split("/")
-
-        val date = parts[0].toInt()
-        val month = parts[1].toInt()
-        val year = parts[2].toInt()
-        return LocalDateTime.of(year, month, date, 0, 0)
+        return try {
+            val formatter = DateTimeFormatter.ofPattern("d/M/yyyy")
+            val localDate = LocalDate.parse(dateString, formatter)
+            localDate.atStartOfDay()
+        } catch (e: Exception) {
+            LocalDateTime.now()  // Default to the current date-time if parsing fails
+        }
     }
 }
