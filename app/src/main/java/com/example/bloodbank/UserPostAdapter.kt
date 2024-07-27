@@ -1,8 +1,9 @@
 import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.view.*
 import android.widget.*
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bloodbank.R
@@ -10,11 +11,11 @@ import com.example.bloodbank.UserPost
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
+import com.example.bloodbank.DeletePostActivity
+import com.example.bloodbank.EditPostHelper
 
+class UserPostAdapter(private val userList: List<UserPost>, private val loggedInUserId: String) : RecyclerView.Adapter<UserPostAdapter.UserViewHolder>() {
 
-class UserPostAdapter(private val userList: List<UserPost >,private val loggedInUserId: String) : RecyclerView.Adapter<UserPostAdapter.UserViewHolder>() {
-
-    // This uses user_card_post layout
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.user_card_post, parent, false)
         return UserViewHolder(view)
@@ -22,24 +23,19 @@ class UserPostAdapter(private val userList: List<UserPost >,private val loggedIn
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val user = userList[position]
-        holder.bind(user,loggedInUserId)
+        holder.bind(user, loggedInUserId)
     }
 
     override fun getItemCount() = userList.size
 
-    // The respective views from the user_card are being populated by the users data fetched from the database
-    class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val profileImageView: ImageView = itemView.findViewById(R.id.profileImageView)
         private val nameTextView: TextView = itemView.findViewById(R.id.nameTextView)
         private val bloodGroupTextView: TextView = itemView.findViewById(R.id.bloodGroupTextView)
         private val cityTextView: TextView = itemView.findViewById(R.id.cityTextView)
         private val descriptionTextView: TextView = itemView.findViewById(R.id.descriptionTextView)
         private val priorityTextView: TextView = itemView.findViewById(R.id.priorityTextView)
-        private val deleteIcon: ImageView = itemView.findViewById(R.id.deleteIcon)
-        private val detailsIcon: ImageView = itemView.findViewById(R.id.detailsIcon)
-        private val editIcon: ImageView = itemView.findViewById(R.id.editIcon)
-        private val constraintLayout: ConstraintLayout = itemView.findViewById(R.id.constraintLayout)
-
+        private val seeMore: ImageView = itemView.findViewById(R.id.vertMoreDots)
 
         @SuppressLint("SetTextI18n")
         fun bind(user: UserPost, loggedInUserId: String) {
@@ -63,30 +59,82 @@ class UserPostAdapter(private val userList: List<UserPost >,private val loggedIn
             priorityTextView.text = "Priority: $priorityText"
             priorityTextView.setTextColor(ContextCompat.getColor(itemView.context, priorityColor))
 
-            val constraintSet = ConstraintSet()
-            constraintSet.clone(constraintLayout)
+            // Uncomment the below line when we actually get a URL for the profile pic from firebase
+            // Picasso.get().load(user.profileImageUrl).into(profileImageView)
 
             if (user.userId == loggedInUserId) {
-                constraintSet.setVisibility(deleteIcon.id,ConstraintSet.VISIBLE )
-                constraintSet.setVisibility(editIcon.id,ConstraintSet.VISIBLE )
-                constraintSet.clear(detailsIcon.id, ConstraintSet.BOTTOM)
-                constraintSet.connect(detailsIcon.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
-                constraintSet.connect(detailsIcon.id, ConstraintSet.BOTTOM, deleteIcon.id, ConstraintSet.TOP)
-                constraintSet.setVerticalBias(detailsIcon.id, 0.075f)
+                seeMore.visibility = View.VISIBLE
+                seeMore.setOnClickListener {
+                    showCustomPopupMenu(it, itemView.context, user)
+                }
             } else {
-                constraintSet.setVisibility(deleteIcon.id,ConstraintSet.GONE )
-                constraintSet.setVisibility(editIcon.id,ConstraintSet.GONE )
-                constraintSet.clear(detailsIcon.id, ConstraintSet.TOP)
-                constraintSet.clear(detailsIcon.id, ConstraintSet.BOTTOM)
-                constraintSet.connect(detailsIcon.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
-                constraintSet.connect(detailsIcon.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
-                constraintSet.setVerticalBias(detailsIcon.id, 0.5f)
+                seeMore.visibility = View.GONE
+            }
+        }
+
+        private fun showCustomPopupMenu(anchor: View, context: Context, user: UserPost) {
+            val gradientDrawable = GradientDrawable().apply {
+                shape = GradientDrawable.RECTANGLE
+                cornerRadius = 16f
+                setColor(Color.parseColor("#222222"))
+                setStroke(2, Color.parseColor("#F57578"))
             }
 
-            constraintSet.applyTo(constraintLayout)
+            val popupLayout = LinearLayout(context).apply {
+                orientation = LinearLayout.VERTICAL
+                background = gradientDrawable
+                setPadding(2, 2, 2, 2)
+            }
 
-// Uncomment the below line when we actually get a URL for the profile pic from firebase
-//            Picasso.get().load(user.profileImageUrl).into(profileImageView)
+            val editTextView = TextView(context).apply {
+                text = context.getString(R.string.editPostPopUp)
+                textSize = 13f
+                setTextColor(Color.parseColor("#F57578"))
+                setBackgroundResource(R.drawable.card_border)
+                setPadding(42, 32, 42, 32)
+                layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            }
+
+            val deleteTextView = TextView(context).apply {
+                text = context.getString(R.string.deletePostPopUp)
+                textSize = 13f
+                setTextColor(Color.parseColor("#F57578"))
+                setBackgroundResource(R.drawable.card_border)
+                setPadding(42, 32, 42, 32)
+                layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            }
+
+            popupLayout.apply {
+                addView(editTextView)
+                addView(deleteTextView)
+            }
+
+            // A parent container is added so that enough margin can be given as padding to the right
+            val containerLayout = LinearLayout(context).apply {
+                orientation = LinearLayout.VERTICAL
+                setPadding(0, 0, 32, 0)
+                setBackgroundColor(Color.TRANSPARENT)
+                addView(popupLayout)
+            }
+
+            val popupWindow = PopupWindow(containerLayout, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true)
+            val xOff = -50
+            popupWindow.showAsDropDown(anchor, xOff, 0)
+
+            deleteTextView.setOnClickListener {
+                val postDeletionHelper = DeletePostActivity(context)
+                postDeletionHelper.showDeleteConfirmationDialog(user) {
+                    (userList as MutableList).remove(user)
+                    notifyDataSetChanged()
+                }
+                popupWindow.dismiss()
+            }
+
+            editTextView.setOnClickListener {
+                val editPostHelper = EditPostHelper(context)
+                editPostHelper.showEditPostDialog(user)
+                popupWindow.dismiss()
+            }
         }
     }
 }

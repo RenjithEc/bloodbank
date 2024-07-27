@@ -47,11 +47,4 @@
             android:text="@string/userCardProvince"/>
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/detailsIcon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@drawable/baseline_read_more_24"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="16dp"/>
 </LinearLayout>

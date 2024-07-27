@@ -95,4 +95,7 @@
     <string name="saveChanges">Save</string>
     <string name="edit">Edit</string>
 
+    <!-- Popup menu -->
+    <string name="editPostPopUp">Edit Post</string>
+    <string name="deletePostPopUp">Delete Post</string>
 </resources>

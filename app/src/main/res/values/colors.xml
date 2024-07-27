@@ -8,5 +8,6 @@
     <color name="redBright">#F54E51</color>
     <color name="bgBlack">#333333</color>
     <color name="actionBarColor">#222222</color>
-    <color name="priority_medium">#E95D31</color> <!-- Orange -->
+    <color name="popupBg">#222222</color>
+    <color name="priority_medium">#E95D31</color>
 </resources>

@@ -21,7 +21,7 @@
         android:layout_marginTop="90dp"
         android:scrollbarThumbVertical="@drawable/scrollbar_thumb"
         android:scrollbars="vertical">
-        
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

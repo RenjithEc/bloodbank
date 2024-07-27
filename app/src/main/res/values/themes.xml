@@ -6,6 +6,7 @@
         <item name="colorOnPrimary">@color/redLight</item>
         <item name="android:textColorPrimary">@color/redLight</item>
         <item name="fontFamily">@font/poppins_med</item>
+        <item name="android:itemBackground">@color/popupBg</item>
     </style>
 
     <!-- Custom toolbar style -->
