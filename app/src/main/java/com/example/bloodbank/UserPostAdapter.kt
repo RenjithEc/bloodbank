@@ -16,7 +16,7 @@ import com.example.bloodbank.DeletePostActivity
 import com.example.bloodbank.EditPostHelper
 import com.example.bloodbank.HomeActivity
 
-class UserPostAdapter(private val userList: List<UserPost>, private val loggedInUserId: String) : RecyclerView.Adapter<UserPostAdapter.UserViewHolder>() {
+class UserPostAdapter(private val userList: List<UserPost>, private val loggedInUserId: String, private val fromPage: String) : RecyclerView.Adapter<UserPostAdapter.UserViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.user_card_post, parent, false)
         return UserViewHolder(view)
@@ -63,7 +63,8 @@ class UserPostAdapter(private val userList: List<UserPost>, private val loggedIn
             // Uncomment the below line when we actually get a URL for the profile pic from firebase
             // Picasso.get().load(user.profileImageUrl).into(profileImageView)
 
-            if (user.userId == loggedInUserId) {
+            // Should allow user to delete or update the post only from home page
+            if (user.userId == loggedInUserId && fromPage == "HomeActivity") {
                 seeMore.visibility = View.VISIBLE
                 seeMore.setOnClickListener {
                     showCustomPopupMenu(it, itemView.context, user)

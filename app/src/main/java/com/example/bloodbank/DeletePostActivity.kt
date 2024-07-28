@@ -15,8 +15,8 @@ class DeletePostActivity(private val context: Context) {
             .setView(dialogView)
             .create()
 
-        dialogView.findViewById<TextView>(R.id.dialog_title).text = "Delete Post"
-        dialogView.findViewById<TextView>(R.id.dialog_message).text = "Are you sure you want to delete this post?"
+        dialogView.findViewById<TextView>(R.id.dialog_title).text = context.getString(R.string.deleteDialogTitle)
+        dialogView.findViewById<TextView>(R.id.dialog_message).text =context.getString(R.string.deleteDialogText)
 
         dialogView.findViewById<Button>(R.id.dialog_cancel).setOnClickListener {
             dialog.dismiss()

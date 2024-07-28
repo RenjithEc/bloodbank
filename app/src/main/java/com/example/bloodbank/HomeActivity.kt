@@ -55,7 +55,7 @@ class HomeActivity : AppCompatActivity() {
         fetchUserPosts { posts ->
             // Initialize adapter with fetched data and logged-in user ID
             if (loggedInUserId != null) {
-                adapter = UserPostAdapter(posts, loggedInUserId)
+                adapter = UserPostAdapter(posts, loggedInUserId, "HomeActivity")
                 recyclerView.adapter = adapter
             }
         }
@@ -107,7 +107,7 @@ class HomeActivity : AppCompatActivity() {
                 // Initialize adapter with fetched data and logged-in user ID
                 val loggedInUserId = auth.currentUser?.uid
                 if (loggedInUserId != null) {
-                    adapter = UserPostAdapter(posts, loggedInUserId)
+                    adapter = UserPostAdapter(posts, loggedInUserId,"HomeActivity")
                     recyclerView.adapter = adapter
                 }
             }

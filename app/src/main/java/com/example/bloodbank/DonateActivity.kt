@@ -67,7 +67,7 @@ class DonateActivity : AppCompatActivity() {
         val loggedInUserId = auth.currentUser?.uid
 
         if (loggedInUserId != null) {
-            uPostAdapter = UserPostAdapter(userPosts, loggedInUserId)
+            uPostAdapter = UserPostAdapter(userPosts, loggedInUserId, "DonateActivity")
             recyclerView.layoutManager = LinearLayoutManager(this)
             recyclerView.adapter = uPostAdapter
         }
@@ -87,7 +87,7 @@ class DonateActivity : AppCompatActivity() {
             fetchPosts { posts ->
                 // Initialize adapter with fetched data and logged-in user ID
                 if (loggedInUserId != null) {
-                    uPostAdapter = UserPostAdapter(posts, loggedInUserId)
+                    uPostAdapter = UserPostAdapter(posts, loggedInUserId, "DonateActivity")
                     recyclerView.adapter = uPostAdapter
                 }
             }

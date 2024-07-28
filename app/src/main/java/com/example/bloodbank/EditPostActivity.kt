@@ -25,6 +25,26 @@ class EditPostActivity : AppCompatActivity() {
     private lateinit var firestore: FirebaseFirestore
     private lateinit var post: UserPost
 
+    private lateinit var description: EditText
+    private lateinit var email: EditText
+    private lateinit var needByDate: TextView
+    private lateinit var phoneNumber: EditText
+    private lateinit var bloodGroup: Spinner
+    private lateinit var city: EditText
+    private lateinit var province: EditText
+    private lateinit var country: EditText
+    private lateinit var age: EditText
+
+    private lateinit var initialDescription: String
+    private lateinit var initialEmail: String
+    private lateinit var initialNeedByDate: LocalDateTime
+    private lateinit var initialPhoneNumber: String
+    private lateinit var initialBloodGroup: String
+    private lateinit var initialCity: String
+    private lateinit var initialProvince: String
+    private lateinit var initialCountry: String
+    private var initialAge: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_post) // Reusing the same layout as CreatePostActivity
@@ -49,15 +69,15 @@ class EditPostActivity : AppCompatActivity() {
         firestore = FirebaseFirestore.getInstance()
 
         val heading: TextView = findViewById(R.id.textView)
-        val description: EditText = findViewById(R.id.descriptionTextField)
-        val email: EditText = findViewById(R.id.emailTextField)
-        val needByDate: TextView = findViewById(R.id.needByDate)
-        val phoneNumber: EditText = findViewById(R.id.phone_numberTextField)
-        val bloodGroup: Spinner = findViewById(R.id.blood_groupTextField)
-        val city: EditText = findViewById(R.id.cityTextField)
-        val province: EditText = findViewById(R.id.provinceTextField)
-        val country: EditText = findViewById(R.id.countryTextField)
-        val age: EditText = findViewById(R.id.ageTextField)
+        description = findViewById(R.id.descriptionTextField)
+        email = findViewById(R.id.emailTextField)
+        needByDate = findViewById(R.id.needByDate)
+        phoneNumber = findViewById(R.id.phone_numberTextField)
+        bloodGroup = findViewById(R.id.blood_groupTextField)
+        city = findViewById(R.id.cityTextField)
+        province = findViewById(R.id.provinceTextField)
+        country = findViewById(R.id.countryTextField)
+        age = findViewById(R.id.ageTextField)
         val savePostButton: Button = findViewById(R.id.create_post_button)
         val cancelButton: Button = findViewById(R.id.cancel_button)
         var needByLocalDate: LocalDateTime = LocalDateTime.now()
@@ -84,6 +104,17 @@ class EditPostActivity : AppCompatActivity() {
         province.setText(post.province)
         country.setText(post.country)
         age.setText(post.patientAge.toString())
+
+        // Store initial values
+        initialDescription = post.description
+        initialEmail = post.email
+        initialNeedByDate = post.needByDate
+        initialPhoneNumber = post.phone
+        initialBloodGroup = post.bloodGroup
+        initialCity = post.city
+        initialProvince = post.province
+        initialCountry = post.country
+        initialAge = post.patientAge
 
         // Function to setup a date picker
         needByDate.setOnClickListener {
@@ -155,7 +186,11 @@ class EditPostActivity : AppCompatActivity() {
         }
 
         cancelButton.setOnClickListener {
-            showCancelConfirmationDialog()
+            if (isFormChanged()) {
+                showCancelConfirmationDialog()
+            } else {
+                finish()
+            }
         }
     }
 
@@ -181,8 +216,20 @@ class EditPostActivity : AppCompatActivity() {
             val localDate = LocalDate.parse(dateString, formatter)
             localDate.atStartOfDay()
         } catch (e: Exception) {
-            LocalDateTime.now()  // Default to the current date-time if parsing fails
+            LocalDateTime.now()
         }
+    }
+
+    private fun isFormChanged(): Boolean {
+        return initialDescription != description.text.toString().trim() ||
+                initialEmail != email.text.toString().trim() ||
+                initialNeedByDate != getLocalDateTimeFromString(needByDate.text.toString().replace("Need Blood By: ", "").trim()) ||
+                initialPhoneNumber != phoneNumber.text.toString().trim() ||
+                initialBloodGroup != bloodGroup.selectedItem.toString() ||
+                initialCity != city.text.toString().trim() ||
+                initialProvince != province.text.toString().trim() ||
+                initialCountry != country.text.toString().trim() ||
+                initialAge != age.text.toString().trim().toInt()
     }
 
     private fun showCancelConfirmationDialog() {
@@ -191,8 +238,8 @@ class EditPostActivity : AppCompatActivity() {
             .setView(dialogView)
             .create()
 
-        dialogView.findViewById<TextView>(R.id.dialog_title).text = "Abandon Changes?"
-        dialogView.findViewById<TextView>(R.id.dialog_message).text = "Are you sure you want to abandon changes?"
+        dialogView.findViewById<TextView>(R.id.dialog_title).text = getString(R.string.updateDialogTitle)
+        dialogView.findViewById<TextView>(R.id.dialog_message).text = getString(R.string.updateDialogText)
 
         dialogView.findViewById<Button>(R.id.dialog_confirm).setOnClickListener {
             val resultIntent = Intent()
