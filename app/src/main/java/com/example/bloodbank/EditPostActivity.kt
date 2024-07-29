@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -233,7 +232,7 @@ class EditPostActivity : AppCompatActivity() {
     }
 
     private fun showCancelConfirmationDialog() {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_custom_delete, null)
+        val dialogView = layoutInflater.inflate(R.layout.dialog_custom_popup, null)
         val dialog = AlertDialog.Builder(this)
             .setView(dialogView)
             .create()

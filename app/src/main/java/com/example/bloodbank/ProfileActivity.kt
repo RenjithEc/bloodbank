@@ -43,7 +43,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var countryEditText: EditText
     private lateinit var countryEditButton: Button
     private lateinit var isActiveSwitch: SwitchCompat
-    private var currentProfileImageUrl: String? = ""
+    private var currentprofilePic: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,18 +77,12 @@ class ProfileActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val logoAccount: ImageView = findViewById(R.id.logoAccount)
         val logoHome: ImageView = findViewById(R.id.logoHome)
 
-        logoAccount.setOnClickListener {
-            val intent = Intent(this, ProfileActivity::class.java)
-            startActivity(intent)
-        }
 
         logoHome.setOnClickListener {
-            /*val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)*/
-            Toast.makeText(this, "home", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
         }
 
         changeProfilePictureButton.setOnClickListener {
@@ -139,7 +133,7 @@ class ProfileActivity : AppCompatActivity() {
         }.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val downloadUri = task.result
-                currentProfileImageUrl = downloadUri.toString()
+                currentprofilePic = downloadUri.toString()
                 Glide.with(this).load(downloadUri).into(profileImageView)
             } else {
                 Toast.makeText(this, "Failed to upload image", Toast.LENGTH_SHORT).show()
@@ -155,17 +149,17 @@ class ProfileActivity : AppCompatActivity() {
 
         uploadTask.addOnSuccessListener {
             storageRef.downloadUrl.addOnSuccessListener { uri ->
-                val profileImageUrl = uri.toString()
-                saveProfileImageUrl(profileImageUrl)
+                val profilePic = uri.toString()
+                saveprofilePic(profilePic)
             }
         }.addOnFailureListener {
             Toast.makeText(this, "Failed to upload image", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun saveProfileImageUrl(url: String) {
+    private fun saveprofilePic(url: String) {
         val userDocRef = firestore.collection("users").document(auth.currentUser!!.uid)
-        userDocRef.update("profileImageUrl", url)
+        userDocRef.update("profilePic", url)
             .addOnSuccessListener {
                 Toast.makeText(this, "Profile picture updated", Toast.LENGTH_SHORT).show()
                 Glide.with(this).load(url).into(profileImageView)
@@ -194,9 +188,9 @@ class ProfileActivity : AppCompatActivity() {
                 countryEditText.setText(document.getString("country"))
                 isActiveSwitch.isChecked = document.getBoolean("isActive") ?: false
 
-                val profileImageUrl = document.getString("profileImageUrl")
-                if (!profileImageUrl.isNullOrEmpty()) {
-                    Glide.with(this).load(profileImageUrl).into(profileImageView)
+                val profilePic = document.getString("profilePic")
+                if (!profilePic.isNullOrEmpty()) {
+                    Glide.with(this).load(profilePic).into(profileImageView)
                 }
             }
         }
@@ -222,9 +216,9 @@ class ProfileActivity : AppCompatActivity() {
                         resources.getStringArray(R.array.allBloodGroups).indexOf(bloodGroup)
                     bloodGroupSpinner.setSelection(bloodGroupIndex)
 
-                    val profileImageUrl = document.getString("profileImageUrl")
-                    if (!profileImageUrl.isNullOrEmpty()) {
-                        Glide.with(this).load(profileImageUrl).into(profileImageView)
+                    val profilePic = document.getString("profilePic")
+                    if (!profilePic.isNullOrEmpty()) {
+                        Glide.with(this).load(profilePic).into(profileImageView)
                     }
                 }
             }
@@ -250,7 +244,7 @@ class ProfileActivity : AppCompatActivity() {
             "province" to provinceEditText.text.toString(),
             "country" to countryEditText.text.toString(),
             "isActive" to isActiveSwitch.isChecked,
-            "profileImageUrl" to currentProfileImageUrl
+            "profilePic" to currentprofilePic
         )
 
         userRef.set(profileData)

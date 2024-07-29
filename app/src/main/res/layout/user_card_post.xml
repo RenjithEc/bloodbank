@@ -11,7 +11,7 @@
     android:layout_marginLeft="20dp"
     android:layout_marginRight="20dp">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profileImageView"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -33,12 +33,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/cityTextView"
+        android:id="@+id/bloodGroupTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/redLight"
-        android:text="@string/userCardProvincePost"
-        android:textSize="12sp"
+        android:text="@string/bloodGroup"
+        android:textSize="15sp"
         app:layout_constraintStart_toEndOf="@+id/nameTextView"
         app:layout_constraintTop_toTopOf="@+id/nameTextView"
         app:layout_constraintBottom_toBottomOf="@+id/nameTextView"
@@ -69,11 +69,11 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/bloodGroupTextView"
+        android:id="@+id/cityTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColor="@color/redLight"
-        android:text="@string/userCardBloodGroupPost"
+        android:text="@string/userCardProvince"
         android:textSize="11sp"
         app:layout_constraintStart_toStartOf="@+id/priorityTextView"
         app:layout_constraintTop_toBottomOf="@+id/priorityTextView"

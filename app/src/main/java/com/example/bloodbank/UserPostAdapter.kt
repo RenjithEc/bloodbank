@@ -7,6 +7,7 @@ import android.view.*
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.bloodbank.R
 import com.example.bloodbank.UserPost
 import java.time.LocalDateTime
@@ -15,6 +16,7 @@ import java.time.temporal.ChronoUnit
 import com.example.bloodbank.DeletePostActivity
 import com.example.bloodbank.EditPostHelper
 import com.example.bloodbank.HomeActivity
+import com.squareup.picasso.Picasso
 
 class UserPostAdapter(private val userList: List<UserPost>, private val loggedInUserId: String, private val fromPage: String) : RecyclerView.Adapter<UserPostAdapter.UserViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
@@ -40,7 +42,7 @@ class UserPostAdapter(private val userList: List<UserPost>, private val loggedIn
 
         @SuppressLint("SetTextI18n")
         fun bind(user: UserPost, loggedInUserId: String) {
-            nameTextView.text = "${user.firstName} ${user.lastName}"
+            nameTextView.text = "${user.firstName} ${user.lastName} -"
             bloodGroupTextView.text = user.bloodGroup
             descriptionTextView.text = user.description
             priorityTextView.text = "Priority: ${user.priority}"
@@ -61,7 +63,12 @@ class UserPostAdapter(private val userList: List<UserPost>, private val loggedIn
             priorityTextView.setTextColor(ContextCompat.getColor(itemView.context, priorityColor))
 
             // Uncomment the below line when we actually get a URL for the profile pic from firebase
-            // Picasso.get().load(user.profileImageUrl).into(profileImageView)
+            // Load profile picture or placeholder
+            if (user.profileImageUrl.isNotEmpty()) {
+                Glide.with(itemView.context).load(user.profileImageUrl).into(profileImageView)
+            } else {
+                profileImageView.setImageResource(R.drawable.ic_profile_placeholder) // Replace with your placeholder image resource ID
+            }
 
             // Should allow user to delete or update the post only from home page
             if (user.userId == loggedInUserId && fromPage == "HomeActivity") {
