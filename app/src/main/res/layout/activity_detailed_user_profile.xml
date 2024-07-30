@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_layout" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="99dp"
+        android:layout_height="91dp"
+        android:layout_marginBottom="572dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.522"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/baseline_account_circle_24" />
+
+    <TextView
+        android:id="@+id/activeDonor"
+        android:layout_width="280dp"
+        android:layout_height="38dp"
+        android:layout_marginBottom="456dp"
+        android:text="TextView"
+        android:textColor="@color/redLight"
+        android:textColorHint="@color/halfWhite"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.351" />
+
+    <TextView
+        android:id="@+id/userFullName"
+        android:layout_width="214dp"
+        android:layout_height="52dp"
+        android:text="TextView"
+        android:textColor="@color/redLight"
+        android:textColorHint="@color/halfWhite"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.243"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activeDonor"
+        app:layout_constraintVertical_bias="0.022" />
+
+    <TextView
+        android:id="@+id/userAge"
+        android:layout_width="182dp"
+        android:layout_height="44dp"
+        android:layout_marginBottom="400dp"
+        android:text="TextView"
+        android:textColor="@color/redLight"
+        android:textColorHint="@color/halfWhite"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.209"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/bloodGroup"
+        android:layout_width="163dp"
+        android:layout_height="44dp"
+        android:text="TextView"
+        android:textColor="@color/redLight"
+        android:textColorHint="@color/halfWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.193"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userAge"
+        app:layout_constraintVertical_bias="0.025" />
+
+    <TextView
+        android:layout_width="173dp"
+        android:layout_height="45dp"
+        android:text="TextView"
+        android:id="@+id/userCity"
+        android:textColor="@color/redLight"
+        android:textColorHint="@color/halfWhite"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.203"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bloodGroup"
+        app:layout_constraintVertical_bias="0.026" />
+
+    <TextView
+        android:id="@+id/userProvince"
+        android:layout_width="153dp"
+        android:layout_height="47dp"
+        android:text="TextView"
+        android:textSize="15sp"
+        android:textColor="@color/redLight"
+        android:textColorHint="@color/halfWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.186"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userCity"
+        app:layout_constraintVertical_bias="0.042" />
+
+    <TextView
+        android:id="@+id/userCountry"
+        android:layout_width="199dp"
+        android:layout_height="49dp"
+        android:layout_marginBottom="184dp"
+        android:text="TextView"
+        android:textColor="@color/redLight"
+        android:textColorHint="@color/halfWhite"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.226"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/userEmail"
+        android:layout_width="305dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="132dp"
+        android:autoLink="email"
+        android:clickable="true"
+        android:text="Email"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_blue_light"
+        android:textColorHint="@color/halfWhite"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
