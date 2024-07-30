@@ -9,7 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class DeletePostActivity(private val context: Context) {
 
     fun showDeleteConfirmationDialog(user: UserPost, onSuccess: () -> Unit) {
-        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_custom_delete, null)
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_custom_popup, null)
 
         val dialog = AlertDialog.Builder(context)
             .setView(dialogView)

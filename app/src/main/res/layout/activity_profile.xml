@@ -59,7 +59,7 @@
                     android:gravity="center"
                     android:layout_weight="1.5"
                     android:backgroundTint="@color/halfWhite"
-                    android:hint="@string/firstTimeUserHint_FName"
+                    android:autofillHints="@string/firstTimeUserHint_FName"
                     android:text="@string/firstTimeUserHint_FName"
                     android:textAlignment="gravity"
                     android:textColor="@color/redLight"
@@ -74,7 +74,6 @@
                     android:layout_weight="3.5"
                     android:autofillHints="@string/firstTimeUserHint_FName"
                     android:backgroundTint="@color/halfWhite"
-                    android:hint="@string/firstTimeUserHint_FName"
                     android:textColor="@color/redLight"
                     android:textColorHint="@color/redLight50"
                     android:textSize="15sp" />
@@ -83,10 +82,11 @@
                     android:id="@+id/edit_first_name_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@string/edit"
-                    android:src="@drawable/ic_edit" />
+                    android:gravity="center"
+                    android:src="@drawable/ic_edit"
+                    android:tooltipText="@string/edit" />
 
 
             </LinearLayout>
@@ -111,11 +111,15 @@
                 android:layout_width="340dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="20dp"
-                android:backgroundTint="@color/halfWhite"
+                android:autofillHints="@string/firstTimeUserHint_DOB"
                 android:hint="@string/firstTimeUserHint_DOB"
+                android:backgroundTint="@color/halfWhite"
                 android:textColor="@color/redLight"
                 android:textColorHint="@color/redLight50"
                 android:textSize="15sp"
+                android:focusable="false"
+                android:clickable="true"
+                android:inputType="none"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -147,6 +151,7 @@
                 android:entries="@array/allBloodGroups"
                 android:textColor="@color/redLight"
                 android:textColorHint="@color/redLight50"
+                android:popupBackground="@color/actionBarColor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"

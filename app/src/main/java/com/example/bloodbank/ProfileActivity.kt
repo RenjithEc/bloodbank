@@ -1,5 +1,6 @@
 package com.example.bloodbank
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -18,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import de.hdodenhof.circleimageview.CircleImageView
+import java.util.Calendar
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -43,7 +45,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var countryEditText: EditText
     private lateinit var countryEditButton: Button
     private lateinit var isActiveSwitch: SwitchCompat
-    private var currentProfileImageUrl: String? = ""
+    private var currentProfilePic: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,36 +61,28 @@ class ProfileActivity : AppCompatActivity() {
         firstNameEditText = findViewById(R.id.edit_first_name)
         firstNameEditButton = findViewById(R.id.edit_first_name_button)
         lastNameEditText = findViewById(R.id.edit_last_name)
-        //lastNameEditButton = findViewById(R.id.edit_last_)
         dobEditText = findViewById(R.id.edit_dob)
-        //dobEditButton = findViewById(R.id.edit_dob_button)
         phoneNumberEditText = findViewById(R.id.edit_phone_number)
-        //phoneNumberEditButton = findViewById(R.id.edit_phone_number_button)
         bloodGroupSpinner = findViewById(R.id.edit_blood_group)
         cityEditText = findViewById(R.id.edit_city)
-        //cityEditButton = findViewById(R.id.edit_city_button)
         provinceEditText = findViewById(R.id.edit_province)
-        //provinceEditButton = findViewById(R.id.edit_province_button)
         countryEditText = findViewById(R.id.edit_country)
-        //countryEditButton = findViewById(R.id.edit_country_button)
         isActiveSwitch = findViewById(R.id.isActiveSwitch)
 
         // Set up the toolbar
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val logoAccount: ImageView = findViewById(R.id.logoAccount)
         val logoHome: ImageView = findViewById(R.id.logoHome)
 
-        logoAccount.setOnClickListener {
-            val intent = Intent(this, ProfileActivity::class.java)
+        logoHome.setOnClickListener {
+            val intent = Intent(this, HomeActivity::class.java)
+            setResult(RESULT_OK) // Set result as RESULT_OK to indicate changes
             startActivity(intent)
         }
 
-        logoHome.setOnClickListener {
-            /*val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)*/
-            Toast.makeText(this, "home", Toast.LENGTH_SHORT).show()
+        dobEditText.setOnClickListener {
+            showDatePickerDialog()
         }
 
         changeProfilePictureButton.setOnClickListener {
@@ -139,8 +133,10 @@ class ProfileActivity : AppCompatActivity() {
         }.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val downloadUri = task.result
-                currentProfileImageUrl = downloadUri.toString()
+                currentProfilePic = downloadUri.toString()
                 Glide.with(this).load(downloadUri).into(profileImageView)
+                // Save profile data with new image URL
+                saveProfileData()
             } else {
                 Toast.makeText(this, "Failed to upload image", Toast.LENGTH_SHORT).show()
             }
@@ -149,29 +145,34 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
-    private fun uploadProfileImage(imageUri: Uri) {
-        val storageRef = storage.reference.child("profile_pictures/${auth.currentUser?.uid}.jpg")
-        val uploadTask = storageRef.putFile(imageUri)
+    private fun saveProfileData() {
 
-        uploadTask.addOnSuccessListener {
-            storageRef.downloadUrl.addOnSuccessListener { uri ->
-                val profileImageUrl = uri.toString()
-                saveProfileImageUrl(profileImageUrl)
-            }
-        }.addOnFailureListener {
-            Toast.makeText(this, "Failed to upload image", Toast.LENGTH_SHORT).show()
-        }
-    }
+        val user = auth.currentUser ?: return
+        val userRef = firestore.collection("users").document(user.uid)
 
-    private fun saveProfileImageUrl(url: String) {
-        val userDocRef = firestore.collection("users").document(auth.currentUser!!.uid)
-        userDocRef.update("profileImageUrl", url)
+        val profileData = hashMapOf(
+            "firstName" to firstNameEditText.text.toString(),
+            "lastName" to lastNameEditText.text.toString(),
+            "dob" to dobEditText.text.toString(),
+            "phoneNumber" to phoneNumberEditText.text.toString(),
+            "bloodGroup" to bloodGroupSpinner.selectedItem.toString(),
+            "city" to cityEditText.text.toString(),
+            "email" to auth.currentUser?.email,
+            "id" to auth.currentUser?.uid,
+            "province" to provinceEditText.text.toString(),
+            "country" to countryEditText.text.toString(),
+            "isActive" to isActiveSwitch.isChecked,
+            "profilePic" to currentProfilePic.orEmpty() // Ensure currentProfilePic is not null
+        )
+
+        userRef.set(profileData)
             .addOnSuccessListener {
-                Toast.makeText(this, "Profile picture updated", Toast.LENGTH_SHORT).show()
-                Glide.with(this).load(url).into(profileImageView)
+                Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show()
+                setResult(RESULT_OK) // Set result as RESULT_OK to indicate changes
+                finish() // Close the activity
             }
             .addOnFailureListener {
-                Toast.makeText(this, "Failed to update profile picture", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Failed to update profile", Toast.LENGTH_SHORT).show()
             }
     }
 
@@ -194,72 +195,38 @@ class ProfileActivity : AppCompatActivity() {
                 countryEditText.setText(document.getString("country"))
                 isActiveSwitch.isChecked = document.getBoolean("isActive") ?: false
 
-                val profileImageUrl = document.getString("profileImageUrl")
-                if (!profileImageUrl.isNullOrEmpty()) {
-                    Glide.with(this).load(profileImageUrl).into(profileImageView)
+                val profilePic = document.getString("profilePic")
+                if (!profilePic.isNullOrEmpty()) {
+                    currentProfilePic = profilePic
+                    Glide.with(this).load(profilePic).into(profileImageView)
                 }
             }
         }
             .addOnFailureListener {
                 Toast.makeText(this, "Failed to load profile data", Toast.LENGTH_SHORT).show()
             }
-
-    }
-    private fun loadProfileData1() {
-        val userDocRef = firestore.collection("users").document(auth.currentUser!!.uid)
-        userDocRef.get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    firstNameEditText.setText(document.getString("firstName"))
-                    lastNameEditText.setText(document.getString("lastName"))
-                    dobEditText.setText(document.getString("dob"))
-                    phoneNumberEditText.setText(document.getString("phoneNumber"))
-                    cityEditText.setText(document.getString("city"))
-                    provinceEditText.setText(document.getString("province"))
-                    countryEditText.setText(document.getString("country"))
-                    val bloodGroup = document.getString("bloodGroup")
-                    val bloodGroupIndex =
-                        resources.getStringArray(R.array.allBloodGroups).indexOf(bloodGroup)
-                    bloodGroupSpinner.setSelection(bloodGroupIndex)
-
-                    val profileImageUrl = document.getString("profileImageUrl")
-                    if (!profileImageUrl.isNullOrEmpty()) {
-                        Glide.with(this).load(profileImageUrl).into(profileImageView)
-                    }
-                }
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Failed to load profile data", Toast.LENGTH_SHORT).show()
-            }
     }
 
-    private fun saveProfileData() {
+    private fun showDatePickerDialog() {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        val user = auth.currentUser ?: return
-        val userRef = firestore.collection("users").document(user.uid)
+        val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
+            val selectedDate = Calendar.getInstance()
+            selectedDate.set(selectedYear, selectedMonth, selectedDay)
 
-        val profileData = hashMapOf(
-            "firstName" to firstNameEditText.text.toString(),
-            "lastName" to lastNameEditText.text.toString(),
-            "dob" to dobEditText.text.toString(),
-            "phoneNumber" to phoneNumberEditText.text.toString(),
-            "bloodGroup" to bloodGroupSpinner.selectedItem.toString(),
-            "city" to cityEditText.text.toString(),
-            "email" to auth.currentUser?.email,
-            "id" to auth.currentUser?.uid,
-            "province" to provinceEditText.text.toString(),
-            "country" to countryEditText.text.toString(),
-            "isActive" to isActiveSwitch.isChecked,
-            "profileImageUrl" to currentProfileImageUrl
-        )
-
-        userRef.set(profileData)
-            .addOnSuccessListener {
-                Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show()
+            if (selectedDate.after(calendar)) {
+                Toast.makeText(this, "Invalid Date of Birth", Toast.LENGTH_SHORT).show()
+            } else {
+                dobEditText.setText(getString(R.string.date_format, selectedDay, selectedMonth + 1, selectedYear))
             }
-            .addOnFailureListener {
-                Toast.makeText(this, "Failed to update profile", Toast.LENGTH_SHORT).show()
-            }
+        }, year, month, day)
+
+        datePickerDialog.show()
     }
-
 }
+
+
+
