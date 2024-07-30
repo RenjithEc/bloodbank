@@ -1,5 +1,6 @@
 package com.example.bloodbank
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -18,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import de.hdodenhof.circleimageview.CircleImageView
+import java.util.Calendar
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -43,7 +45,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var countryEditText: EditText
     private lateinit var countryEditButton: Button
     private lateinit var isActiveSwitch: SwitchCompat
-    private var currentprofilePic: String? = ""
+    private var currentProfilePic: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,6 +85,10 @@ class ProfileActivity : AppCompatActivity() {
         logoHome.setOnClickListener {
             val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
+        }
+
+        dobEditText.setOnClickListener {
+            showDatePickerDialog()
         }
 
         changeProfilePictureButton.setOnClickListener {
@@ -133,7 +139,7 @@ class ProfileActivity : AppCompatActivity() {
         }.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val downloadUri = task.result
-                currentprofilePic = downloadUri.toString()
+                currentProfilePic = downloadUri.toString()
                 Glide.with(this).load(downloadUri).into(profileImageView)
             } else {
                 Toast.makeText(this, "Failed to upload image", Toast.LENGTH_SHORT).show()
@@ -244,7 +250,7 @@ class ProfileActivity : AppCompatActivity() {
             "province" to provinceEditText.text.toString(),
             "country" to countryEditText.text.toString(),
             "isActive" to isActiveSwitch.isChecked,
-            "profilePic" to currentprofilePic
+            "profilePic" to currentProfilePic
         )
 
         userRef.set(profileData)
@@ -254,6 +260,26 @@ class ProfileActivity : AppCompatActivity() {
             .addOnFailureListener {
                 Toast.makeText(this, "Failed to update profile", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun showDatePickerDialog() {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
+            val selectedDate = Calendar.getInstance()
+            selectedDate.set(selectedYear, selectedMonth, selectedDay)
+
+            if (selectedDate.after(calendar)) {
+                Toast.makeText(this, "Invalid Date of Birth", Toast.LENGTH_SHORT).show()
+            } else {
+                dobEditText.setText(getString(R.string.date_format, selectedDay, selectedMonth + 1, selectedYear))
+            }
+        }, year, month, day)
+
+        datePickerDialog.show()
     }
 
 }
