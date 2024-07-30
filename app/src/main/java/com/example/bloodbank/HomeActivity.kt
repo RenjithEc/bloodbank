@@ -147,42 +147,47 @@ class HomeActivity : AppCompatActivity() {
             .addOnSuccessListener { userDocument ->
                 val user = userDocument.data
                 if (user != null) {
-                    val userFirstName = user["firstName"] as String
-                    val userLastName = user["lastName"] as String
-                    val userProfilePic = user["profilePic"] as String
+                    val userFirstName = user["firstName"] as? String
+                    val userLastName = user["lastName"] as? String
+                    val userProfilePic = user["profilePic"] as? String
 
-                    firestore.collection("posts")
-                        .whereEqualTo("userId", userId)
-                        .get()
-                        .addOnSuccessListener { postsQuerySnapshot ->
-                            val batch = firestore.batch()
-                            for (postDocument in postsQuerySnapshot.documents) {
-                                val postFirstName = postDocument.getString("firstName")
-                                val postLastName = postDocument.getString("lastName")
-                                val postProfilePic = postDocument.getString("profileImageUrl")
+                    if (userFirstName != null && userLastName != null && userProfilePic != null) {
+                        firestore.collection("posts")
+                            .whereEqualTo("userId", userId)
+                            .get()
+                            .addOnSuccessListener { postsQuerySnapshot ->
+                                val batch = firestore.batch()
+                                for (postDocument in postsQuerySnapshot.documents) {
+                                    val postFirstName = postDocument.getString("firstName")
+                                    val postLastName = postDocument.getString("lastName")
+                                    val postProfilePic = postDocument.getString("profileImageUrl")
 
-                                if (postFirstName != userFirstName || postLastName != userLastName || postProfilePic != userProfilePic) {
-                                    val postRef = postDocument.reference
-                                    batch.update(postRef, "firstName", userFirstName)
-                                    batch.update(postRef, "lastName", userLastName)
-                                    batch.update(postRef, "profileImageUrl", userProfilePic)
+                                    if (postFirstName != userFirstName || postLastName != userLastName || postProfilePic != userProfilePic) {
+                                        val postRef = postDocument.reference
+                                        batch.update(postRef, "firstName", userFirstName)
+                                        batch.update(postRef, "lastName", userLastName)
+                                        batch.update(postRef, "profileImageUrl", userProfilePic)
+                                    }
                                 }
+                                batch.commit()
+                                    .addOnSuccessListener {
+                                        Log.d("HomeActivity", "User details updated in posts")
+                                    }
+                                    .addOnFailureListener { e ->
+                                        Log.w("HomeActivity", "Error updating user details in posts", e)
+                                    }
                             }
-                            batch.commit()
-                                .addOnSuccessListener {
-                                    Log.d("HomeActivity", "User details updated in posts")
-                                }
-                                .addOnFailureListener { e ->
-                                    Log.w("HomeActivity", "Error updating user details in posts", e)
-                                }
-                        }
-                        .addOnFailureListener { e ->
-                            Log.w("HomeActivity", "Error getting user posts for update", e)
-                        }
+                            .addOnFailureListener { e ->
+                                Log.w("HomeActivity", "Error getting user posts for update", e)
+                            }
+                    } else {
+                        Log.w("HomeActivity", "User details are missing")
+                    }
                 }
             }
             .addOnFailureListener { e ->
                 Log.w("HomeActivity", "Error getting user details", e)
             }
     }
+
 }

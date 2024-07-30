@@ -1,5 +1,6 @@
 package com.example.bloodbank
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -18,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import de.hdodenhof.circleimageview.CircleImageView
+import java.util.Calendar
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -77,6 +79,10 @@ class ProfileActivity : AppCompatActivity() {
             val intent = Intent(this, HomeActivity::class.java)
             setResult(RESULT_OK) // Set result as RESULT_OK to indicate changes
             startActivity(intent)
+        }
+
+        dobEditText.setOnClickListener {
+            showDatePickerDialog()
         }
 
         changeProfilePictureButton.setOnClickListener {
@@ -200,4 +206,27 @@ class ProfileActivity : AppCompatActivity() {
                 Toast.makeText(this, "Failed to load profile data", Toast.LENGTH_SHORT).show()
             }
     }
+
+    private fun showDatePickerDialog() {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
+            val selectedDate = Calendar.getInstance()
+            selectedDate.set(selectedYear, selectedMonth, selectedDay)
+
+            if (selectedDate.after(calendar)) {
+                Toast.makeText(this, "Invalid Date of Birth", Toast.LENGTH_SHORT).show()
+            } else {
+                dobEditText.setText(getString(R.string.date_format, selectedDay, selectedMonth + 1, selectedYear))
+            }
+        }, year, month, day)
+
+        datePickerDialog.show()
+    }
 }
+
+
+
