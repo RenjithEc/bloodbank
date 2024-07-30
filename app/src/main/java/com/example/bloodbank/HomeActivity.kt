@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -23,6 +25,7 @@ class HomeActivity : AppCompatActivity() {
 
     private val REQUEST_CODE_CREATE_POST = 1
     private val REQUEST_CODE_EDIT_POST = 2
+    private val REQUEST_CODE_PROFILE_PAGE = 3
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,12 +33,6 @@ class HomeActivity : AppCompatActivity() {
 
         // Find the ImageView within the included toolbar layout
         val toolbar: Toolbar = findViewById(R.id.toolbar)
-        val logoAccount: ImageView = toolbar.findViewById(R.id.logoAccount)
-
-        logoAccount.setOnClickListener {
-            val intent = Intent(this, ProfileActivity::class.java)
-            startActivity(intent)
-        }
 
         // Initialize Firebase Auth and Firestore
         auth = FirebaseAuth.getInstance()
@@ -60,6 +57,12 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
+        val logoAccount: ImageView = toolbar.findViewById(R.id.logoAccount)
+        logoAccount.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivityForResult(intent, REQUEST_CODE_PROFILE_PAGE)
+        }
+
         // Floating Button Action
         val floatingButton: LinearLayout = findViewById(R.id.fab_with_text)
         floatingButton.setOnClickListener {
@@ -78,6 +81,9 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this, DonateActivity::class.java)
             startActivity(intent)
         }
+
+        // Check and update user details
+        checkAndUpdateUserDetails()
     }
 
     private fun fetchUserPosts(onDataFetched: (List<UserPost>) -> Unit) {
@@ -87,7 +93,25 @@ class HomeActivity : AppCompatActivity() {
             .addOnSuccessListener { result ->
                 userPosts.clear()
                 for (document in result) {
-                    val userPost = UserPost.fromMap(document.data)
+                    val data = document.data
+                    val userPost = UserPost(
+                        id = data["id"] as String,
+                        firstName = data["firstName"] as String,
+                        lastName = data["lastName"] as String,
+                        needByDate = LocalDateTime.parse(data["needByDate"] as String, DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                        bloodGroup = data["bloodGroup"] as String,
+                        city = data["city"] as String,
+                        province = data["province"] as String,
+                        country = data["country"] as String,
+                        profileImageUrl = data["profileImageUrl"] as String,
+                        description = data["description"] as String,
+                        priority = data["priority"] as String,
+                        userId = data["userId"] as String,
+                        patientAge = (data["patientAge"] as Long).toInt(),
+                        email = data["email"] as String,
+                        phone = data["phone"] as String,
+                        createdTime = LocalDateTime.parse(data["createdTime"] as String, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+                    )
                     userPosts.add(userPost)
                 }
                 // Notify the callback that data has been fetched
@@ -101,17 +125,69 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if ((requestCode == REQUEST_CODE_CREATE_POST || requestCode == REQUEST_CODE_EDIT_POST) && resultCode == RESULT_OK) {
+        if ((requestCode == REQUEST_CODE_CREATE_POST || requestCode == REQUEST_CODE_EDIT_POST || requestCode == REQUEST_CODE_PROFILE_PAGE) && resultCode == RESULT_OK) {
             // Fetch user posts again if the result indicates success
             fetchUserPosts { posts ->
                 // Initialize adapter with fetched data and logged-in user ID
                 val loggedInUserId = auth.currentUser?.uid
                 if (loggedInUserId != null) {
-                    adapter = UserPostAdapter(posts, loggedInUserId,"HomeActivity")
+                    adapter = UserPostAdapter(posts, loggedInUserId, "HomeActivity")
                     recyclerView.adapter = adapter
                 }
             }
+            // Check and update user details
+            checkAndUpdateUserDetails()
         }
+    }
+
+    private fun checkAndUpdateUserDetails() {
+        val userId = auth.currentUser?.uid ?: return
+
+        firestore.collection("users").document(userId).get()
+            .addOnSuccessListener { userDocument ->
+                val user = userDocument.data
+                if (user != null) {
+                    val userFirstName = user["firstName"] as? String
+                    val userLastName = user["lastName"] as? String
+                    val userProfilePic = user["profilePic"] as? String
+
+                    if (userFirstName != null && userLastName != null && userProfilePic != null) {
+                        firestore.collection("posts")
+                            .whereEqualTo("userId", userId)
+                            .get()
+                            .addOnSuccessListener { postsQuerySnapshot ->
+                                val batch = firestore.batch()
+                                for (postDocument in postsQuerySnapshot.documents) {
+                                    val postFirstName = postDocument.getString("firstName")
+                                    val postLastName = postDocument.getString("lastName")
+                                    val postProfilePic = postDocument.getString("profileImageUrl")
+
+                                    if (postFirstName != userFirstName || postLastName != userLastName || postProfilePic != userProfilePic) {
+                                        val postRef = postDocument.reference
+                                        batch.update(postRef, "firstName", userFirstName)
+                                        batch.update(postRef, "lastName", userLastName)
+                                        batch.update(postRef, "profileImageUrl", userProfilePic)
+                                    }
+                                }
+                                batch.commit()
+                                    .addOnSuccessListener {
+                                        Log.d("HomeActivity", "User details updated in posts")
+                                    }
+                                    .addOnFailureListener { e ->
+                                        Log.w("HomeActivity", "Error updating user details in posts", e)
+                                    }
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w("HomeActivity", "Error getting user posts for update", e)
+                            }
+                    } else {
+                        Log.w("HomeActivity", "User details are missing")
+                    }
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.w("HomeActivity", "Error getting user details", e)
+            }
     }
 
 }
