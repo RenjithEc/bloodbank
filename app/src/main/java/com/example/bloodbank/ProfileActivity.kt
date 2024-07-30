@@ -43,7 +43,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var countryEditText: EditText
     private lateinit var countryEditButton: Button
     private lateinit var isActiveSwitch: SwitchCompat
-    private var currentprofilePic: String? = ""
+    private var currentProfilePic: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,18 +59,12 @@ class ProfileActivity : AppCompatActivity() {
         firstNameEditText = findViewById(R.id.edit_first_name)
         firstNameEditButton = findViewById(R.id.edit_first_name_button)
         lastNameEditText = findViewById(R.id.edit_last_name)
-        //lastNameEditButton = findViewById(R.id.edit_last_)
         dobEditText = findViewById(R.id.edit_dob)
-        //dobEditButton = findViewById(R.id.edit_dob_button)
         phoneNumberEditText = findViewById(R.id.edit_phone_number)
-        //phoneNumberEditButton = findViewById(R.id.edit_phone_number_button)
         bloodGroupSpinner = findViewById(R.id.edit_blood_group)
         cityEditText = findViewById(R.id.edit_city)
-        //cityEditButton = findViewById(R.id.edit_city_button)
         provinceEditText = findViewById(R.id.edit_province)
-        //provinceEditButton = findViewById(R.id.edit_province_button)
         countryEditText = findViewById(R.id.edit_country)
-        //countryEditButton = findViewById(R.id.edit_country_button)
         isActiveSwitch = findViewById(R.id.isActiveSwitch)
 
         // Set up the toolbar
@@ -79,9 +73,9 @@ class ProfileActivity : AppCompatActivity() {
 
         val logoHome: ImageView = findViewById(R.id.logoHome)
 
-
         logoHome.setOnClickListener {
             val intent = Intent(this, HomeActivity::class.java)
+            setResult(RESULT_OK) // Set result as RESULT_OK to indicate changes
             startActivity(intent)
         }
 
@@ -133,8 +127,10 @@ class ProfileActivity : AppCompatActivity() {
         }.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val downloadUri = task.result
-                currentprofilePic = downloadUri.toString()
+                currentProfilePic = downloadUri.toString()
                 Glide.with(this).load(downloadUri).into(profileImageView)
+                // Save profile data with new image URL
+                saveProfileData()
             } else {
                 Toast.makeText(this, "Failed to upload image", Toast.LENGTH_SHORT).show()
             }
@@ -143,29 +139,34 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
-    private fun uploadProfileImage(imageUri: Uri) {
-        val storageRef = storage.reference.child("profile_pictures/${auth.currentUser?.uid}.jpg")
-        val uploadTask = storageRef.putFile(imageUri)
+    private fun saveProfileData() {
 
-        uploadTask.addOnSuccessListener {
-            storageRef.downloadUrl.addOnSuccessListener { uri ->
-                val profilePic = uri.toString()
-                saveprofilePic(profilePic)
-            }
-        }.addOnFailureListener {
-            Toast.makeText(this, "Failed to upload image", Toast.LENGTH_SHORT).show()
-        }
-    }
+        val user = auth.currentUser ?: return
+        val userRef = firestore.collection("users").document(user.uid)
 
-    private fun saveprofilePic(url: String) {
-        val userDocRef = firestore.collection("users").document(auth.currentUser!!.uid)
-        userDocRef.update("profilePic", url)
+        val profileData = hashMapOf(
+            "firstName" to firstNameEditText.text.toString(),
+            "lastName" to lastNameEditText.text.toString(),
+            "dob" to dobEditText.text.toString(),
+            "phoneNumber" to phoneNumberEditText.text.toString(),
+            "bloodGroup" to bloodGroupSpinner.selectedItem.toString(),
+            "city" to cityEditText.text.toString(),
+            "email" to auth.currentUser?.email,
+            "id" to auth.currentUser?.uid,
+            "province" to provinceEditText.text.toString(),
+            "country" to countryEditText.text.toString(),
+            "isActive" to isActiveSwitch.isChecked,
+            "profilePic" to currentProfilePic.orEmpty() // Ensure currentProfilePic is not null
+        )
+
+        userRef.set(profileData)
             .addOnSuccessListener {
-                Toast.makeText(this, "Profile picture updated", Toast.LENGTH_SHORT).show()
-                Glide.with(this).load(url).into(profileImageView)
+                Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show()
+                setResult(RESULT_OK) // Set result as RESULT_OK to indicate changes
+                finish() // Close the activity
             }
             .addOnFailureListener {
-                Toast.makeText(this, "Failed to update profile picture", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Failed to update profile", Toast.LENGTH_SHORT).show()
             }
     }
 
@@ -190,6 +191,7 @@ class ProfileActivity : AppCompatActivity() {
 
                 val profilePic = document.getString("profilePic")
                 if (!profilePic.isNullOrEmpty()) {
+                    currentProfilePic = profilePic
                     Glide.with(this).load(profilePic).into(profileImageView)
                 }
             }
@@ -197,63 +199,5 @@ class ProfileActivity : AppCompatActivity() {
             .addOnFailureListener {
                 Toast.makeText(this, "Failed to load profile data", Toast.LENGTH_SHORT).show()
             }
-
     }
-    private fun loadProfileData1() {
-        val userDocRef = firestore.collection("users").document(auth.currentUser!!.uid)
-        userDocRef.get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    firstNameEditText.setText(document.getString("firstName"))
-                    lastNameEditText.setText(document.getString("lastName"))
-                    dobEditText.setText(document.getString("dob"))
-                    phoneNumberEditText.setText(document.getString("phoneNumber"))
-                    cityEditText.setText(document.getString("city"))
-                    provinceEditText.setText(document.getString("province"))
-                    countryEditText.setText(document.getString("country"))
-                    val bloodGroup = document.getString("bloodGroup")
-                    val bloodGroupIndex =
-                        resources.getStringArray(R.array.allBloodGroups).indexOf(bloodGroup)
-                    bloodGroupSpinner.setSelection(bloodGroupIndex)
-
-                    val profilePic = document.getString("profilePic")
-                    if (!profilePic.isNullOrEmpty()) {
-                        Glide.with(this).load(profilePic).into(profileImageView)
-                    }
-                }
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Failed to load profile data", Toast.LENGTH_SHORT).show()
-            }
-    }
-
-    private fun saveProfileData() {
-
-        val user = auth.currentUser ?: return
-        val userRef = firestore.collection("users").document(user.uid)
-
-        val profileData = hashMapOf(
-            "firstName" to firstNameEditText.text.toString(),
-            "lastName" to lastNameEditText.text.toString(),
-            "dob" to dobEditText.text.toString(),
-            "phoneNumber" to phoneNumberEditText.text.toString(),
-            "bloodGroup" to bloodGroupSpinner.selectedItem.toString(),
-            "city" to cityEditText.text.toString(),
-            "email" to auth.currentUser?.email,
-            "id" to auth.currentUser?.uid,
-            "province" to provinceEditText.text.toString(),
-            "country" to countryEditText.text.toString(),
-            "isActive" to isActiveSwitch.isChecked,
-            "profilePic" to currentprofilePic
-        )
-
-        userRef.set(profileData)
-            .addOnSuccessListener {
-                Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show()
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Failed to update profile", Toast.LENGTH_SHORT).show()
-            }
-    }
-
 }
