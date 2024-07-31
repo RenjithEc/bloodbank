@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -101,6 +102,24 @@ class ProfileActivity : AppCompatActivity() {
 
         // Load existing profile data, including profile picture, from Firestore
         loadProfileData()
+
+       /* // Set custom adapter for the spinner
+        val adapter = ArrayAdapter.createFromResource(
+            this,
+            R.array.allBloodGroups,
+            android.R.layout.simple_spinner_item
+        )
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        bloodGroupSpinner.adapter = adapter*/
+
+        // Set custom adapter for the spinner
+        val adapter = ArrayAdapter.createFromResource(
+            this,
+            R.array.allBloodGroups,
+            R.layout.spinner_item
+        )
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        bloodGroupSpinner.adapter = adapter
     }
 
     private fun pickImage() {
