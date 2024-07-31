@@ -4,12 +4,14 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -30,6 +32,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var profileImageView: CircleImageView
     private lateinit var changeProfilePictureButton: Button
     private lateinit var saveButton: Button
+    private lateinit var firstNameTextView: TextView
     private lateinit var firstNameEditText: EditText
     private lateinit var firstNameEditButton: ImageButton
     private lateinit var lastNameEditText: EditText
@@ -59,8 +62,11 @@ class ProfileActivity : AppCompatActivity() {
         profileImageView = findViewById(R.id.profileImageView)
         changeProfilePictureButton = findViewById(R.id.changeProfilePictureButton)
         saveButton = findViewById(R.id.save_button)
+
+        firstNameTextView = findViewById(R.id.text_first_name)
         firstNameEditText = findViewById(R.id.edit_first_name)
         firstNameEditButton = findViewById(R.id.edit_first_name_button)
+
         lastNameEditText = findViewById(R.id.edit_last_name)
         dobEditText = findViewById(R.id.edit_dob)
         phoneNumberEditText = findViewById(R.id.edit_phone_number)
@@ -97,20 +103,15 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         firstNameEditButton.setOnClickListener {
-            firstNameEditText.isEnabled = true
+            firstNameEditText.setText(firstNameTextView.text.toString())
+            firstNameTextView.visibility = View.GONE
+            firstNameEditText.visibility = View.VISIBLE
+            firstNameEditText.requestFocus()
         }
 
         // Load existing profile data, including profile picture, from Firestore
         loadProfileData()
 
-       /* // Set custom adapter for the spinner
-        val adapter = ArrayAdapter.createFromResource(
-            this,
-            R.array.allBloodGroups,
-            android.R.layout.simple_spinner_item
-        )
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-        bloodGroupSpinner.adapter = adapter*/
 
         // Set custom adapter for the spinner
         val adapter = ArrayAdapter.createFromResource(
@@ -188,6 +189,10 @@ class ProfileActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show()
                 setResult(RESULT_OK) // Set result as RESULT_OK to indicate changes
+                // Update the TextView and hide the EditText
+                firstNameTextView.text = firstNameEditText.text.toString()
+                firstNameTextView.visibility = View.VISIBLE
+                firstNameEditText.visibility = View.GONE
                 finish() // Close the activity
             }
             .addOnFailureListener {
@@ -201,6 +206,7 @@ class ProfileActivity : AppCompatActivity() {
 
         userRef.get().addOnSuccessListener { document ->
             if (document != null) {
+                firstNameTextView.text = document.getString("firstName")
                 firstNameEditText.setText(document.getString("firstName"))
                 lastNameEditText.setText(document.getString("lastName"))
                 dobEditText.setText(document.getString("dob"))

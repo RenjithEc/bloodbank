@@ -52,30 +52,30 @@
                 android:weightSum="5">
 
                 <TextView
-                    android:id="@+id/firstNameTV"
+                    android:id="@+id/text_first_name"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
-                    android:gravity="center"
-                    android:layout_weight="1.5"
+                    android:layout_gravity="center"
+                    android:layout_weight="4.8"
                     android:backgroundTint="@color/halfWhite"
-                    android:autofillHints="@string/firstTimeUserHint_FName"
-                    android:text="@string/firstTimeUserHint_FName"
-                    android:textAlignment="gravity"
                     android:textColor="@color/redLight"
-                    android:textColorHint="@color/redLight50"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:visibility="visible" />
 
                 <EditText
                     android:id="@+id/edit_first_name"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_gravity="center"
-                    android:layout_weight="3.5"
+                    android:layout_weight="4.8"
                     android:autofillHints="@string/firstTimeUserHint_FName"
+                    android:hint="@string/firstTimeUserHint_FName"
                     android:backgroundTint="@color/halfWhite"
+                    android:inputType="text"
                     android:textColor="@color/redLight"
                     android:textColorHint="@color/redLight50"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:visibility="gone" />
 
                 <ImageButton
                     android:id="@+id/edit_first_name_button"
@@ -84,6 +84,7 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@string/edit"
                     android:gravity="center"
+                    android:layout_marginStart="20dp"
                     android:src="@drawable/ic_edit"
                     android:tooltipText="@string/edit" />
 
