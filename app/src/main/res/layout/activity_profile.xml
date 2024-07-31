@@ -42,6 +42,7 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/changeProfilePic" />
 
+            <!-- Linear Layout for First Name -->
             <LinearLayout
                 android:layout_width="340dp"
                 android:layout_height="48dp"
@@ -91,7 +92,56 @@
 
             </LinearLayout>
 
-            <EditText
+            <!-- Similar LinearLayout for Last Name -->
+            <LinearLayout
+                android:layout_width="340dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:textAlignment="gravity"
+                android:weightSum="5">
+
+                <TextView
+                    android:id="@+id/text_last_name"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="4.8"
+                    android:backgroundTint="@color/halfWhite"
+                    android:textColor="@color/redLight"
+                    android:textSize="15sp"
+                    android:visibility="visible" />
+
+                <EditText
+                    android:id="@+id/edit_last_name"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="4.8"
+                    android:backgroundTint="@color/halfWhite"
+                    android:hint="@string/firstTimeUserHint_LName"
+                    android:textColor="@color/redLight"
+                    android:textColorHint="@color/redLight50"
+                    android:textSize="15sp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/edit_first_name"/>
+
+                <ImageButton
+                    android:id="@+id/edit_last_name_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/edit"
+                    android:gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/ic_edit"
+                    android:tooltipText="@string/edit" />
+            </LinearLayout>
+
+            <!--<EditText
                 android:id="@+id/edit_last_name"
                 android:layout_width="340dp"
                 android:layout_height="48dp"
@@ -104,9 +154,63 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_first_name" />
+                app:layout_constraintTop_toBottomOf="@id/edit_first_name" />-->
 
-            <EditText
+            <!-- Linear Layout for DOB-->
+
+            <LinearLayout
+                android:layout_width="340dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:textAlignment="gravity"
+                android:weightSum="5">
+
+                <TextView
+                    android:id="@+id/text_dob"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="4.8"
+                    android:backgroundTint="@color/halfWhite"
+                    android:textColor="@color/redLight"
+                    android:textSize="15sp"
+                    android:visibility="visible" />
+
+                <EditText
+                    android:id="@+id/edit_dob"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="4.8"
+                    android:autofillHints="@string/firstTimeUserHint_DOB"
+                    android:hint="@string/firstTimeUserHint_DOB"
+                    android:backgroundTint="@color/halfWhite"
+                    android:textColor="@color/redLight"
+                    android:textColorHint="@color/redLight50"
+                    android:textSize="15sp"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:inputType="none"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/edit_last_name"/>
+
+                <ImageButton
+                    android:id="@+id/edit_dob_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/edit"
+                    android:gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/ic_edit"
+                    android:tooltipText="@string/edit" />
+            </LinearLayout>
+
+            <!--<EditText
                 android:id="@+id/edit_dob"
                 android:layout_width="340dp"
                 android:layout_height="48dp"
@@ -123,11 +227,59 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_last_name" />
+                app:layout_constraintTop_toBottomOf="@id/edit_last_name" />-->
 
 
+            <!-- Linear Layout for Phone Number -->
+            <LinearLayout
+                android:layout_width="340dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:textAlignment="gravity"
+                android:weightSum="5">
 
-            <EditText
+                <TextView
+                    android:id="@+id/text_phone_number"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="4.8"
+                    android:backgroundTint="@color/halfWhite"
+                    android:textColor="@color/redLight"
+                    android:textSize="15sp"
+                    android:visibility="visible" />
+
+                <EditText
+                    android:id="@+id/edit_phone_number"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="4.8"
+                    android:backgroundTint="@color/halfWhite"
+                    android:hint="@string/firstTimeUserHint_Phone"
+                    android:textColor="@color/redLight"
+                    android:textColorHint="@color/redLight50"
+                    android:textSize="15sp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/edit_dob"/>
+
+                <ImageButton
+                    android:id="@+id/edit_phone_number_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/edit"
+                    android:gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/ic_edit"
+                    android:tooltipText="@string/edit" />
+            </LinearLayout>
+
+            <!--<EditText
                 android:id="@+id/edit_phone_number"
                 android:layout_width="340dp"
                 android:layout_height="48dp"
@@ -140,7 +292,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_dob" />
+                app:layout_constraintTop_toBottomOf="@id/edit_dob" />-->
 
             <Spinner
                 android:id="@+id/edit_blood_group"
@@ -156,7 +308,56 @@
                 app:layout_constraintTop_toBottomOf="@id/edit_phone_number" />
 
 
-            <EditText
+            <!-- Linear Layout for Phone Number -->
+            <LinearLayout
+                android:layout_width="340dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:textAlignment="gravity"
+                android:weightSum="5">
+
+                <TextView
+                    android:id="@+id/text_city"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="4.8"
+                    android:backgroundTint="@color/halfWhite"
+                    android:textColor="@color/redLight"
+                    android:textSize="15sp"
+                    android:visibility="visible" />
+
+                <EditText
+                    android:id="@+id/edit_city"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="4.8"
+                    android:backgroundTint="@color/halfWhite"
+                    android:hint="@string/firstTimeUserHint_City"
+                    android:textColor="@color/redLight"
+                    android:textColorHint="@color/redLight50"
+                    android:textSize="15sp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/edit_blood_group" />
+
+                <ImageButton
+                    android:id="@+id/edit_city_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/edit"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/ic_edit"
+                    android:tooltipText="@string/edit" />
+            </LinearLayout>
+
+            <!--<EditText
                 android:id="@+id/edit_city"
                 android:layout_width="340dp"
                 android:layout_height="48dp"
@@ -169,9 +370,58 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_blood_group" />
+                app:layout_constraintTop_toBottomOf="@id/edit_blood_group" />-->
 
-            <EditText
+            <!-- Linear Layout for Phone Number -->
+            <LinearLayout
+                android:layout_width="340dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:textAlignment="gravity"
+                android:weightSum="5">
+
+                <TextView
+                    android:id="@+id/text_province"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="4.8"
+                    android:backgroundTint="@color/halfWhite"
+                    android:textColor="@color/redLight"
+                    android:textSize="15sp"
+                    android:visibility="visible" />
+
+                <EditText
+                    android:id="@+id/edit_province"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="4.8"
+                    android:backgroundTint="@color/halfWhite"
+                    android:hint="@string/firstTimeUserHint_City"
+                    android:textColor="@color/redLight"
+                    android:textColorHint="@color/redLight50"
+                    android:textSize="15sp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/edit_city" />
+
+                <ImageButton
+                    android:id="@+id/edit_province_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/edit"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/ic_edit"
+                    android:tooltipText="@string/edit" />
+            </LinearLayout>
+
+            <!--<EditText
                 android:id="@+id/edit_province"
                 android:layout_width="340dp"
                 android:layout_height="48dp"
@@ -186,9 +436,57 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_city" />
+                app:layout_constraintTop_toBottomOf="@id/edit_city" />-->
 
-            <EditText
+            <!-- Linear Layout for Country -->
+            <LinearLayout
+                android:layout_width="340dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:textAlignment="gravity"
+                android:weightSum="5">
+
+                <TextView
+                    android:id="@+id/text_country"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="4.8"
+                    android:backgroundTint="@color/halfWhite"
+                    android:textColor="@color/redLight"
+                    android:textSize="15sp"
+                    android:visibility="visible" />
+
+                <EditText
+                    android:id="@+id/edit_country"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="4.8"
+                    android:backgroundTint="@color/halfWhite"
+                    android:hint="@string/firstTimeUserHint_City"
+                    android:textColor="@color/redLight"
+                    android:textColorHint="@color/redLight50"
+                    android:textSize="15sp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/edit_province"/>
+
+                <ImageButton
+                    android:id="@+id/edit_country_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/edit"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/ic_edit"
+                    android:tooltipText="@string/edit" />
+            </LinearLayout>
+            <!--<EditText
                 android:id="@+id/edit_country"
                 android:layout_width="340dp"
                 android:layout_height="48dp"
@@ -201,7 +499,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_province" />
+                app:layout_constraintTop_toBottomOf="@id/edit_province" />-->
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/isActiveSwitch"
