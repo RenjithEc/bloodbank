@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import UserAdapter
 import android.content.Intent
 import android.widget.ImageView
 import com.google.firebase.firestore.FirebaseFirestore
@@ -78,6 +77,8 @@ class ReceiveActivity : AppCompatActivity() {
             val intent = Intent(this,HomeActivity::class.java)
             startActivity(intent)
         }
+
+
     }
 
     private fun fetchUsers(onDataFetched: (List<User>) -> Unit) {

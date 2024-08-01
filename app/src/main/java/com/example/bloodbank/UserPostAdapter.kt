@@ -1,8 +1,10 @@
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.core.content.ContextCompat
@@ -14,9 +16,8 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import com.example.bloodbank.DeletePostActivity
+import com.example.bloodbank.DetailedUserPostActivity
 import com.example.bloodbank.EditPostHelper
-import com.example.bloodbank.HomeActivity
-import com.squareup.picasso.Picasso
 
 class UserPostAdapter(private val userList: List<UserPost>, private val loggedInUserId: String, private val fromPage: String) : RecyclerView.Adapter<UserPostAdapter.UserViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
@@ -42,8 +43,8 @@ class UserPostAdapter(private val userList: List<UserPost>, private val loggedIn
 
         @SuppressLint("SetTextI18n")
         fun bind(user: UserPost, loggedInUserId: String) {
-            nameTextView.text = "${user.firstName} ${user.lastName} -"
-            bloodGroupTextView.text = user.bloodGroup
+            nameTextView.text = "${user.firstName} ${user.lastName}"
+            bloodGroupTextView.text = "Type: ${user.bloodGroup}"
             descriptionTextView.text = user.description
             priorityTextView.text = "Priority: ${user.priority}"
             cityTextView.text = user.city
@@ -79,6 +80,28 @@ class UserPostAdapter(private val userList: List<UserPost>, private val loggedIn
             } else {
                 seeMore.visibility = View.GONE
             }
+            itemView.setOnClickListener {
+                Log.d("UserAdapter", "Item clicked: ${user.firstName} ${user.lastName}")
+                val context = it.context
+                val intent = Intent(context, DetailedUserPostActivity::class.java).apply {
+                    putExtra("firstName", user.firstName)
+                    putExtra("lastName", user.lastName)
+                    putExtra("bloodGroup", user.bloodGroup)
+                    putExtra("city", user.city)
+                    putExtra("province", user.province)
+                    putExtra("country", user.country)
+                    putExtra("email", user.email)
+                    putExtra("phoneNumber", user.phone)
+                    putExtra("profilePic", user.profileImageUrl)
+                    putExtra("needByDate", user.needByDate)
+                    putExtra("description",user.description)
+                    putExtra("priority", priorityTextView.text)
+                    putExtra("needByDate",needByDateTime.toString())
+                }
+                context.startActivity(intent)
+              }
+
+
         }
 
         private fun showCustomPopupMenu(anchor: View, context: Context, user: UserPost) {
@@ -97,7 +120,7 @@ class UserPostAdapter(private val userList: List<UserPost>, private val loggedIn
 
             val editTextView = TextView(context).apply {
                 text = context.getString(R.string.editPostPopUp)
-                textSize = 13f
+                textSize = 14f
                 setTextColor(Color.parseColor("#F57578"))
                 setBackgroundResource(R.drawable.card_border)
                 setPadding(42, 32, 42, 32)
@@ -106,7 +129,7 @@ class UserPostAdapter(private val userList: List<UserPost>, private val loggedIn
 
             val deleteTextView = TextView(context).apply {
                 text = context.getString(R.string.deletePostPopUp)
-                textSize = 13f
+                textSize = 14f
                 setTextColor(Color.parseColor("#F57578"))
                 setBackgroundResource(R.drawable.card_border)
                 setPadding(42, 32, 42, 32)

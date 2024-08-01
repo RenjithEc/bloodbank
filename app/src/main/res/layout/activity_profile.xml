@@ -26,7 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:ignore="MissingClass">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profileImageView"

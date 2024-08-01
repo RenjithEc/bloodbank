@@ -1,6 +1,12 @@
+package com.example.bloodbank
+
+import android.content.Intent
+import android.util.Log
 import android.view.*
 import android.widget.*
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.bloodbank.R
 import com.example.bloodbank.User
 
@@ -28,11 +34,35 @@ class UserAdapter(private val userList: MutableList<com.example.bloodbank.User>)
 
         fun bind(user: User) {
             nameTextView.text = "${user.firstName} ${user.lastName}"
-            bloodGroupTextView.text = user.bloodGroup
+            bloodGroupTextView.text = "Type: ${user.bloodGroup}"
             provinceTextView.text = user.province
 
 // Uncomment the below line when we actually get a URL for the profile pic from firebase
 //            Picasso.get().load(user.profileImageUrl).into(profileImageView)
+            if (user.profilePic.isNotEmpty()) {
+                Glide.with(itemView.context).load(user.profilePic).into(profileImageView)
+            } else {
+                profileImageView.setImageResource(R.drawable.ic_profile_placeholder) // Replace with your placeholder image resource ID
+            }
+
+            itemView.setOnClickListener {
+                Log.d("UserAdapter", "Item clicked: ${user.firstName} ${user.lastName}")
+                val context = it.context
+                val intent = Intent(context, DetailedUserProfileActivity::class.java).apply {
+                    putExtra("firstName", user.firstName)
+                    putExtra("lastName", user.lastName)
+                    putExtra("dob", user.dob)
+                    putExtra("bloodGroup", user.bloodGroup)
+                    putExtra("city", user.city)
+                    putExtra("province", user.province)
+                    putExtra("country", user.country)
+                    putExtra("email", user.email)
+                    putExtra("phoneNumber", user.phoneNumber)
+                    putExtra("isActive", user.isActive)
+                    putExtra("profilePic", user.profilePic)
+                }
+                context.startActivity(intent)
+            }
         }
     }
 }
