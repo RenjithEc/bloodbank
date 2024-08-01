@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:text="Full Name"
+                android:text="@string/fullName"
                 android:textColor="@color/halfWhite"
                 android:textSize="17sp"
                 android:textAlignment="center" />
@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Age"
+                android:text="@string/age"
                 android:textColor="@color/halfWhite"
                 android:textSize="17sp"
                 android:textAlignment="center" />
@@ -61,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Blood Group"
+                android:text="@string/bloodGroup"
                 android:textColor="@color/halfWhite"
                 android:textSize="17sp"
                 android:textAlignment="center" />
@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="City"
+                android:text="@string/city"
                 android:textColor="@color/halfWhite"
                 android:textSize="17sp"
                 android:textAlignment="center" />
@@ -81,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Province"
+                android:text="@string/provinceCountry"
                 android:textColor="@color/halfWhite"
                 android:textSize="17sp"
                 android:textAlignment="center" />
@@ -92,7 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Description"
+                android:text="@string/description"
                 android:textColor="@color/halfWhite"
                 android:textSize="17sp"
                 android:textAlignment="center" />
@@ -102,7 +102,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Priority"
+                android:text="@string/priority"
                 android:textColor="@color/halfWhite"
                 android:textSize="17sp"
                 android:textAlignment="center" />
@@ -112,7 +112,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Need By Date"
+                android:text="@string/needByDate"
                 android:textColor="@color/halfWhite"
                 android:textSize="17sp"
                 android:textAlignment="center" />
@@ -122,7 +122,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:text="Contact"
+                android:text="@string/contact"
                 android:textAlignment="center"
                 android:textColor="@color/redLight"
                 android:textSize="20sp" />
@@ -160,7 +160,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:text="Go back" />
+                android:text="@string/goBback" />
 
         </LinearLayout>
     </ScrollView>
