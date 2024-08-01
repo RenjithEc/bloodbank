@@ -1,6 +1,9 @@
 package com.example.bloodbank
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -14,7 +17,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatActivity.RESULT_OK
 import androidx.appcompat.widget.SwitchCompat
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.example.bloodbank.DetailedUserProfileActivity.Companion
+import com.example.bloodbank.DetailedUserProfileActivity.Companion.REQUEST_CALL_PERMISSION
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -36,6 +43,15 @@ class DetailedUserPost : AppCompatActivity() {
     private lateinit var emailText: TextView
     private lateinit var descriptionText: TextView
     private lateinit var priorityText: TextView
+    private lateinit var emailIcon:ImageView
+    private lateinit var messageIcon:ImageView
+    private lateinit var callIcon:ImageView
+    private lateinit var goBackButton: Button
+
+    companion object {
+        private const val REQUEST_CALL_PERMISSION = 1
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +72,10 @@ class DetailedUserPost : AppCompatActivity() {
         descriptionText = findViewById(R.id.description)
         emailText = findViewById(R.id.email)
         priorityText = findViewById(R.id.priority)
+        emailIcon= findViewById(R.id.emailIcon)
+        messageIcon = findViewById(R.id.messageIcon)
+        callIcon= findViewById(R.id.callIcon)
+        goBackButton = findViewById(R.id.goBackButton)
 
         val firstName = intent.getStringExtra("firstName") ?: ""
         val lastName = intent.getStringExtra("lastName") ?: ""
@@ -107,6 +127,52 @@ class DetailedUserPost : AppCompatActivity() {
                 .into(profileImageView)
         } else {
             profileImageView.setImageResource(R.drawable.ic_profile_placeholder)
+        }
+        emailIcon.setOnClickListener {
+            val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse("mailto:$email")
+            }
+            startActivity(Intent.createChooser(emailIntent, "Send email"))
+        }
+
+        messageIcon.setOnClickListener {
+            val messageIntent = Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse("smsto:$phoneNumber")
+                putExtra("sms_body", "Hello")
+            }
+            startActivity(messageIntent)
+        }
+
+        callIcon.setOnClickListener {
+            makePhoneCall(phoneNumber)
+        }
+
+        goBackButton.setOnClickListener{
+            finish()
+        }
+    }
+
+    private fun makePhoneCall(phoneNumber: String) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CALL_PHONE), REQUEST_CALL_PERMISSION)
+        } else {
+            val callIntent = Intent(Intent.ACTION_DIAL).apply {
+                data = Uri.parse("tel:$phoneNumber")
+            }
+            startActivity(callIntent)
+        }
+    }
+
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == DetailedUserProfileActivity.REQUEST_CALL_PERMISSION) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                val phoneNumber = intent.getStringExtra("phoneNumber") ?: ""
+                makePhoneCall(phoneNumber)
+            } else {
+                Log.e("DetailedUserProfile", "CALL_PHONE permission denied")
+            }
         }
     }
 

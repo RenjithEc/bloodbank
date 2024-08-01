@@ -20,7 +20,7 @@ import java.time.format.DateTimeParseException
 class DetailedUserProfileActivity : AppCompatActivity() {
 
     companion object {
-        private const val REQUEST_CALL_PERMISSION = 1
+        const val REQUEST_CALL_PERMISSION = 1
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
