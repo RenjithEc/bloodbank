@@ -1,7 +1,7 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:padding="12dp"
     android:background="@drawable/card_border"
@@ -9,42 +9,42 @@
     android:layout_marginRight="18dp"
     android:layout_marginBottom="15dp">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profileImageView"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/ic_profile_placeholder"
+        android:layout_width="51dp"
+        android:layout_height="50dp"
         android:scaleType="centerCrop"
-        android:layout_marginEnd="10dp"/>
+        android:src="@drawable/ic_profile_placeholder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="302dp"
+        android:layout_height="77dp"
+        android:layout_gravity="center_vertical"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:layout_gravity="center_vertical">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/nameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/halfWhite"
             android:text="@string/userCardName"
-            />
+            android:textColor="@color/halfWhite" />
 
         <TextView
             android:id="@+id/bloodGroupTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/redLight"
-            android:text="@string/userCardBloodGroup"/>
+            android:text="@string/userCardBloodGroup"
+            android:textColor="@color/redLight" />
 
         <TextView
             android:id="@+id/provinceTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/halfWhite"
-            android:text="@string/userCardProvince"/>
+            android:text="@string/userCardProvince"
+            android:textColor="@color/halfWhite" />
     </LinearLayout>
 
 </LinearLayout>
