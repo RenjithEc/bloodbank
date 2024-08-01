@@ -18,6 +18,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import de.hdodenhof.circleimageview.CircleImageView
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class DetailedUserPostActivity : AppCompatActivity() {
 
@@ -29,8 +31,7 @@ class DetailedUserPostActivity : AppCompatActivity() {
     private lateinit var phoneNumberText: TextView
     private lateinit var bloodGroupText: TextView
     private lateinit var cityText: TextView
-    private lateinit var provinceText: TextView
-    private lateinit var countryText: TextView
+    private lateinit var provinceCountryText: TextView
     private lateinit var needByText: TextView
     private lateinit var emailText: TextView
     private lateinit var descriptionText: TextView
@@ -38,6 +39,7 @@ class DetailedUserPostActivity : AppCompatActivity() {
     private lateinit var emailIcon:ImageView
     private lateinit var messageIcon:ImageView
     private lateinit var callIcon:ImageView
+    private lateinit var ageText: TextView
     private lateinit var goBackButton: Button
 
     companion object {
@@ -55,19 +57,17 @@ class DetailedUserPostActivity : AppCompatActivity() {
 
         profileImageView = findViewById(R.id.profileImageView)
         fullNameText = findViewById(R.id.fullName)
-        phoneNumberText = findViewById(R.id.phoneNumber)
         bloodGroupText = findViewById(R.id.bloodGroup)
         cityText = findViewById(R.id.city)
-        provinceText = findViewById(R.id.province)
-        countryText = findViewById(R.id.country)
+        provinceCountryText = findViewById(R.id.province_country)
         needByText = findViewById(R.id.needByDate)
         descriptionText = findViewById(R.id.description)
-        emailText = findViewById(R.id.email)
         priorityText = findViewById(R.id.priority)
         emailIcon= findViewById(R.id.emailIcon)
         messageIcon = findViewById(R.id.messageIcon)
         callIcon= findViewById(R.id.callIcon)
         goBackButton = findViewById(R.id.goBackButton)
+        ageText = findViewById(R.id.age)
 
         val firstName = intent.getStringExtra("firstName") ?: ""
         val lastName = intent.getStringExtra("lastName") ?: ""
@@ -81,18 +81,18 @@ class DetailedUserPostActivity : AppCompatActivity() {
         val description = intent.getStringExtra("description") ?: ""
         val priority = intent.getStringExtra("priority") ?: ""
         val needByDate = intent.getStringExtra("needByDate") ?: ""
+        val age = intent.getStringExtra("age") ?: ""
 
 
         fullNameText.text = "$firstName $lastName"
-        phoneNumberText.text = phoneNumber
-        bloodGroupText.text =  bloodGroup
-        provinceText.text = province
+
+        bloodGroupText.text =  "Type: $bloodGroup"
+        provinceCountryText.text = "$province, $country"
         cityText.text = city
-        countryText.text = country
         descriptionText.text = description
-        emailText.text = email
         priorityText.text = priority
-        needByText.text = needByDate
+        needByText.text = "Need By: ${formatDate(needByDate)}"
+        ageText.text = "${age} years old"
 
         // Set up the toolbar
         val toolbar: Toolbar = findViewById(R.id.toolbar)
@@ -150,6 +150,31 @@ class DetailedUserPostActivity : AppCompatActivity() {
                 data = Uri.parse("tel:$phoneNumber")
             }
             startActivity(callIntent)
+        }
+    }
+
+    private fun formatDate(dateString: String): String {
+        return try {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val date = inputFormat.parse(dateString)
+
+            val dayFormat = SimpleDateFormat("d", Locale.getDefault())
+            val dayWithSuffix = dayFormat.format(date).toInt().let { day ->
+                when {
+                    day in 11..13 -> "${day}th"
+                    day % 10 == 1 -> "${day}st"
+                    day % 10 == 2 -> "${day}nd"
+                    day % 10 == 3 -> "${day}rd"
+                    else -> "${day}th"
+                }
+            }
+
+            val outputFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
+            val monthYear = outputFormat.format(date)
+
+            "$dayWithSuffix $monthYear"
+        } catch (e: Exception) {
+            dateString
         }
     }
 

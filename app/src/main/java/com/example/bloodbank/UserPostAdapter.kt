@@ -97,6 +97,7 @@ class UserPostAdapter(private val userList: List<UserPost>, private val loggedIn
                     putExtra("description",user.description)
                     putExtra("priority", priorityTextView.text)
                     putExtra("needByDate",needByDateTime.toString())
+                    putExtra("age", user.patientAge.toString())
                 }
                 context.startActivity(intent)
               }
