@@ -77,6 +77,7 @@ class ProfileActivity : AppCompatActivity() {
         profileImageView = findViewById(R.id.profileImageView)
         changeProfilePictureButton = findViewById(R.id.changeProfilePictureButton)
         saveButton = findViewById(R.id.save_button)
+        val logoutButton : Button = findViewById(R.id.logout_button)
 
         firstNameTextView = findViewById(R.id.text_first_name)
         firstNameEditText = findViewById(R.id.edit_first_name)
@@ -117,9 +118,8 @@ class ProfileActivity : AppCompatActivity() {
         val logoHome: ImageView = findViewById(R.id.logoHome)
 
         logoHome.setOnClickListener {
-            val intent = Intent(this, HomeActivity::class.java)
             setResult(RESULT_OK) // Set result as RESULT_OK to indicate changes
-            startActivity(intent)
+            finish()
         }
 
 
@@ -164,7 +164,15 @@ class ProfileActivity : AppCompatActivity() {
 
         saveButton.setOnClickListener {
             // Save changes to Firestore
-            saveProfileData()
+            saveProfileData(false)
+        }
+
+        logoutButton.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            val intent = Intent(this, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
         }
 
 
@@ -226,7 +234,7 @@ class ProfileActivity : AppCompatActivity() {
                 currentProfilePic = downloadUri.toString()
                 Glide.with(this).load(downloadUri).into(profileImageView)
                 // Save profile data with new image URL
-                saveProfileData()
+                saveProfileData(true)
             } else {
                 Toast.makeText(this, "Failed to upload image", Toast.LENGTH_SHORT).show()
             }
@@ -235,7 +243,7 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveProfileData() {
+    private fun saveProfileData(isProfilePicUpdate: Boolean) {
 
         val user = auth.currentUser ?: return
         val userRef = firestore.collection("users").document(user.uid)
@@ -258,8 +266,10 @@ class ProfileActivity : AppCompatActivity() {
         userRef.set(profileData)
             .addOnSuccessListener {
                 Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show()
-                setResult(RESULT_OK) // Set result as RESULT_OK to indicate changes
-                finish() // Close the activity
+                if(!isProfilePicUpdate){
+                    setResult(RESULT_OK) // Set result as RESULT_OK to indicate changes
+                    finish() // Close the activity
+                }
             }
             .addOnFailureListener {
                 Toast.makeText(this, "Failed to update profile", Toast.LENGTH_SHORT).show()

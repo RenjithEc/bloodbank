@@ -23,9 +23,8 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var adapter: UserPostAdapter
     private lateinit var recyclerView: RecyclerView
 
-    private val REQUEST_CODE_CREATE_POST = 1
-    private val REQUEST_CODE_EDIT_POST = 2
-    private val REQUEST_CODE_PROFILE_PAGE = 3
+    private val REQUEST_CODE_UPDATE_POST = 1
+    private val REQUEST_CODE_UPDATE_USER = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,14 +59,14 @@ class HomeActivity : AppCompatActivity() {
         val logoAccount: ImageView = toolbar.findViewById(R.id.logoAccount)
         logoAccount.setOnClickListener {
             val intent = Intent(this, ProfileActivity::class.java)
-            startActivityForResult(intent, REQUEST_CODE_PROFILE_PAGE)
+            startActivityForResult(intent, REQUEST_CODE_UPDATE_USER)
         }
 
         // Floating Button Action
         val floatingButton: LinearLayout = findViewById(R.id.fab_with_text)
         floatingButton.setOnClickListener {
             val intent = Intent(this, CreatePostActivity::class.java)
-            startActivityForResult(intent, REQUEST_CODE_CREATE_POST)
+            startActivityForResult(intent, REQUEST_CODE_UPDATE_POST)
         }
 
         val receiveBtn: Button = findViewById(R.id.receiveBtnHome)
@@ -83,7 +82,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         // Check and update user details
-        checkAndUpdateUserDetails()
+//        checkAndUpdateUserDetails()
     }
 
     private fun fetchUserPosts(onDataFetched: (List<UserPost>) -> Unit) {
@@ -94,24 +93,7 @@ class HomeActivity : AppCompatActivity() {
                 userPosts.clear()
                 for (document in result) {
                     val data = document.data
-                    val userPost = UserPost(
-                        id = data["id"] as String,
-                        firstName = data["firstName"] as String,
-                        lastName = data["lastName"] as String,
-                        needByDate = LocalDateTime.parse(data["needByDate"] as String, DateTimeFormatter.ISO_LOCAL_DATE_TIME),
-                        bloodGroup = data["bloodGroup"] as String,
-                        city = data["city"] as String,
-                        province = data["province"] as String,
-                        country = data["country"] as String,
-                        profileImageUrl = data["profileImageUrl"] as String,
-                        description = data["description"] as String,
-                        priority = data["priority"] as String,
-                        userId = data["userId"] as String,
-                        patientAge = (data["patientAge"] as Long).toInt(),
-                        email = data["email"] as String,
-                        phone = data["phone"] as String,
-                        createdTime = LocalDateTime.parse(data["createdTime"] as String, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-                    )
+                    val userPost = UserPost.fromMap(data)
                     userPosts.add(userPost)
                 }
                 // Notify the callback that data has been fetched
@@ -125,7 +107,8 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if ((requestCode == REQUEST_CODE_CREATE_POST || requestCode == REQUEST_CODE_EDIT_POST || requestCode == REQUEST_CODE_PROFILE_PAGE) && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_CODE_UPDATE_POST && resultCode == RESULT_OK) {
+            Log.d("HomeActivity", "Return from REQUEST_CODE_UPDATE_POST")
             // Fetch user posts again if the result indicates success
             fetchUserPosts { posts ->
                 // Initialize adapter with fetched data and logged-in user ID
@@ -135,12 +118,26 @@ class HomeActivity : AppCompatActivity() {
                     recyclerView.adapter = adapter
                 }
             }
+
+        } else if (requestCode == REQUEST_CODE_UPDATE_USER && resultCode == RESULT_OK){
+            Log.d("HomeActivity", "Return from REQUEST_CODE_UPDATE_USER")
             // Check and update user details
-            checkAndUpdateUserDetails()
+            checkAndUpdateUserDetails{ value ->
+                if(value){
+                    fetchUserPosts { posts ->
+                        // Initialize adapter with fetched data and logged-in user ID
+                        val loggedInUserId = auth.currentUser?.uid
+                        if (loggedInUserId != null) {
+                            adapter = UserPostAdapter(posts, loggedInUserId, "HomeActivity")
+                            recyclerView.adapter = adapter
+                        }
+                    }
+                }
+            }
         }
     }
 
-    private fun checkAndUpdateUserDetails() {
+    private fun checkAndUpdateUserDetails(onDataUpdated: (value : Boolean) -> Unit) {
         val userId = auth.currentUser?.uid ?: return
 
         firestore.collection("users").document(userId).get()
@@ -172,22 +169,26 @@ class HomeActivity : AppCompatActivity() {
                                 batch.commit()
                                     .addOnSuccessListener {
                                         Log.d("HomeActivity", "User details updated in posts")
+                                        onDataUpdated(true)
                                     }
                                     .addOnFailureListener { e ->
                                         Log.w("HomeActivity", "Error updating user details in posts", e)
+                                        onDataUpdated(false)
                                     }
                             }
                             .addOnFailureListener { e ->
                                 Log.w("HomeActivity", "Error getting user posts for update", e)
+                                onDataUpdated(false)
                             }
                     } else {
                         Log.w("HomeActivity", "User details are missing")
+                        onDataUpdated(false)
                     }
                 }
             }
             .addOnFailureListener { e ->
                 Log.w("HomeActivity", "Error getting user details", e)
+                onDataUpdated(false)
             }
     }
-
 }
