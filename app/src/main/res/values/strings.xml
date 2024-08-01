@@ -113,5 +113,12 @@
     <string name="deleteDialogTitle">Delete Post</string>
     <string name="deleteDialogText">Are you sure you want to delete this post?</string>
 
+    <!-- Detailed User Profile -->
+    <string name="activeDonor">Active Donor</string>
+    <string name="fullName">Full Name</string>
+    <string name="age">Age</string>
+    <string name="provinceCountry">Province, Country</string>
+    <string name="contact">Contact</string>
+
 
 </resources>

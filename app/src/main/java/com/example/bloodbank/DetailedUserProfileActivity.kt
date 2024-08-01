@@ -50,9 +50,9 @@ class DetailedUserProfileActivity : AppCompatActivity() {
         val nameTextView: TextView = findViewById(R.id.userFullName)
         val ageTextView: TextView = findViewById(R.id.userAge)
         val bloodGroupTextView: TextView = findViewById(R.id.bloodGroup)
-        val provinceTextView: TextView = findViewById(R.id.userProvince)
+        val provinceTextView: TextView = findViewById(R.id.userProvinceCountry)
         val cityTextView: TextView = findViewById(R.id.userCity)
-        val countryTextView: TextView = findViewById(R.id.userCountry)
+        //val countryTextView: TextView = findViewById(R.id.userCountry)
         val emailIcon: ImageView = findViewById(R.id.emailIcon)
         val messageIcon: ImageView = findViewById(R.id.messageIcon)
         val callIcon: ImageView = findViewById(R.id.callIcon)
@@ -71,14 +71,15 @@ class DetailedUserProfileActivity : AppCompatActivity() {
         val profilePic = intent.getStringExtra("profilePic") ?: ""
 
         nameTextView.text = "$firstName $lastName"
-        bloodGroupTextView.text = bloodGroup
-        provinceTextView.text = province
+        val type = "Type: "
+        bloodGroupTextView.text = "$type $bloodGroup"
+        provinceTextView.text = "$province, $country"
         cityTextView.text = city
-        countryTextView.text = country
+        //countryTextView.text = country
 
         val age = calculateAge(dob)
         val stringAge = age.toString()
-        val years = "years"
+        val years = "years old"
         ageTextView.text = "$stringAge $years"
 
         activeDonor.text = if (isActive) "Active Donor" else "Inactive"
