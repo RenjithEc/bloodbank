@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.ImageView
 import android.widget.TextView
@@ -55,6 +56,7 @@ class DetailedUserProfileActivity : AppCompatActivity() {
         val emailIcon: ImageView = findViewById(R.id.emailIcon)
         val messageIcon: ImageView = findViewById(R.id.messageIcon)
         val callIcon: ImageView = findViewById(R.id.callIcon)
+        val backBtn: Button = findViewById(R.id.backBtn)
 
         val firstName = intent.getStringExtra("firstName") ?: ""
         val lastName = intent.getStringExtra("lastName") ?: ""
@@ -108,6 +110,10 @@ class DetailedUserProfileActivity : AppCompatActivity() {
 
         callIcon.setOnClickListener {
             makePhoneCall(phoneNumber)
+        }
+
+        backBtn.setOnClickListener {
+            finish()
         }
     }
 
