@@ -136,7 +136,13 @@ class ProfileActivity : AppCompatActivity() {
             toggleEditMode(lastNameTextView, lastNameEditText)
         }
 
+        dobEditButton.setOnClickListener {
+            toggleEditMode(dobTextView, dobEditText)
+            showDatePickerDialog()
+        }
+
         dobEditText.setOnClickListener {
+            toggleEditMode(dobTextView, dobEditText)
             showDatePickerDialog()
         }
 
@@ -177,13 +183,14 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun toggleEditMode(textView: TextView, editText: EditText) {
-        if (textView.visibility == View.VISIBLE) {
-            textView.visibility = View.GONE
-            editText.visibility = View.VISIBLE
-        } else {
-            textView.visibility = View.VISIBLE
-            editText.visibility = View.GONE
-        }
+            if (textView.visibility == View.VISIBLE) {
+                textView.visibility = View.GONE
+                editText.visibility = View.VISIBLE
+                editText.requestFocus() // Focus on the EditText
+            } /*else {
+                textView.visibility = View.VISIBLE
+                editText.visibility = View.GONE
+            }*/
     }
 
     private fun pickImage() {
@@ -252,17 +259,6 @@ class ProfileActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show()
                 setResult(RESULT_OK) // Set result as RESULT_OK to indicate changes
-
-                // Update the visibility
-                toggleEditMode(firstNameTextView, firstNameEditText)
-                toggleEditMode(lastNameTextView, lastNameEditText)
-                toggleEditMode(phoneNumberTextView, phoneNumberEditText)
-                toggleEditMode(dobTextView, dobEditText)
-                toggleEditMode(phoneNumberTextView, phoneNumberEditText)
-                toggleEditMode(cityTextView, cityEditText)
-                toggleEditMode(provinceTextView, provinceEditText)
-                toggleEditMode(countryTextView, countryEditText)
-
                 finish() // Close the activity
             }
             .addOnFailureListener {
@@ -276,16 +272,16 @@ class ProfileActivity : AppCompatActivity() {
 
         userRef.get().addOnSuccessListener { document ->
             if (document != null) {
-                firstNameTextView.setText(document.getString("firstName"))
+                firstNameTextView.text = document.getString("firstName")
                 firstNameEditText.setText(document.getString("firstName"))
 
-                lastNameTextView.setText(document.getString("lastName"))
+                lastNameTextView.text = document.getString("lastName")
                 lastNameEditText.setText(document.getString("lastName"))
 
-                dobTextView.setText(document.getString("dob"))
+                dobTextView.text = document.getString("dob")
                 dobEditText.setText(document.getString("dob"))
 
-                phoneNumberTextView.setText(document.getString("phoneNumber"))
+                phoneNumberTextView.text = document.getString("phoneNumber")
                 phoneNumberEditText.setText(document.getString("phoneNumber"))
 
                 val bloodGroup = document.getString("bloodGroup")
@@ -293,13 +289,13 @@ class ProfileActivity : AppCompatActivity() {
                     resources.getStringArray(R.array.allBloodGroups).indexOf(bloodGroup)
                 bloodGroupSpinner.setSelection(bloodGroupIndex)
 
-                cityTextView.setText(document.getString("city"))
+                cityTextView.text = document.getString("city")
                 cityEditText.setText(document.getString("city"))
 
-                provinceTextView.setText(document.getString("province"))
+                provinceTextView.text = document.getString("province")
                 provinceEditText.setText(document.getString("province"))
 
-                countryTextView.setText(document.getString("country"))
+                countryTextView.text = document.getString("country")
                 countryEditText.setText(document.getString("country"))
 
                 isActiveSwitch.isChecked = document.getBoolean("isActive") ?: false
@@ -329,6 +325,8 @@ class ProfileActivity : AppCompatActivity() {
             if (selectedDate.after(calendar)) {
                 Toast.makeText(this, "Invalid Date of Birth", Toast.LENGTH_SHORT).show()
             } else {
+                dobTextView.text =
+                    getString(R.string.date_format, selectedDay, selectedMonth + 1, selectedYear)
                 dobEditText.setText(getString(R.string.date_format, selectedDay, selectedMonth + 1, selectedYear))
             }
         }, year, month, day)

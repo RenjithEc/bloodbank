@@ -68,6 +68,7 @@
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_gravity="center"
+                    android:layout_marginBottom="10dp"
                     android:layout_weight="4.8"
                     android:autofillHints="@string/firstTimeUserHint_FName"
                     android:hint="@string/firstTimeUserHint_FName"
@@ -118,6 +119,7 @@
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="4.8"
+                    android:layout_marginBottom="10dp"
                     android:backgroundTint="@color/halfWhite"
                     android:hint="@string/firstTimeUserHint_LName"
                     android:textColor="@color/redLight"
@@ -141,23 +143,7 @@
                     android:tooltipText="@string/edit" />
             </LinearLayout>
 
-            <!--<EditText
-                android:id="@+id/edit_last_name"
-                android:layout_width="340dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="20dp"
-                android:backgroundTint="@color/halfWhite"
-                android:hint="@string/firstTimeUserHint_LName"
-                android:textColor="@color/redLight"
-                android:textColorHint="@color/redLight50"
-                android:textSize="15sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_first_name" />-->
-
             <!-- Linear Layout for DOB-->
-
             <LinearLayout
                 android:layout_width="340dp"
                 android:layout_height="48dp"
@@ -183,6 +169,7 @@
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="4.8"
+                    android:layout_marginBottom="10dp"
                     android:autofillHints="@string/firstTimeUserHint_DOB"
                     android:hint="@string/firstTimeUserHint_DOB"
                     android:backgroundTint="@color/halfWhite"
@@ -210,26 +197,6 @@
                     android:tooltipText="@string/edit" />
             </LinearLayout>
 
-            <!--<EditText
-                android:id="@+id/edit_dob"
-                android:layout_width="340dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="20dp"
-                android:autofillHints="@string/firstTimeUserHint_DOB"
-                android:hint="@string/firstTimeUserHint_DOB"
-                android:backgroundTint="@color/halfWhite"
-                android:textColor="@color/redLight"
-                android:textColorHint="@color/redLight50"
-                android:textSize="15sp"
-                android:focusable="false"
-                android:clickable="true"
-                android:inputType="none"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_last_name" />-->
-
-
             <!-- Linear Layout for Phone Number -->
             <LinearLayout
                 android:layout_width="340dp"
@@ -256,6 +223,7 @@
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="4.8"
+                    android:layout_marginBottom="10dp"
                     android:backgroundTint="@color/halfWhite"
                     android:hint="@string/firstTimeUserHint_Phone"
                     android:textColor="@color/redLight"
@@ -278,21 +246,6 @@
                     android:src="@drawable/ic_edit"
                     android:tooltipText="@string/edit" />
             </LinearLayout>
-
-            <!--<EditText
-                android:id="@+id/edit_phone_number"
-                android:layout_width="340dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="20dp"
-                android:backgroundTint="@color/halfWhite"
-                android:hint="@string/firstTimeUserHint_Phone"
-                android:textColor="@color/redLight"
-                android:textColorHint="@color/redLight50"
-                android:textSize="15sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_dob" />-->
 
             <Spinner
                 android:id="@+id/edit_blood_group"
@@ -334,6 +287,7 @@
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="4.8"
+                    android:layout_marginBottom="10dp"
                     android:backgroundTint="@color/halfWhite"
                     android:hint="@string/firstTimeUserHint_City"
                     android:textColor="@color/redLight"
@@ -356,21 +310,6 @@
                     android:src="@drawable/ic_edit"
                     android:tooltipText="@string/edit" />
             </LinearLayout>
-
-            <!--<EditText
-                android:id="@+id/edit_city"
-                android:layout_width="340dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="20dp"
-                android:backgroundTint="@color/halfWhite"
-                android:hint="@string/firstTimeUserHint_City"
-                android:textColor="@color/redLight"
-                android:textColorHint="@color/redLight50"
-                android:textSize="15sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_blood_group" />-->
 
             <!-- Linear Layout for Phone Number -->
             <LinearLayout
@@ -398,6 +337,7 @@
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="4.8"
+                    android:layout_marginBottom="10dp"
                     android:backgroundTint="@color/halfWhite"
                     android:hint="@string/firstTimeUserHint_City"
                     android:textColor="@color/redLight"
@@ -420,23 +360,6 @@
                     android:src="@drawable/ic_edit"
                     android:tooltipText="@string/edit" />
             </LinearLayout>
-
-            <!--<EditText
-                android:id="@+id/edit_province"
-                android:layout_width="340dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="20dp"
-                android:backgroundTint="@color/halfWhite"
-                android:hint="@string/firstTimeUserHint_Province"
-                android:inputType="textPostalAddress"
-                android:autofillHints="addressRegion"
-                android:textColor="@color/redLight"
-                android:textColorHint="@color/redLight50"
-                android:textSize="15sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_city" />-->
 
             <!-- Linear Layout for Country -->
             <LinearLayout
@@ -464,6 +387,7 @@
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="4.8"
+                    android:layout_marginBottom="10dp"
                     android:backgroundTint="@color/halfWhite"
                     android:hint="@string/firstTimeUserHint_City"
                     android:textColor="@color/redLight"
@@ -486,20 +410,6 @@
                     android:src="@drawable/ic_edit"
                     android:tooltipText="@string/edit" />
             </LinearLayout>
-            <!--<EditText
-                android:id="@+id/edit_country"
-                android:layout_width="340dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="20dp"
-                android:backgroundTint="@color/halfWhite"
-                android:hint="@string/firstTimeUserHint_Country"
-                android:textColor="@color/redLight"
-                android:textColorHint="@color/redLight50"
-                android:textSize="15sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_province" />-->
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/isActiveSwitch"
@@ -518,8 +428,19 @@
                 android:layout_width="340dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="30dp"
-                android:layout_marginBottom="40dp"
                 android:text="@string/saveChanges"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/isActiveSwitch" />
+
+            <Button
+                android:id="@+id/logout_button"
+                android:layout_width="340dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="40dp"
+                android:text="@string/logout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
