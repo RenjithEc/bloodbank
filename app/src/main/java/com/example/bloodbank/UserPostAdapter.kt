@@ -1,8 +1,10 @@
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.core.content.ContextCompat
@@ -14,6 +16,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import com.example.bloodbank.DeletePostActivity
+import com.example.bloodbank.DetailedUserPost
 import com.example.bloodbank.EditPostHelper
 import com.example.bloodbank.HomeActivity
 import com.squareup.picasso.Picasso
@@ -79,6 +82,28 @@ class UserPostAdapter(private val userList: List<UserPost>, private val loggedIn
             } else {
                 seeMore.visibility = View.GONE
             }
+            itemView.setOnClickListener {
+                Log.d("UserAdapter", "Item clicked: ${user.firstName} ${user.lastName}")
+                val context = it.context
+                val intent = Intent(context, DetailedUserPost::class.java).apply {
+                    putExtra("firstName", user.firstName)
+                    putExtra("lastName", user.lastName)
+                    putExtra("bloodGroup", user.bloodGroup)
+                    putExtra("city", user.city)
+                    putExtra("province", user.province)
+                    putExtra("country", user.country)
+                    putExtra("email", user.email)
+                    putExtra("phoneNumber", user.phone)
+                    putExtra("profilePic", user.profileImageUrl)
+                    putExtra("needByDate", user.needByDate)
+                    putExtra("description",user.description)
+                    putExtra("priority", priorityTextView.text)
+                    putExtra("needByDate",needByDateTime.toString())
+                }
+                context.startActivity(intent)
+              }
+
+
         }
 
         private fun showCustomPopupMenu(anchor: View, context: Context, user: UserPost) {
