@@ -4,11 +4,14 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -29,21 +32,37 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var profileImageView: CircleImageView
     private lateinit var changeProfilePictureButton: Button
     private lateinit var saveButton: Button
+
+    private lateinit var firstNameTextView: TextView
     private lateinit var firstNameEditText: EditText
     private lateinit var firstNameEditButton: ImageButton
+
+    private lateinit var lastNameTextView: TextView
     private lateinit var lastNameEditText: EditText
-    private lateinit var lastNameEditButton: Button
+    private lateinit var lastNameEditButton: ImageButton
+
+    private lateinit var dobTextView: TextView
     private lateinit var dobEditText: EditText
-    private lateinit var dobEditButton: Button
+    private lateinit var dobEditButton: ImageButton
+
+    private lateinit var phoneNumberTextView: TextView
     private lateinit var phoneNumberEditText: EditText
-    private lateinit var phoneNumberEditButton: Button
+    private lateinit var phoneNumberEditButton: ImageButton
+
     private lateinit var bloodGroupSpinner: Spinner
+
+    private lateinit var cityTextView: TextView
     private lateinit var cityEditText: EditText
-    private lateinit var cityEditButton: Button
+    private lateinit var cityEditButton: ImageButton
+
+    private lateinit var provinceTextView: TextView
     private lateinit var provinceEditText: EditText
-    private lateinit var provinceEditButton: Button
+    private lateinit var provinceEditButton: ImageButton
+
+    private lateinit var countryTextView: TextView
     private lateinit var countryEditText: EditText
-    private lateinit var countryEditButton: Button
+    private lateinit var countryEditButton: ImageButton
+
     private lateinit var isActiveSwitch: SwitchCompat
     private var currentProfilePic: String? = ""
 
@@ -58,15 +77,37 @@ class ProfileActivity : AppCompatActivity() {
         profileImageView = findViewById(R.id.profileImageView)
         changeProfilePictureButton = findViewById(R.id.changeProfilePictureButton)
         saveButton = findViewById(R.id.save_button)
+
+        firstNameTextView = findViewById(R.id.text_first_name)
         firstNameEditText = findViewById(R.id.edit_first_name)
         firstNameEditButton = findViewById(R.id.edit_first_name_button)
+
+        lastNameTextView = findViewById(R.id.text_last_name)
         lastNameEditText = findViewById(R.id.edit_last_name)
+        lastNameEditButton = findViewById(R.id.edit_last_name_button)
+
+        dobTextView = findViewById(R.id.text_dob)
         dobEditText = findViewById(R.id.edit_dob)
+        dobEditButton = findViewById(R.id.edit_dob_button)
+
+        phoneNumberTextView = findViewById(R.id.text_phone_number)
         phoneNumberEditText = findViewById(R.id.edit_phone_number)
+        phoneNumberEditButton = findViewById(R.id.edit_phone_number_button)
+
         bloodGroupSpinner = findViewById(R.id.edit_blood_group)
+
+        cityTextView = findViewById(R.id.text_city)
         cityEditText = findViewById(R.id.edit_city)
+        cityEditButton = findViewById(R.id.edit_city_button)
+
+        provinceTextView = findViewById(R.id.text_province)
         provinceEditText = findViewById(R.id.edit_province)
+        provinceEditButton = findViewById(R.id.edit_province_button)
+
+        countryTextView = findViewById(R.id.text_country)
         countryEditText = findViewById(R.id.edit_country)
+        countryEditButton = findViewById(R.id.edit_country_button)
+
         isActiveSwitch = findViewById(R.id.isActiveSwitch)
 
         // Set up the toolbar
@@ -77,28 +118,79 @@ class ProfileActivity : AppCompatActivity() {
 
         logoHome.setOnClickListener {
             val intent = Intent(this, HomeActivity::class.java)
-            setResult(RESULT_OK)
+            setResult(RESULT_OK) // Set result as RESULT_OK to indicate changes
             startActivity(intent)
         }
 
-        dobEditText.setOnClickListener {
-            showDatePickerDialog()
-        }
 
         changeProfilePictureButton.setOnClickListener {
+            // Open the image picker
             pickImage()
         }
 
+        firstNameEditButton.setOnClickListener {
+            toggleEditMode(firstNameTextView, firstNameEditText)
+        }
+
+        lastNameEditButton.setOnClickListener {
+            toggleEditMode(lastNameTextView, lastNameEditText)
+        }
+
+        dobEditButton.setOnClickListener {
+            toggleEditMode(dobTextView, dobEditText)
+            showDatePickerDialog()
+        }
+
+        dobEditText.setOnClickListener {
+            toggleEditMode(dobTextView, dobEditText)
+            showDatePickerDialog()
+        }
+
+        phoneNumberEditButton.setOnClickListener {
+            toggleEditMode(phoneNumberTextView, phoneNumberEditText)
+        }
+
+        cityEditButton.setOnClickListener{
+            toggleEditMode(cityTextView, cityEditText)
+        }
+
+        provinceEditButton.setOnClickListener{
+            toggleEditMode(provinceTextView, provinceEditText)
+        }
+
+        countryEditButton.setOnClickListener{
+            toggleEditMode(countryTextView, countryEditText)
+        }
+
         saveButton.setOnClickListener {
+            // Save changes to Firestore
             saveProfileData()
         }
 
-        firstNameEditButton.setOnClickListener {
-            firstNameEditText.isEnabled = true
-        }
 
         // Load existing profile data, including profile picture, from Firestore
         loadProfileData()
+
+
+        // Set custom adapter for the spinner
+        val adapter = ArrayAdapter.createFromResource(
+            this,
+            R.array.allBloodGroups,
+            R.layout.spinner_item
+        )
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        bloodGroupSpinner.adapter = adapter
+    }
+
+    private fun toggleEditMode(textView: TextView, editText: EditText) {
+            if (textView.visibility == View.VISIBLE) {
+                textView.visibility = View.GONE
+                editText.visibility = View.VISIBLE
+                editText.requestFocus() // Focus on the EditText
+            } /*else {
+                textView.visibility = View.VISIBLE
+                editText.visibility = View.GONE
+            }*/
     }
 
     private fun pickImage() {
@@ -144,6 +236,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun saveProfileData() {
+
         val user = auth.currentUser ?: return
         val userRef = firestore.collection("users").document(user.uid)
 
@@ -165,8 +258,7 @@ class ProfileActivity : AppCompatActivity() {
         userRef.set(profileData)
             .addOnSuccessListener {
                 Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show()
-                // Set the result to RESULT_OK to indicate success
-                setResult(RESULT_OK)
+                setResult(RESULT_OK) // Set result as RESULT_OK to indicate changes
                 finish() // Close the activity
             }
             .addOnFailureListener {
@@ -180,17 +272,32 @@ class ProfileActivity : AppCompatActivity() {
 
         userRef.get().addOnSuccessListener { document ->
             if (document != null) {
+                firstNameTextView.text = document.getString("firstName")
                 firstNameEditText.setText(document.getString("firstName"))
+
+                lastNameTextView.text = document.getString("lastName")
                 lastNameEditText.setText(document.getString("lastName"))
+
+                dobTextView.text = document.getString("dob")
                 dobEditText.setText(document.getString("dob"))
+
+                phoneNumberTextView.text = document.getString("phoneNumber")
                 phoneNumberEditText.setText(document.getString("phoneNumber"))
+
                 val bloodGroup = document.getString("bloodGroup")
                 val bloodGroupIndex =
                     resources.getStringArray(R.array.allBloodGroups).indexOf(bloodGroup)
                 bloodGroupSpinner.setSelection(bloodGroupIndex)
+
+                cityTextView.text = document.getString("city")
                 cityEditText.setText(document.getString("city"))
+
+                provinceTextView.text = document.getString("province")
                 provinceEditText.setText(document.getString("province"))
+
+                countryTextView.text = document.getString("country")
                 countryEditText.setText(document.getString("country"))
+
                 isActiveSwitch.isChecked = document.getBoolean("isActive") ?: false
 
                 val profilePic = document.getString("profilePic")
@@ -218,6 +325,8 @@ class ProfileActivity : AppCompatActivity() {
             if (selectedDate.after(calendar)) {
                 Toast.makeText(this, "Invalid Date of Birth", Toast.LENGTH_SHORT).show()
             } else {
+                dobTextView.text =
+                    getString(R.string.date_format, selectedDay, selectedMonth + 1, selectedYear)
                 dobEditText.setText(getString(R.string.date_format, selectedDay, selectedMonth + 1, selectedYear))
             }
         }, year, month, day)
