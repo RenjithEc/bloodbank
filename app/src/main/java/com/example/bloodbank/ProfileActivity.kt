@@ -77,7 +77,7 @@ class ProfileActivity : AppCompatActivity() {
 
         logoHome.setOnClickListener {
             val intent = Intent(this, HomeActivity::class.java)
-            setResult(RESULT_OK) // Set result as RESULT_OK to indicate changes
+            setResult(RESULT_OK)
             startActivity(intent)
         }
 
@@ -86,12 +86,10 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         changeProfilePictureButton.setOnClickListener {
-            // Open the image picker
             pickImage()
         }
 
         saveButton.setOnClickListener {
-            // Save changes to Firestore
             saveProfileData()
         }
 
@@ -146,7 +144,6 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun saveProfileData() {
-
         val user = auth.currentUser ?: return
         val userRef = firestore.collection("users").document(user.uid)
 
@@ -168,7 +165,8 @@ class ProfileActivity : AppCompatActivity() {
         userRef.set(profileData)
             .addOnSuccessListener {
                 Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show()
-                setResult(RESULT_OK) // Set result as RESULT_OK to indicate changes
+                // Set the result to RESULT_OK to indicate success
+                setResult(RESULT_OK)
                 finish() // Close the activity
             }
             .addOnFailureListener {

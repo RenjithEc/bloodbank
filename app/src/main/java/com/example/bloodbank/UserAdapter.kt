@@ -28,7 +28,7 @@ class UserAdapter(private val userList: MutableList<com.example.bloodbank.User>)
 
         fun bind(user: User) {
             nameTextView.text = "${user.firstName} ${user.lastName}"
-            bloodGroupTextView.text = user.bloodGroup
+            bloodGroupTextView.text = "Type: ${user.bloodGroup}"
             provinceTextView.text = user.province
 
 // Uncomment the below line when we actually get a URL for the profile pic from firebase

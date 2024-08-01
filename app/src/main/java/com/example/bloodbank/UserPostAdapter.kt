@@ -42,8 +42,8 @@ class UserPostAdapter(private val userList: List<UserPost>, private val loggedIn
 
         @SuppressLint("SetTextI18n")
         fun bind(user: UserPost, loggedInUserId: String) {
-            nameTextView.text = "${user.firstName} ${user.lastName} -"
-            bloodGroupTextView.text = user.bloodGroup
+            nameTextView.text = "${user.firstName} ${user.lastName}"
+            bloodGroupTextView.text = "Type: ${user.bloodGroup}"
             descriptionTextView.text = user.description
             priorityTextView.text = "Priority: ${user.priority}"
             cityTextView.text = user.city
@@ -97,7 +97,7 @@ class UserPostAdapter(private val userList: List<UserPost>, private val loggedIn
 
             val editTextView = TextView(context).apply {
                 text = context.getString(R.string.editPostPopUp)
-                textSize = 13f
+                textSize = 14f
                 setTextColor(Color.parseColor("#F57578"))
                 setBackgroundResource(R.drawable.card_border)
                 setPadding(42, 32, 42, 32)
@@ -106,7 +106,7 @@ class UserPostAdapter(private val userList: List<UserPost>, private val loggedIn
 
             val deleteTextView = TextView(context).apply {
                 text = context.getString(R.string.deletePostPopUp)
-                textSize = 13f
+                textSize = 14f
                 setTextColor(Color.parseColor("#F57578"))
                 setBackgroundResource(R.drawable.card_border)
                 setPadding(42, 32, 42, 32)
