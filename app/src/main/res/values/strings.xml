@@ -99,6 +99,7 @@
     <string name="saveChanges">Save</string>
     <string name="edit">Edit</string>
     <string name="date_format">%02d/%02d/%d</string>
+    <string name="logout">Logout</string>
 
     <!-- Popup menu -->
     <string name="editPostPopUp">Edit Post</string>
@@ -111,5 +112,6 @@
     <!-- Popup menu -->
     <string name="deleteDialogTitle">Delete Post</string>
     <string name="deleteDialogText">Are you sure you want to delete this post?</string>
+
 
 </resources>

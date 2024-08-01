@@ -7,27 +7,21 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.Spinner
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatActivity.RESULT_OK
-import androidx.appcompat.widget.SwitchCompat
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
-import com.example.bloodbank.DetailedUserProfileActivity.Companion
-import com.example.bloodbank.DetailedUserProfileActivity.Companion.REQUEST_CALL_PERMISSION
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import de.hdodenhof.circleimageview.CircleImageView
+import java.text.SimpleDateFormat
+import java.util.Locale
 
-class DetailedUserPost : AppCompatActivity() {
+class DetailedUserPostActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
@@ -37,8 +31,7 @@ class DetailedUserPost : AppCompatActivity() {
     private lateinit var phoneNumberText: TextView
     private lateinit var bloodGroupText: TextView
     private lateinit var cityText: TextView
-    private lateinit var provinceText: TextView
-    private lateinit var countryText: TextView
+    private lateinit var provinceCountryText: TextView
     private lateinit var needByText: TextView
     private lateinit var emailText: TextView
     private lateinit var descriptionText: TextView
@@ -46,6 +39,7 @@ class DetailedUserPost : AppCompatActivity() {
     private lateinit var emailIcon:ImageView
     private lateinit var messageIcon:ImageView
     private lateinit var callIcon:ImageView
+    private lateinit var ageText: TextView
     private lateinit var goBackButton: Button
 
     companion object {
@@ -63,19 +57,17 @@ class DetailedUserPost : AppCompatActivity() {
 
         profileImageView = findViewById(R.id.profileImageView)
         fullNameText = findViewById(R.id.fullName)
-        phoneNumberText = findViewById(R.id.phoneNumber)
         bloodGroupText = findViewById(R.id.bloodGroup)
         cityText = findViewById(R.id.city)
-        provinceText = findViewById(R.id.province)
-        countryText = findViewById(R.id.country)
+        provinceCountryText = findViewById(R.id.province_country)
         needByText = findViewById(R.id.needByDate)
         descriptionText = findViewById(R.id.description)
-        emailText = findViewById(R.id.email)
         priorityText = findViewById(R.id.priority)
         emailIcon= findViewById(R.id.emailIcon)
         messageIcon = findViewById(R.id.messageIcon)
         callIcon= findViewById(R.id.callIcon)
         goBackButton = findViewById(R.id.goBackButton)
+        ageText = findViewById(R.id.age)
 
         val firstName = intent.getStringExtra("firstName") ?: ""
         val lastName = intent.getStringExtra("lastName") ?: ""
@@ -89,33 +81,31 @@ class DetailedUserPost : AppCompatActivity() {
         val description = intent.getStringExtra("description") ?: ""
         val priority = intent.getStringExtra("priority") ?: ""
         val needByDate = intent.getStringExtra("needByDate") ?: ""
-
-        Log.d("priority", "Testing priority : $priority")
-        Log.d("needByDate", "Testing needByDate : $needByDate")
+        val age = intent.getStringExtra("age") ?: ""
 
 
         fullNameText.text = "$firstName $lastName"
-        phoneNumberText.text = phoneNumber
-        bloodGroupText.text =  bloodGroup
-        provinceText.text = province
+
+        bloodGroupText.text =  "Type: $bloodGroup"
+        provinceCountryText.text = "$province, $country"
         cityText.text = city
-        countryText.text = country
         descriptionText.text = description
-        emailText.text = email
         priorityText.text = priority
-        needByText.text = needByDate
-
-
+        needByText.text = "Need By: ${formatDate(needByDate)}"
+        ageText.text = "${age} years old"
 
         // Set up the toolbar
         val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-
-        val logoHome: ImageView = findViewById(R.id.logoHome)
+        val logoHome: ImageView = toolbar.findViewById(R.id.logoHome)
+        val logoAccount: ImageView = toolbar.findViewById(R.id.logoAccount)
 
         logoHome.setOnClickListener {
             val intent = Intent(this, HomeActivity::class.java)
-            setResult(RESULT_OK) // Set result as RESULT_OK to indicate changes
+            startActivity(intent)
+        }
+
+        logoAccount.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
         }
 
@@ -160,6 +150,31 @@ class DetailedUserPost : AppCompatActivity() {
                 data = Uri.parse("tel:$phoneNumber")
             }
             startActivity(callIntent)
+        }
+    }
+
+    private fun formatDate(dateString: String): String {
+        return try {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val date = inputFormat.parse(dateString)
+
+            val dayFormat = SimpleDateFormat("d", Locale.getDefault())
+            val dayWithSuffix = dayFormat.format(date).toInt().let { day ->
+                when {
+                    day in 11..13 -> "${day}th"
+                    day % 10 == 1 -> "${day}st"
+                    day % 10 == 2 -> "${day}nd"
+                    day % 10 == 3 -> "${day}rd"
+                    else -> "${day}th"
+                }
+            }
+
+            val outputFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
+            val monthYear = outputFormat.format(date)
+
+            "$dayWithSuffix $monthYear"
+        } catch (e: Exception) {
+            dateString
         }
     }
 

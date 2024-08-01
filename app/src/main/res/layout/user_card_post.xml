@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="12dp"
+    android:padding="20dp"
     android:background="@drawable/card_border"
     android:layout_marginBottom="15dp"
     android:layout_marginLeft="20dp"
@@ -13,8 +13,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profileImageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_profile_placeholder"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,13 +22,15 @@
 
     <TextView
         android:id="@+id/nameTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="230dp"
         android:layout_height="wrap_content"
-        android:textColor="@color/halfWhite"
+        android:layout_marginStart="13dp"
+        android:breakStrategy="balanced"
+        android:ellipsize="start"
         android:text="@string/userCardNamePost"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:textSize="15sp"
+        android:textColor="@color/redLight"
+        android:textSize="18sp"
+        app:layout_constrainedWidth="true"
         app:layout_constraintStart_toEndOf="@+id/profileImageView"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,53 +38,54 @@
         android:id="@+id/bloodGroupTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/redLight"
+        android:layout_marginStart="13dp"
         android:text="@string/bloodGroup"
-        android:textSize="15sp"
-        app:layout_constraintStart_toEndOf="@+id/nameTextView"
-        app:layout_constraintTop_toTopOf="@+id/nameTextView"
-        app:layout_constraintBottom_toBottomOf="@+id/nameTextView"
-        android:layout_marginStart="5dp" />
+        android:textColor="@color/redLight"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/profileImageView"
+        app:layout_constraintTop_toBottomOf="@+id/nameTextView" />
 
     <TextView
         android:id="@+id/descriptionTextView"
         android:layout_width="230dp"
-        app:layout_constrainedWidth="true"
         android:layout_height="wrap_content"
-        android:textColor="@color/halfWhite"
-        android:text="@string/userCardDescPost"
+        android:breakStrategy="simple"
         android:ellipsize="start"
-        android:breakStrategy="balanced"
-        android:textSize="11sp"
+        android:text="@string/userCardDescPost"
+        android:textColor="@color/halfWhite"
+        android:textSize="14sp"
+        app:layout_constrainedWidth="true"
         app:layout_constraintStart_toStartOf="@+id/nameTextView"
-        app:layout_constraintTop_toBottomOf="@+id/nameTextView" />
-
-    <TextView
-        android:id="@+id/priorityTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColor="@color/redLight"
-        android:text="@string/userCardPriorityPost"
-        android:textSize="11sp"
-        app:layout_constraintStart_toStartOf="@+id/descriptionTextView"
-        app:layout_constraintTop_toBottomOf="@+id/descriptionTextView"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/bloodGroupTextView" />
 
     <TextView
         android:id="@+id/cityTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="@color/redLight"
         android:text="@string/userCardProvince"
-        android:textSize="11sp"
-        app:layout_constraintStart_toStartOf="@+id/priorityTextView"
-        app:layout_constraintTop_toBottomOf="@+id/priorityTextView"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:textColor="@color/halfWhite"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/descriptionTextView"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionTextView" />
+
+    <TextView
+        android:id="@+id/priorityTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/userCardPriorityPost"
+        android:textColor="@color/halfWhite"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/cityTextView"
+        app:layout_constraintTop_toBottomOf="@+id/cityTextView" />
 
     <ImageView
         android:id="@+id/vertMoreDots"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:layout_marginTop="2dp"
         android:src="@drawable/baseline_more_vert_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

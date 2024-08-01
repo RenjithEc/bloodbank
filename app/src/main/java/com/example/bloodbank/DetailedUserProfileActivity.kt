@@ -56,7 +56,7 @@ class DetailedUserProfileActivity : AppCompatActivity() {
         val emailIcon: ImageView = findViewById(R.id.emailIcon)
         val messageIcon: ImageView = findViewById(R.id.messageIcon)
         val callIcon: ImageView = findViewById(R.id.callIcon)
-        val backBtn: Button = findViewById(R.id.backBtn)
+        val goBackButton: Button = findViewById(R.id.goBackButton)
 
         val firstName = intent.getStringExtra("firstName") ?: ""
         val lastName = intent.getStringExtra("lastName") ?: ""
@@ -112,9 +112,10 @@ class DetailedUserProfileActivity : AppCompatActivity() {
             makePhoneCall(phoneNumber)
         }
 
-        backBtn.setOnClickListener {
+        goBackButton.setOnClickListener{
             finish()
         }
+
     }
 
     private fun makePhoneCall(phoneNumber: String) {
