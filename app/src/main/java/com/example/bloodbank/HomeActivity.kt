@@ -13,8 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth

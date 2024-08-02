@@ -93,10 +93,10 @@
     </string-array>
 
     <!-- Profile Page -->
-    <string name="isActive">Active Donor</string>
+    <string name="isActive">Active Donar?</string>
     <string name="profilePic">Profile Photo</string>
-    <string name="changeProfilePic">Change Profile Picture</string>
-    <string name="saveChanges">Save</string>
+    <string name="changeProfilePic">Edit Profile Picture</string>
+    <string name="saveChanges">Save Changes</string>
     <string name="edit">Edit</string>
     <string name="date_format">%02d/%02d/%d</string>
     <string name="logout">Logout</string>
@@ -105,13 +105,17 @@
     <string name="editPostPopUp">Edit Post</string>
     <string name="deletePostPopUp">Delete Post</string>
 
-    <!-- Popup menu -->
+    <!-- Popup menu - Update -->
     <string name="updateDialogTitle">Abandon Changes?</string>
     <string name="updateDialogText">Are you sure you want to abandon changes?</string>
 
-    <!-- Popup menu -->
+    <!-- Popup menu - Delete -->
     <string name="deleteDialogTitle">Delete Post</string>
     <string name="deleteDialogText">Are you sure you want to delete this post?</string>
+
+    <!-- Popup menu - Logout -->
+    <string name="logoutDialogTitle">Logout</string>
+    <string name="logoutDialogText">Are you sure you want to logout?</string>
 
     <!-- Detailed User Profile -->
     <string name="activeDonor">Active Donor</string>
@@ -120,7 +124,7 @@
     <string name="provinceCountry">Province, Country</string>
     <string name="contact">Contact</string>
     <string name="description">Description</string>
-    <string name="goBback">Go Back</string>
+    <string name="goBack">Back</string>
 
 
 </resources>

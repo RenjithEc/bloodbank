@@ -41,7 +41,6 @@ class UserPostAdapter(private val userList: List<UserPost>, private val loggedIn
         private val priorityTextView: TextView = itemView.findViewById(R.id.priorityTextView)
         private val seeMore: ImageView = itemView.findViewById(R.id.vertMoreDots)
 
-        @SuppressLint("SetTextI18n")
         fun bind(user: UserPost, loggedInUserId: String) {
             nameTextView.text = "${user.firstName} ${user.lastName}"
             bloodGroupTextView.text = "Type: ${user.bloodGroup}"
@@ -97,6 +96,7 @@ class UserPostAdapter(private val userList: List<UserPost>, private val loggedIn
                     putExtra("description",user.description)
                     putExtra("priority", priorityTextView.text)
                     putExtra("needByDate",needByDateTime.toString())
+                    putExtra("priorityColor",priorityColor)
                     putExtra("age", user.patientAge.toString())
                 }
                 context.startActivity(intent)

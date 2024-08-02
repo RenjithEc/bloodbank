@@ -7,7 +7,10 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_layout" />
+        layout="@layout/toolbar_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/textView2"
@@ -15,12 +18,13 @@
         android:layout_height="wrap_content"
         android:text="@string/receiveBlood"
         android:textColor="@color/redLight"
+
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/scrollView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.243" />
+        app:layout_constraintVertical_bias="0.236" />
 
     <Spinner
         android:id="@+id/blood_group"

@@ -82,7 +82,7 @@ class DetailedUserProfileActivity : AppCompatActivity() {
         val years = "years old"
         ageTextView.text = "$stringAge $years"
 
-        activeDonor.text = if (isActive) "Active Donor" else "Inactive"
+        activeDonor.text = if (isActive) "Active Donor" else "Inactive Donor"
 
         if (profilePic.isNotEmpty()) {
             Glide.with(this)
@@ -104,7 +104,7 @@ class DetailedUserProfileActivity : AppCompatActivity() {
         messageIcon.setOnClickListener {
             val messageIntent = Intent(Intent.ACTION_SENDTO).apply {
                 data = Uri.parse("smsto:$phoneNumber")
-                putExtra("sms_body", "Hello")
+                putExtra("sms_body", "Hello ${nameTextView.text}")
             }
             startActivity(messageIntent)
         }

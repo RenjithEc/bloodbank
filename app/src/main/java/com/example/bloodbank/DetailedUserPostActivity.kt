@@ -81,16 +81,17 @@ class DetailedUserPostActivity : AppCompatActivity() {
         val description = intent.getStringExtra("description") ?: ""
         val priority = intent.getStringExtra("priority") ?: ""
         val needByDate = intent.getStringExtra("needByDate") ?: ""
+        val priorityColor = intent.getIntExtra("priorityColor",0)
         val age = intent.getStringExtra("age") ?: ""
 
 
         fullNameText.text = "$firstName $lastName"
-
         bloodGroupText.text =  "Type: $bloodGroup"
         provinceCountryText.text = "$province, $country"
         cityText.text = city
-        descriptionText.text = description
         priorityText.text = priority
+        priorityText.setTextColor(ContextCompat.getColor(this, priorityColor))
+        descriptionText.text = description
         needByText.text = "Need By: ${formatDate(needByDate)}"
         ageText.text = "${age} years old"
 
@@ -192,4 +193,5 @@ class DetailedUserPostActivity : AppCompatActivity() {
     }
 
 }
+
 

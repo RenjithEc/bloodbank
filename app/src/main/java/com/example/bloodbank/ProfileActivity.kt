@@ -1,9 +1,11 @@
 package com.example.bloodbank
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -163,22 +165,36 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         saveButton.setOnClickListener {
-            // Save changes to Firestore
             saveProfileData(false)
         }
 
         logoutButton.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            val intent = Intent(this, LoginActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-            finish()
+            val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_custom_popup, null)
+            val dialog = AlertDialog.Builder(this)
+                .setView(dialogView)
+                .create()
+
+            dialogView.findViewById<TextView>(R.id.dialog_title).text = getString(R.string.logoutDialogTitle)
+            dialogView.findViewById<TextView>(R.id.dialog_message).text = getString(R.string.logoutDialogText)
+
+            dialogView.findViewById<Button>(R.id.dialog_confirm).setOnClickListener {
+                FirebaseAuth.getInstance().signOut()
+                val intent = Intent(this, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
+                dialog.dismiss()
+            }
+
+            dialogView.findViewById<Button>(R.id.dialog_cancel).setOnClickListener {
+                dialog.dismiss()
+            }
+            dialog.show()
         }
 
 
         // Load existing profile data, including profile picture, from Firestore
         loadProfileData()
-
 
         // Set custom adapter for the spinner
         val adapter = ArrayAdapter.createFromResource(
@@ -195,10 +211,7 @@ class ProfileActivity : AppCompatActivity() {
                 textView.visibility = View.GONE
                 editText.visibility = View.VISIBLE
                 editText.requestFocus() // Focus on the EditText
-            } /*else {
-                textView.visibility = View.VISIBLE
-                editText.visibility = View.GONE
-            }*/
+            }
     }
 
     private fun pickImage() {
