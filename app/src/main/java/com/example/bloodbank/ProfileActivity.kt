@@ -126,7 +126,6 @@ class ProfileActivity : AppCompatActivity() {
 
 
         changeProfilePictureButton.setOnClickListener {
-            // Open the image picker
             pickImage()
         }
 

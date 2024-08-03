@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Vitality</string>
+    <string name="app_name">Vitaly</string>
 
     <!--    Firebase ID-->
     <string name="default_web_client_id">
