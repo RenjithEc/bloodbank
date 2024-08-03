@@ -1,6 +1,7 @@
 package com.example.bloodbank
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.ContentValues.TAG
 import android.content.Intent
@@ -150,9 +151,7 @@ class CreatePostActivity : AppCompatActivity() {
         }
 
         cancelButton.setOnClickListener {
-            val resultIntent = Intent()
-            setResult(Activity.RESULT_OK, resultIntent)
-            finish() // Go back to the previous activity
+            showCancelConfirmationDialog()
         }
     }
 
@@ -183,5 +182,28 @@ class CreatePostActivity : AppCompatActivity() {
             Log.e(TAG, "Error parsing date: $dateString", e)
             LocalDateTime.now()  // Default to the current date-time if parsing fails
         }
+    }
+
+    private fun showCancelConfirmationDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_custom_popup, null)
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .create()
+
+        dialogView.findViewById<TextView>(R.id.dialog_title).text = getString(R.string.updateDialogTitle)
+        dialogView.findViewById<TextView>(R.id.dialog_message).text = getString(R.string.updateDialogText)
+
+        dialogView.findViewById<Button>(R.id.dialog_confirm).setOnClickListener {
+            val resultIntent = Intent()
+            setResult(Activity.RESULT_OK, resultIntent)
+            finish()
+            dialog.dismiss()
+        }
+
+        dialogView.findViewById<Button>(R.id.dialog_cancel).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }
