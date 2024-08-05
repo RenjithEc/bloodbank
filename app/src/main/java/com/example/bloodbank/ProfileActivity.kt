@@ -1,18 +1,14 @@
 package com.example.bloodbank
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.ArrayAdapter
+import android.widget.*
 import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.Spinner
-import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
@@ -77,6 +73,7 @@ class ProfileActivity : AppCompatActivity() {
         profileImageView = findViewById(R.id.profileImageView)
         changeProfilePictureButton = findViewById(R.id.changeProfilePictureButton)
         saveButton = findViewById(R.id.save_button)
+        val logoutButton : Button = findViewById(R.id.logout_button)
 
         firstNameTextView = findViewById(R.id.text_first_name)
         firstNameEditText = findViewById(R.id.edit_first_name)
@@ -117,14 +114,12 @@ class ProfileActivity : AppCompatActivity() {
         val logoHome: ImageView = findViewById(R.id.logoHome)
 
         logoHome.setOnClickListener {
-            val intent = Intent(this, HomeActivity::class.java)
             setResult(RESULT_OK) // Set result as RESULT_OK to indicate changes
-            startActivity(intent)
+            finish()
         }
 
 
         changeProfilePictureButton.setOnClickListener {
-            // Open the image picker
             pickImage()
         }
 
@@ -163,14 +158,36 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         saveButton.setOnClickListener {
-            // Save changes to Firestore
-            saveProfileData()
+            saveProfileData(false)
+        }
+
+        logoutButton.setOnClickListener {
+            val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_custom_popup, null)
+            val dialog = AlertDialog.Builder(this)
+                .setView(dialogView)
+                .create()
+
+            dialogView.findViewById<TextView>(R.id.dialog_title).text = getString(R.string.logoutDialogTitle)
+            dialogView.findViewById<TextView>(R.id.dialog_message).text = getString(R.string.logoutDialogText)
+
+            dialogView.findViewById<Button>(R.id.dialog_confirm).setOnClickListener {
+                FirebaseAuth.getInstance().signOut()
+                val intent = Intent(this, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
+                dialog.dismiss()
+            }
+
+            dialogView.findViewById<Button>(R.id.dialog_cancel).setOnClickListener {
+                dialog.dismiss()
+            }
+            dialog.show()
         }
 
 
         // Load existing profile data, including profile picture, from Firestore
         loadProfileData()
-
 
         // Set custom adapter for the spinner
         val adapter = ArrayAdapter.createFromResource(
@@ -187,10 +204,7 @@ class ProfileActivity : AppCompatActivity() {
                 textView.visibility = View.GONE
                 editText.visibility = View.VISIBLE
                 editText.requestFocus() // Focus on the EditText
-            } /*else {
-                textView.visibility = View.VISIBLE
-                editText.visibility = View.GONE
-            }*/
+            }
     }
 
     private fun pickImage() {
@@ -226,7 +240,7 @@ class ProfileActivity : AppCompatActivity() {
                 currentProfilePic = downloadUri.toString()
                 Glide.with(this).load(downloadUri).into(profileImageView)
                 // Save profile data with new image URL
-                saveProfileData()
+                saveProfileData(true)
             } else {
                 Toast.makeText(this, "Failed to upload image", Toast.LENGTH_SHORT).show()
             }
@@ -235,7 +249,7 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveProfileData() {
+    private fun saveProfileData(isProfilePicUpdate: Boolean) {
 
         val user = auth.currentUser ?: return
         val userRef = firestore.collection("users").document(user.uid)
@@ -258,8 +272,10 @@ class ProfileActivity : AppCompatActivity() {
         userRef.set(profileData)
             .addOnSuccessListener {
                 Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show()
-                setResult(RESULT_OK) // Set result as RESULT_OK to indicate changes
-                finish() // Close the activity
+                if(!isProfilePicUpdate){
+                    setResult(RESULT_OK) // Set result as RESULT_OK to indicate changes
+                    finish() // Close the activity
+                }
             }
             .addOnFailureListener {
                 Toast.makeText(this, "Failed to update profile", Toast.LENGTH_SHORT).show()

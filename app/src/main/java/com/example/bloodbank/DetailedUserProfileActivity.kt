@@ -6,10 +6,8 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
@@ -82,7 +80,7 @@ class DetailedUserProfileActivity : AppCompatActivity() {
         val years = "years old"
         ageTextView.text = "$stringAge $years"
 
-        activeDonor.text = if (isActive) "Active Donor" else "Inactive"
+        activeDonor.text = if (isActive) "Active Donor" else "Inactive Donor"
 
         if (profilePic.isNotEmpty()) {
             Glide.with(this)
@@ -104,7 +102,7 @@ class DetailedUserProfileActivity : AppCompatActivity() {
         messageIcon.setOnClickListener {
             val messageIntent = Intent(Intent.ACTION_SENDTO).apply {
                 data = Uri.parse("smsto:$phoneNumber")
-                putExtra("sms_body", "Hello")
+                putExtra("sms_body", "Hello ${nameTextView.text}")
             }
             startActivity(messageIntent)
         }

@@ -4,13 +4,10 @@ import android.content.Intent
 import android.util.Log
 import android.view.*
 import android.widget.*
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.bloodbank.R
-import com.example.bloodbank.User
 
-class UserAdapter(private val userList: MutableList<com.example.bloodbank.User>) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+class UserAdapter(private val userList: MutableList<User>) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.user_card, parent, false)

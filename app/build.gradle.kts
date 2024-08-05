@@ -62,8 +62,6 @@ dependencies {
 
     // Glide
     implementation("com.github.bumptech.glide:glide:4.12.0")
-    implementation(libs.androidx.core.i18n)
-    implementation(libs.play.services.mlkit.text.recognition.common)
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
 
     // Activity Result API

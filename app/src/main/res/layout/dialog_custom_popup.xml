@@ -32,9 +32,9 @@
             android:id="@+id/dialog_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/redLight"
+            android:textColor="@color/bgBlack"
             android:text="Cancel"
-            android:textColor="#FFFFFF"
-            android:background="?android:attr/selectableItemBackground"
             />
 
         <Button
@@ -42,8 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="CONFIRM"
-            android:backgroundTint="@color/redLight"
-            android:textColor="@color/bgBlack"
-             />
+            android:textColor="#FFFFFF"
+            />
     </LinearLayout>
 </LinearLayout>
