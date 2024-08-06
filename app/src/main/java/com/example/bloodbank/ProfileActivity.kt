@@ -111,6 +111,8 @@ class ProfileActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+        supportActionBar?.title = ""
+
         val logoHome: ImageView = findViewById(R.id.logoHome)
 
         logoHome.setOnClickListener {
